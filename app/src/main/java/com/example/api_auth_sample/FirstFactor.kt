@@ -65,10 +65,10 @@ class FirstFactor : AppCompatActivity() {
     }
 
     private fun hideOrSignInText() {
-        if (AuthController.isAuthenticatorAvailable(authenticators, Constants.BASIC_AUTH) !== null
-            && AuthController.numberOfAuthenticators(authenticators) > 1
-        ) {
 
+        if (AuthController.isAuthenticatorAvailable(authenticators, Constants.BASIC_AUTH) === null
+            || AuthController.numberOfAuthenticators(authenticators) <= 1
+        ) {
             orSignInText.visibility = View.GONE;
         }
     }

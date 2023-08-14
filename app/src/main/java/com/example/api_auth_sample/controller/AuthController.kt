@@ -11,7 +11,7 @@ class AuthController {
             authenticatorType: String
         ): Authenticator? {
             return authenticators.find {
-                it.authenticator === authenticatorType
+                it.authenticator == authenticatorType
             }
         }
 
@@ -22,8 +22,8 @@ class AuthController {
         }
 
         fun showAuthenticatorLayouts(
-            authenticators: ArrayList<Authenticator>, basicAuthView: View, fidoAuthView: View,
-            googleIdpView: View
+            authenticators: ArrayList<Authenticator>, basicAuthView: View?, fidoAuthView: View?,
+            googleIdpView: View?
         ) {
             authenticators.forEach {
                 showAuthenticator(it, basicAuthView, fidoAuthView, googleIdpView);
@@ -31,21 +31,21 @@ class AuthController {
         }
 
         private fun showAuthenticator(
-            authenticator: Authenticator, basicAuthView: View, fidoAuthView: View,
-            googleIdpView: View
+            authenticator: Authenticator, basicAuthView: View?, fidoAuthView: View?,
+            googleIdpView: View?
         ) {
             when (authenticator.authenticator) {
-                Constants.BASIC_AUTH -> basicAuthView.visibility = View.VISIBLE;
+                Constants.BASIC_AUTH -> basicAuthView!!.visibility = View.VISIBLE;
 
-                Constants.FIDO -> fidoAuthView.visibility = View.VISIBLE;
+                Constants.FIDO -> fidoAuthView!!.visibility = View.VISIBLE;
 
                 Constants.OPENID -> showIdps(authenticator.idp, googleIdpView)
             }
         }
 
-        private fun showIdps(idpType: String, googleIdpView: View) {
+        private fun showIdps(idpType: String, googleIdpView: View?) {
             when (idpType) {
-                Constants.GOOGLE_IDP -> googleIdpView.visibility = View.VISIBLE;
+                Constants.GOOGLE_IDP -> googleIdpView!!.visibility = View.VISIBLE;
             }
         }
     }

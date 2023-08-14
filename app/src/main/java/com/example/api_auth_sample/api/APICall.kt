@@ -22,8 +22,12 @@ class APICall {
         }
 
         @Throws(IOException::class)
-        fun authorize(onSuccessCallback: (authorizeObj: JsonNode) -> Unit,
+        fun authorize(whenAuthorizing: () -> Unit,
+            finallyAuthorizing: () -> Unit,
+            onSuccessCallback: (authorizeObj: JsonNode) -> Unit,
                       onFailureCallback: () -> Unit) {
+
+            whenAuthorizing();
 
             // authorize URL
             val urlBuilder: HttpUrl.Builder = getUrl("/oauth2/authorize");
@@ -41,6 +45,7 @@ class APICall {
                 override fun onFailure(call: Call, e: IOException) {
                     println(e);
                     onFailureCallback();
+                    finallyAuthorizing();
                 }
 
                 @Throws(IOException::class)
@@ -57,6 +62,8 @@ class APICall {
                     } catch (e: IOException) {
                         println(e);
                         onFailureCallback();
+                    } finally {
+                        finallyAuthorizing();
                     }
                 }
             })

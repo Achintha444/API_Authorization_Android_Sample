@@ -15,7 +15,6 @@ class Util {
         }
 
         fun <T> jsonNodeToObject(jsonNode: JsonNode, typeReference: TypeReference<T>): T {
-            println(jsonNode);
             return mapper.readValue(jsonNode.toString(), typeReference)
         }
     }
