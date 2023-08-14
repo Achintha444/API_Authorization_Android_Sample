@@ -8,13 +8,6 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 
 class Util {
     companion object {
-
-        const val BASIC_AUTH: String = "BasicAuthenticator";
-        const val FIDO: String = "FIDOAuthenticator";
-        const val OPENID: String = "OpenIDConnectAuthenticator";
-
-        const val GOOGLE_IDP: String = "google";
-
         private val mapper: ObjectMapper = jacksonObjectMapper();
 
         fun getJsonObject(jsonString: String): JsonNode {

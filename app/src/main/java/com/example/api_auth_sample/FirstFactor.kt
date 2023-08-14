@@ -6,8 +6,10 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentContainerView
+import com.example.api_auth_sample.controller.AuthController
 import com.example.api_auth_sample.databinding.ActivityFirstFactorBinding
 import com.example.api_auth_sample.model.Authenticator
+import com.example.api_auth_sample.util.Constants
 import com.example.api_auth_sample.util.Util
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JsonNode
@@ -30,9 +32,15 @@ class FirstFactor : AppCompatActivity() {
         setAuthenticators();
 
         // show authenticator based on the authenticators return
-        authenticators.forEach {
-            showAuthenticator(it);
-        }
+        AuthController.showAuthenticatorLayouts(
+            authenticators,
+            basicAuthView,
+            fidoAuthView,
+            googleIdpView
+        );
+
+        // hide `or sign in with` text
+        hideOrSignInText();
     }
 
     private fun initializeComponents() {
@@ -54,32 +62,14 @@ class FirstFactor : AppCompatActivity() {
         val authenticatorsTypeReference = object : TypeReference<ArrayList<Authenticator>>() {}
 
         authenticators = Util.jsonNodeToObject(authenticatorNode, authenticatorsTypeReference)
-
-//        authenticators = ArrayList<Authenticator>();
-//
-//        authenticatorNode.elements().asSequence().toList().map {
-//            authenticators.add(Authenticator())
-//        }
     }
 
-    private fun showAuthenticator(authenticator: Authenticator) {
-        when(authenticator.authenticator) {
-            Util.BASIC_AUTH -> {
-                basicAuthView.visibility = View.VISIBLE;
+    private fun hideOrSignInText() {
+        if (AuthController.isAuthenticatorAvailable(authenticators, Constants.BASIC_AUTH) !== null
+            && AuthController.numberOfAuthenticators(authenticators) > 1
+        ) {
 
-                if (authenticators.size > 1) orSignInText.visibility = View.VISIBLE;
-            }
-
-            Util.FIDO -> fidoAuthView.visibility = View.VISIBLE;
-
-            Util.OPENID -> showIdps(authenticator.idp)
-        }
-
-    }
-
-    private fun showIdps(idpType: String) {
-        when(idpType) {
-            Util.GOOGLE_IDP -> googleIdpView.visibility = View.VISIBLE;
+            orSignInText.visibility = View.GONE;
         }
     }
 }
