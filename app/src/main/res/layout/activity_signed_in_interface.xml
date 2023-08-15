@@ -5,28 +5,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_background"
-    tools:context=".SecondFactor" >
+    tools:context=".SignedInInterface">
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView"
+        android:id="@+id/fragmentContainerView5"
         android:name="com.example.api_auth_sample.Logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
+        android:background="@drawable/bg_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout="@layout/fragment_logo" />
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/totpView"
-        android:name="com.example.api_auth_sample.TotpFragment"
+    <TextView
+        android:id="@+id/signedInTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:visibility="gone"
+        android:layout_marginTop="128dp"
+        android:text="Signed In"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragmentContainerView"
-        tools:layout="@layout/fragment_totp" />
+        app:layout_constraintTop_toBottomOf="@+id/fragmentContainerView5" />
+
+    <Button
+        android:id="@+id/signOutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="128dp"
+        android:text="Sign Out"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signedInTitle" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

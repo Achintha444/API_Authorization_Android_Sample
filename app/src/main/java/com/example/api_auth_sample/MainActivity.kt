@@ -32,8 +32,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun initializeComponents() {
         setContentView(R.layout.activity_main);
-        signInButton = findViewById<Button>(R.id.button);
-        layout = findViewById<View>(R.id.layout);
+        signInButton = findViewById(R.id.button);
+        layout = findViewById(R.id.layout);
         signInLoader = findViewById(R.id.signinLoader);
     }
 

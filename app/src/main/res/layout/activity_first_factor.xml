@@ -7,69 +7,6 @@
     android:background="@drawable/bg_background"
     tools:context=".FirstFactor">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragmentContainerView3">
-
-                <androidx.fragment.app.FragmentContainerView
-                    android:id="@+id/basicAuthView"
-                    android:name="com.example.api_auth_sample.BasicAuth"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:layout="@layout/fragment_basic_auth" />
-
-                <LinearLayout
-                    android:id="@+id/orSignInText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/basicAuthView">
-
-                        <TextView
-                            android:id="@+id/textView2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Or Sign in With"
-                            android:visibility="visible" />
-
-                </LinearLayout>
-
-                <androidx.fragment.app.FragmentContainerView
-                    android:id="@+id/fidoAuthView"
-                    android:name="com.example.api_auth_sample.FidoFragment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/orSignInText"
-                    tools:layout="@layout/fragment_fido" />
-
-                <androidx.fragment.app.FragmentContainerView
-                    android:id="@+id/googleIdpView"
-                    android:name="com.example.api_auth_sample.GoogleFragment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/fidoAuthView"
-                    tools:layout="@layout/fragment_google" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentContainerView3"
             android:name="com.example.api_auth_sample.Logo"
@@ -80,6 +17,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout="@layout/fragment_logo" />
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/authLayoutView"
+            android:name="com.example.api_auth_sample.AuthFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="64dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragmentContainerView3"
+            tools:layout="@layout/fragment_auth" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
