@@ -3,11 +3,15 @@ package com.example.api_auth_sample
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.api_auth_sample.databinding.ActivityFirstFactorBinding
+import com.example.api_auth_sample.model.Authenticator
+import com.example.api_auth_sample.model.AuthenticatorFragment
+import com.example.api_auth_sample.util.Constants
 
-class FirstFactor : AppCompatActivity() {
+class FirstFactor : AppCompatActivity(), AuthFragment.AuthListener {
 
     private lateinit var binding: ActivityFirstFactorBinding
     private lateinit var authenticatorsString: String
@@ -42,8 +46,34 @@ class FirstFactor : AppCompatActivity() {
 
         bundle = Bundle()
         bundle.putString("authenticatorsString", authenticatorsString)
-        println(authenticatorsString)
         authFragment.arguments = bundle
         mFragmentTransaction.add(R.id.authLayoutView, authFragment).commit()
+    }
+
+    override fun onAuthenticatorPassed(authenticator: Authenticator) {
+
+        val authFragment: Fragment? = fragmentManager!!.findFragmentById(R.id.authLayoutView);
+        val authChildFragmentManager: FragmentManager? = authFragment!!.childFragmentManager;
+        lateinit var authView: AuthenticatorFragment
+
+        when (authenticator.authenticator) {
+            Constants.BASIC_AUTH -> {
+                authView = authChildFragmentManager!!.findFragmentById(R.id.basicAuthView) as AuthenticatorFragment
+            }
+
+            Constants.FIDO -> {
+                authView = authChildFragmentManager!!.findFragmentById(R.id.fidoAuthView) as AuthenticatorFragment
+            }
+
+            Constants.OPENID -> {
+                when (authenticator.idp) {
+                    Constants.GOOGLE_IDP -> {
+                        authView = authChildFragmentManager!!.findFragmentById(R.id.googleIdpView) as AuthenticatorFragment
+                    }
+                }
+            }
+        }
+
+        authView!!.updateAuthenticator(authenticator);
     }
 }

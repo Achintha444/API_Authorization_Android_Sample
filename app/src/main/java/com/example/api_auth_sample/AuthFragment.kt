@@ -1,11 +1,11 @@
 package com.example.api_auth_sample
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import com.example.api_auth_sample.controller.AuthController
@@ -23,6 +23,8 @@ class AuthFragment : Fragment() {
     private lateinit var basicAuthView: FragmentContainerView
     private lateinit var fidoAuthView: FragmentContainerView
     private lateinit var googleIdpView: FragmentContainerView
+
+    private lateinit var authListener: AuthListener;
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,6 +45,9 @@ class AuthFragment : Fragment() {
 
         if (bundle != null) {
             setAuthenticators(bundle)
+
+            passAuthenticatorToAuthFragment()
+
             // show authenticator based on the authenticators return
             AuthController.showAuthenticatorLayouts(
                 authenticators,
@@ -81,5 +86,23 @@ class AuthFragment : Fragment() {
         ) {
             orSignInText.visibility = View.VISIBLE
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is AuthListener) {
+            authListener = context
+        }
+    }
+
+    private fun passAuthenticatorToAuthFragment() {
+
+        authenticators.forEach {
+            authListener.onAuthenticatorPassed(it)
+        }
+    }
+
+    interface AuthListener {
+        fun onAuthenticatorPassed(authenticator: Authenticator)
     }
 }

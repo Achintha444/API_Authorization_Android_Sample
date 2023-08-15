@@ -17,5 +17,9 @@ class Util {
         fun <T> jsonNodeToObject(jsonNode: JsonNode, typeReference: TypeReference<T>): T {
             return mapper.readValue(jsonNode.toString(), typeReference)
         }
+
+        fun getJsonObject(jsonMap: Map<String, Any>): JsonNode {
+            return mapper.valueToTree(jsonMap);
+        }
     }
 }
