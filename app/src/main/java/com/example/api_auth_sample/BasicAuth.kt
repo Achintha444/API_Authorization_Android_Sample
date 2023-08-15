@@ -57,29 +57,33 @@ class BasicAuth : Fragment(), AuthenticatorFragment {
         return AuthParams(username = username.text.toString(), password = password.text.toString())
     }
 
-    private fun onAuthorizeSuccess(authorizeObj: JsonNode) {
-        val intent = Intent(requireActivity(), FirstFactor::class.java);
-        intent.putExtra(
-            "authenticators",
-            authorizeObj["currentStep"]["authenticators"].toString()
-        );
-        startActivity(intent)
+    override fun onAuthorizeSuccess(authorizeObj: JsonNode) {
+        if(authorizeObj["currentStep"] != null) {
+            val intent = Intent(requireActivity(), FirstFactor::class.java);
+            intent.putExtra(
+                "authenticators",
+                authorizeObj["currentStep"]["authenticators"].toString()
+            );
+            startActivity(intent)
+        } else {
+            val intent = Intent(requireActivity(), SignedInInterface::class.java);
+            startActivity(intent)
+        }
     }
 
-    private fun onAuthorizeFail() {
+    override fun onAuthorizeFail() {
         UiUtil.showSnackBar(layout, "Sign in Failure");
     }
 
-    private fun whenAuthorizing() {
+    override fun whenAuthorizing() {
         requireActivity().runOnUiThread {
             signingBasicAuth.isEnabled = false;
         }
     }
 
-    private fun finallyAuthorizing() {
+    override fun finallyAuthorizing() {
         requireActivity().runOnUiThread {
             signingBasicAuth.isEnabled = true;
         }
     }
-
 }
