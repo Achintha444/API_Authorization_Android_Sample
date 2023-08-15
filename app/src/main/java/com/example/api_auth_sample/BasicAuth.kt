@@ -1,17 +1,26 @@
 package com.example.api_auth_sample
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import androidx.fragment.app.Fragment
+import com.example.api_auth_sample.api.APICall
+import com.example.api_auth_sample.model.AuthParams
 import com.example.api_auth_sample.model.Authenticator
 import com.example.api_auth_sample.model.AuthenticatorFragment
+import com.example.api_auth_sample.util.UiUtil
+import com.fasterxml.jackson.databind.JsonNode
 
 class BasicAuth : Fragment(), AuthenticatorFragment {
 
-    lateinit var signinBasicAuth: Button;
+    private lateinit var signingBasicAuth: Button;
+    private lateinit var username: EditText;
+    private lateinit var password: EditText;
+    private lateinit var layout: View;
     override var authenticator: Authenticator? = null
 
     override fun onCreateView(
@@ -23,14 +32,54 @@ class BasicAuth : Fragment(), AuthenticatorFragment {
         initializeComponents(view)
 
         // set on-click listener
-        signinBasicAuth.setOnClickListener {
-            //APICall.authenticate();
+        signingBasicAuth.setOnClickListener {
+            APICall.authenticate(
+                authenticator!!,
+                getAuthParams(),
+                ::whenAuthorizing,
+                ::finallyAuthorizing,
+                ::onAuthorizeSuccess,
+                ::onAuthorizeFail
+            );
         }
 
         return view
     }
 
     private fun initializeComponents(view: View) {
-        signinBasicAuth = view.findViewById(R.id.signinBasicAuth);
+        signingBasicAuth = view.findViewById(R.id.signinBasicAuth)
+        username = view.findViewById(R.id.username)
+        password = view.findViewById(R.id.password)
+        layout = view.findViewById(R.id.basicAuthlayout)
     }
+
+    override fun getAuthParams(): AuthParams {
+        return AuthParams(username = username.text.toString(), password = password.text.toString())
+    }
+
+    private fun onAuthorizeSuccess(authorizeObj: JsonNode) {
+        val intent = Intent(requireActivity(), FirstFactor::class.java);
+        intent.putExtra(
+            "authenticators",
+            authorizeObj["currentStep"]["authenticators"].toString()
+        );
+        startActivity(intent)
+    }
+
+    private fun onAuthorizeFail() {
+        UiUtil.showSnackBar(layout, "Sign in Failure");
+    }
+
+    private fun whenAuthorizing() {
+        requireActivity().runOnUiThread {
+            signingBasicAuth.isEnabled = false;
+        }
+    }
+
+    private fun finallyAuthorizing() {
+        requireActivity().runOnUiThread {
+            signingBasicAuth.isEnabled = true;
+        }
+    }
+
 }

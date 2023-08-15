@@ -1,6 +1,7 @@
 package com.example.api_auth_sample.api
 
 import com.example.api_auth_sample.controller.AuthController
+import com.example.api_auth_sample.model.AuthParams
 import com.example.api_auth_sample.util.Constants
 import com.example.api_auth_sample.util.Util
 import com.fasterxml.jackson.databind.JsonNode
@@ -23,13 +24,13 @@ class APICall {
 
         @Throws(IOException::class)
         fun authorize(
-            whenAuthorizing: () -> Unit,
-            finallyAuthorizing: () -> Unit,
+            whenAuthentication: () -> Unit,
+            finallyAuthentication: () -> Unit,
             onSuccessCallback: (authorizeObj: JsonNode) -> Unit,
             onFailureCallback: () -> Unit
         ) {
 
-            whenAuthorizing();
+            whenAuthentication();
 
             // authorize URL
             val urlBuilder: HttpUrl.Builder = getUrl("/oauth2/authorize");
@@ -47,7 +48,7 @@ class APICall {
                 override fun onFailure(call: Call, e: IOException) {
                     println(e);
                     onFailureCallback();
-                    finallyAuthorizing();
+                    finallyAuthentication();
                 }
 
                 @Throws(IOException::class)
@@ -65,16 +66,23 @@ class APICall {
                         println(e);
                         onFailureCallback();
                     } finally {
-                        finallyAuthorizing();
+                        finallyAuthentication();
                     }
                 }
             })
         }
 
         @Throws(IOException::class)
-        fun authenticate(authenticator: com.example.api_auth_sample.model.Authenticator) {
+        fun authenticate(
+            authenticator: com.example.api_auth_sample.model.Authenticator,
+            authParams: AuthParams,
+            whenAuthentication: () -> Unit,
+            finallyAuthentication: () -> Unit,
+            onSuccessCallback: (authorizeObj: JsonNode) -> Unit,
+            onFailureCallback: () -> Unit
+        ) {
 
-            //whenAuthenticating();
+            whenAuthentication();
 
             // authorize URL
             val urlBuilder: HttpUrl.Builder = getUrl("/api/authenticate/v1");
@@ -82,13 +90,14 @@ class APICall {
 
             val url: String = urlBuilder.build().toString();
 
-            val request: Request = Request.Builder().url(url).post(AuthController.buildRequestBodyForAuth(authenticator)).build();
+            val request: Request = Request.Builder().url(url)
+                .post(AuthController.buildRequestBodyForAuth(authenticator, authParams)).build();
 
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     println(e);
-                    //onFailureCallback();
-                    //finallyAuthenticating();
+                    onFailureCallback();
+                    finallyAuthentication();
                 }
 
                 @Throws(IOException::class)
@@ -100,15 +109,15 @@ class APICall {
                         println(model);
 
                         if (model["ApidogError"] === null) {
-                            //onSuccessCallback(model);
+                            onSuccessCallback(model);
                         } else {
-                            //onFailureCallback();
+                            onFailureCallback();
                         }
                     } catch (e: IOException) {
                         println(e);
-                        //onFailureCallback();
+                        onFailureCallback();
                     } finally {
-                        //finallyAuthenticating();
+                        finallyAuthentication();
                     }
                 }
             })

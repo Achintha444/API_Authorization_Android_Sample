@@ -7,4 +7,6 @@ interface AuthenticatorFragment {
     fun updateAuthenticator(authenticator: Authenticator) {
         this.authenticator = authenticator;
     }
+
+    fun getAuthParams(): AuthParams
 }

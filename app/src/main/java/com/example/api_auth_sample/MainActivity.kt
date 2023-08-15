@@ -26,7 +26,12 @@ class MainActivity : AppCompatActivity() {
 
         // set on-click listener
         signInButton.setOnClickListener {
-            APICall.authorize(::whenAuthorizing, ::finallyAuthorizing, ::onAuthorizeSuccess, ::onAuthorizeFail);
+            APICall.authorize(
+                ::whenAuthentication,
+                ::finallyAuthentication,
+                ::onAuthenticationSuccess,
+                ::onAuthenticationFail
+            );
         }
     }
 
@@ -37,25 +42,27 @@ class MainActivity : AppCompatActivity() {
         signInLoader = findViewById(R.id.signinLoader);
     }
 
-    private fun onAuthorizeSuccess(authorizeObj: JsonNode) {
+    private fun onAuthenticationSuccess(authorizeObj: JsonNode) {
         val intent = Intent(this@MainActivity, FirstFactor::class.java);
-        intent.putExtra("authenticators",
-            authorizeObj["currentStep"]["authenticators"].toString());
+        intent.putExtra(
+            "authenticators",
+            authorizeObj["currentStep"]["authenticators"].toString()
+        );
         startActivity(intent)
     }
 
-    private fun onAuthorizeFail() {
+    private fun onAuthenticationFail() {
         UiUtil.showSnackBar(layout, "Sign in Failure");
     }
 
-    private fun whenAuthorizing() {
+    private fun whenAuthentication() {
         runOnUiThread {
             signInLoader.visibility = View.VISIBLE;
             signInButton.isEnabled = false;
         }
     }
 
-    private fun finallyAuthorizing() {
+    private fun finallyAuthentication() {
         runOnUiThread {
             signInLoader.visibility = View.INVISIBLE;
             signInButton.isEnabled = true;

@@ -13,7 +13,7 @@ class UiUtil {
         }
 
         fun hideActionBar(supportActionBar: ActionBar) {
-            supportActionBar?.hide();
+            supportActionBar.hide();
         }
     }
 

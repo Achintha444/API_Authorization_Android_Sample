@@ -52,7 +52,7 @@ class FirstFactor : AppCompatActivity(), AuthFragment.AuthListener {
 
     override fun onAuthenticatorPassed(authenticator: Authenticator) {
 
-        val authFragment: Fragment? = fragmentManager!!.findFragmentById(R.id.authLayoutView);
+        val authFragment: Fragment? = fragmentManager.findFragmentById(R.id.authLayoutView);
         val authChildFragmentManager: FragmentManager? = authFragment!!.childFragmentManager;
         lateinit var authView: AuthenticatorFragment
 
@@ -65,6 +65,10 @@ class FirstFactor : AppCompatActivity(), AuthFragment.AuthListener {
                 authView = authChildFragmentManager!!.findFragmentById(R.id.fidoAuthView) as AuthenticatorFragment
             }
 
+            Constants.TOTP_IDP -> {
+                authView = authChildFragmentManager!!.findFragmentById(R.id.totpIdpView) as AuthenticatorFragment
+            }
+
             Constants.OPENID -> {
                 when (authenticator.idp) {
                     Constants.GOOGLE_IDP -> {
@@ -74,6 +78,6 @@ class FirstFactor : AppCompatActivity(), AuthFragment.AuthListener {
             }
         }
 
-        authView!!.updateAuthenticator(authenticator);
+        authView.updateAuthenticator(authenticator);
     }
 }

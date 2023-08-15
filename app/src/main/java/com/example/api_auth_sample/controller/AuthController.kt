@@ -1,12 +1,11 @@
 package com.example.api_auth_sample.controller
 
 import android.view.View
+import com.example.api_auth_sample.model.AuthParams
 import com.example.api_auth_sample.model.Authenticator
 import com.example.api_auth_sample.util.Constants
 import com.example.api_auth_sample.util.Util
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 
@@ -30,21 +29,23 @@ class AuthController {
 
         fun showAuthenticatorLayouts(
             authenticators: ArrayList<Authenticator>, basicAuthView: View?, fidoAuthView: View?,
-            googleIdpView: View?
+            totpAuthView: View?, googleIdpView: View?
         ) {
             authenticators.forEach {
-                showAuthenticator(it, basicAuthView, fidoAuthView, googleIdpView);
+                showAuthenticator(it, basicAuthView, fidoAuthView, totpAuthView, googleIdpView);
             }
         }
 
         private fun showAuthenticator(
             authenticator: Authenticator, basicAuthView: View?, fidoAuthView: View?,
-            googleIdpView: View?
+            totpAuthView: View?, googleIdpView: View?
         ) {
             when (authenticator.authenticator) {
                 Constants.BASIC_AUTH -> basicAuthView!!.visibility = View.VISIBLE;
 
                 Constants.FIDO -> fidoAuthView!!.visibility = View.VISIBLE;
+
+                Constants.TOTP_IDP -> totpAuthView!!.visibility = View.VISIBLE;
 
                 Constants.OPENID -> showIdps(authenticator.idp, googleIdpView)
             }
@@ -57,21 +58,27 @@ class AuthController {
         }
 
         // get param body for basic auth
-        private fun getparamBodyForBasicAuth(username: String, password: String): LinkedHashMap<String, String> {
+        private fun getparamBodyForBasicAuth(
+            username: String,
+            password: String
+        ): LinkedHashMap<String, String> {
             val paramBody = LinkedHashMap<String, String>();
-            paramBody["username"] = "username";
-            paramBody["password"] = "password";
+            paramBody["username"] = username;
+            paramBody["password"] = password;
 
             return paramBody;
         }
 
         // get param body for google idp
-        private fun getparamBodyForGoogle (code: String, state: String): LinkedHashMap<String, String> {
+        private fun getparamBodyForGoogle(
+            code: String,
+            state: String
+        ): LinkedHashMap<String, String> {
             val paramBody = LinkedHashMap<String, String>();
             paramBody["authenticator"] = Constants.GOOGLE_OPENID
             paramBody["idp"] = Constants.GOOGLE_IDP
-            paramBody["code"] = "username";
-            paramBody["state"] = "password";
+            paramBody["code"] = code;
+            paramBody["state"] = state;
 
             return paramBody;
         }
@@ -96,31 +103,34 @@ class AuthController {
             return paramBody;
         }
 
-        fun buildRequestBodyForAuth(authenticator: Authenticator): RequestBody {
+        fun buildRequestBodyForAuth(
+            authenticator: Authenticator,
+            authParams: AuthParams
+        ): RequestBody {
 
             val authBody = LinkedHashMap<String, Any>();
             authBody["flowId"] = "3bd1f207-e5b5-4b45-8a91-13b0acfb2151";
             authBody["nonce"] = "e24edfeas1";
 
-            when(authenticator.authenticator) {
+            when (authenticator.authenticator) {
                 Constants.BASIC_AUTH -> {
                     authBody["authenticator"] = authenticator;
                     authBody["idp"] = Constants.LOCAL_IDP;
-                    authBody["params"] = getparamBodyForBasicAuth("username", "password")
+                    authBody["params"] =
+                        getparamBodyForBasicAuth(authParams.username!!, authParams.password!!)
                 }
 
-                Constants.GOOGLE_OPENID -> authBody["params"] = getparamBodyForGoogle("cod", "state")
+                Constants.GOOGLE_OPENID -> authBody["params"] =
+                    getparamBodyForGoogle(authParams.code!!, authParams.state!!)
 
-                Constants.TOTP_IDP -> authBody["params"] = getparamBodyForTotp("1234")
+                Constants.TOTP_IDP -> authBody["params"] = getparamBodyForTotp(authParams.otp!!)
 
-                Constants.FIDO -> authBody["params"] = getparamBodyForFido("token")
+                Constants.FIDO -> authBody["params"] =
+                    getparamBodyForFido(authParams.tokenResponse!!)
             }
 
-            val authObject: String = Util.getJsonObject(authBody).toString();
-
-            authObject.toRequestBody("application/json".toMediaTypeOrNull())
-
-            return authObject.toRequestBody("application/json".toMediaTypeOrNull())
+            return Util.getJsonObject(authBody).toString()
+                .toRequestBody("application/json".toMediaTypeOrNull())
         }
     }
 }

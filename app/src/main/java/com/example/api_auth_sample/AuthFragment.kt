@@ -23,6 +23,7 @@ class AuthFragment : Fragment() {
     private lateinit var basicAuthView: FragmentContainerView
     private lateinit var fidoAuthView: FragmentContainerView
     private lateinit var googleIdpView: FragmentContainerView
+    private lateinit var totpIdpView: FragmentContainerView
 
     private lateinit var authListener: AuthListener;
 
@@ -53,6 +54,7 @@ class AuthFragment : Fragment() {
                 authenticators,
                 basicAuthView,
                 fidoAuthView,
+                totpIdpView,
                 googleIdpView
             )
 
@@ -68,11 +70,12 @@ class AuthFragment : Fragment() {
         basicAuthView = view.findViewById(R.id.basicAuthView)
         fidoAuthView = view.findViewById(R.id.fidoAuthView)
         googleIdpView = view.findViewById(R.id.googleIdpView)
+        totpIdpView = view.findViewById(R.id.totpIdpView)
     }
 
     private fun setAuthenticators(bundle: Bundle) {
 
-        val authenticatorsString: String? = bundle!!.getString("authenticatorsString")
+        val authenticatorsString: String? = bundle.getString("authenticatorsString")
         val authenticatorNode: JsonNode = Util.getJsonObject(authenticatorsString!!)
         val authenticatorsTypeReference = object : TypeReference<ArrayList<Authenticator>>() {}
 

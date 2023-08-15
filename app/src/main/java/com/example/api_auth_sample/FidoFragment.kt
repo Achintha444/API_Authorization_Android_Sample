@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.api_auth_sample.model.AuthParams
 import com.example.api_auth_sample.model.Authenticator
 import com.example.api_auth_sample.model.AuthenticatorFragment
 
@@ -18,6 +19,10 @@ class FidoFragment : Fragment(), AuthenticatorFragment {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_fido, container, false)
+    }
+
+    override fun getAuthParams(): AuthParams {
+       return AuthParams(tokenResponse = "tokenResponse")
     }
 
 }
