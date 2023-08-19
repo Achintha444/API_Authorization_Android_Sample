@@ -63,6 +63,8 @@ class AuthController {
             password: String
         ): LinkedHashMap<String, String> {
             val paramBody = LinkedHashMap<String, String>();
+            paramBody["authenticator"] = Constants.BASIC_AUTH;
+            paramBody["idp"] = Constants.LOCAL_IDP;
             paramBody["username"] = username;
             paramBody["password"] = password;
 
@@ -114,8 +116,6 @@ class AuthController {
 
             when (authenticator.authenticator) {
                 Constants.BASIC_AUTH -> {
-                    authBody["authenticator"] = authenticator;
-                    authBody["idp"] = Constants.LOCAL_IDP;
                     authBody["params"] =
                         getparamBodyForBasicAuth(authParams.username!!, authParams.password!!)
                 }

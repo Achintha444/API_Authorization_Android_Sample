@@ -19,11 +19,6 @@
             android:label="@string/title_activity_signed_in_interface"
             android:theme="@style/Theme.Api_auth_sample.NoActionBar" />
         <activity
-            android:name=".SecondFactor"
-            android:exported="false"
-            android:label="@string/title_activity_second_factor"
-            android:theme="@style/Theme.Api_auth_sample.NoActionBar" />
-        <activity
             android:name=".FirstFactor"
             android:exported="false"
             android:label="@string/title_activity_first_factor"
