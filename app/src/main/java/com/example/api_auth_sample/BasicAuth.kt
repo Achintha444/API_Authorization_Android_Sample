@@ -54,7 +54,10 @@ class BasicAuth : Fragment(), AuthenticatorFragment {
     }
 
     override fun getAuthParams(): AuthParams {
-        return AuthParams(username = username.text.toString(), password = password.text.toString())
+        val usernameText: String = username.text.toString().ifEmpty { "username" }
+        val passwordText: String = password.text.toString().ifEmpty { "password" }
+
+        return AuthParams(username = usernameText, password = passwordText)
     }
 
     override fun onAuthorizeSuccess(authorizeObj: JsonNode) {
