@@ -1,4 +1,4 @@
-package com.example.api_auth_sample
+package com.example.api_auth_sample.ui.auth
 
 import android.content.Context
 import android.os.Bundle
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
+import com.example.api_auth_sample.R
 import com.example.api_auth_sample.controller.AuthController
 import com.example.api_auth_sample.model.Authenticator
 import com.example.api_auth_sample.util.Constants

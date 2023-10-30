@@ -17,9 +17,7 @@ class APICall {
         private const val baseUrl: String = Constants.BaseUrl;
 
         private fun getUrl(uri: String): HttpUrl.Builder {
-            val urlBuilder: HttpUrl.Builder =
-                "$baseUrl$uri".toHttpUrlOrNull()!!.newBuilder();
-            return urlBuilder;
+            return "$baseUrl$uri".toHttpUrlOrNull()!!.newBuilder();
         }
 
         @Throws(IOException::class)

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AuthFragment">
+    tools:context=".ui.auth.AuthFragment">
 
     <ProgressBar
         android:id="@+id/authLoaderItem"
@@ -20,7 +20,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/basicAuthView"
-        android:name="com.example.api_auth_sample.BasicAuth"
+        android:name="com.example.api_auth_sample.ui.auth.authMethod.BasicAuth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
@@ -51,7 +51,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fidoAuthView"
-        android:name="com.example.api_auth_sample.FidoFragment"
+        android:name="com.example.api_auth_sample.ui.auth.authMethod.FidoFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -63,7 +63,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/googleIdpView"
-        android:name="com.example.api_auth_sample.GoogleFragment"
+        android:name="com.example.api_auth_sample.ui.auth.authMethod.GoogleFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -76,7 +76,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/totpIdpView"
-        android:name="com.example.api_auth_sample.TotpButtonFragment"
+        android:name="com.example.api_auth_sample.ui.auth.authMethod.TotpButtonFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

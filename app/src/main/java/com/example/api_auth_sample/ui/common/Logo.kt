@@ -1,10 +1,11 @@
-package com.example.api_auth_sample
+package com.example.api_auth_sample.ui.common
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import com.example.api_auth_sample.R
 
 class Logo : Fragment() {
 

@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import com.example.api_auth_sample.api.APICall
+import com.example.api_auth_sample.ui.Factor
 import com.example.api_auth_sample.util.UiUtil
 import com.fasterxml.jackson.databind.JsonNode
 
@@ -43,10 +44,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onAuthenticationSuccess(authorizeObj: JsonNode) {
-        val intent = Intent(this@MainActivity, FirstFactor::class.java);
+        val intent = Intent(this@MainActivity, Factor::class.java);
         intent.putExtra(
             "authenticators",
-            authorizeObj["currentStep"]["authenticators"].toString()
+            authorizeObj["nextStep"]["authenticators"].toString()
         );
         startActivity(intent)
     }

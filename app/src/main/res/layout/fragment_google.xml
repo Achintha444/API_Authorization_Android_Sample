@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/googleIdpView"
-    tools:context=".GoogleFragment">
+    tools:context=".ui.auth.authMethod.GoogleFragment">
 
     <Button
         android:id="@+id/googleButton"

@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_background"
-    tools:context=".FirstFactor">
+    tools:context=".ui.Factor">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentContainerView3"
-            android:name="com.example.api_auth_sample.Logo"
+            android:name="com.example.api_auth_sample.ui.common.Logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="64dp"
@@ -20,7 +20,7 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/authLayoutView"
-            android:name="com.example.api_auth_sample.AuthFragment"
+            android:name="com.example.api_auth_sample.ui.auth.AuthFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="64dp"

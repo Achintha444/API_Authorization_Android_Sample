@@ -11,7 +11,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView2"
-        android:name="com.example.api_auth_sample.Logo"
+        android:name="com.example.api_auth_sample.ui.common.Logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="96dp"

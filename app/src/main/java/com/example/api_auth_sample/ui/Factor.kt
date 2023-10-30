@@ -1,4 +1,4 @@
-package com.example.api_auth_sample
+package com.example.api_auth_sample.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,14 +6,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.example.api_auth_sample.databinding.ActivityFirstFactorBinding
+import com.example.api_auth_sample.R
+import com.example.api_auth_sample.databinding.ActivityFactorBinding
 import com.example.api_auth_sample.model.Authenticator
 import com.example.api_auth_sample.model.AuthenticatorFragment
+import com.example.api_auth_sample.ui.auth.AuthFragment
 import com.example.api_auth_sample.util.Constants
 
-class FirstFactor : AppCompatActivity(), AuthFragment.AuthListener {
+class Factor : AppCompatActivity(), AuthFragment.AuthListener {
 
-    private lateinit var binding: ActivityFirstFactorBinding
+    private lateinit var binding: ActivityFactorBinding
     private lateinit var authenticatorsString: String
     private lateinit var fragmentManager: FragmentManager
     private lateinit var authFragment: AuthFragment
@@ -30,7 +32,7 @@ class FirstFactor : AppCompatActivity(), AuthFragment.AuthListener {
     }
 
     private fun initializeComponents() {
-        binding = ActivityFirstFactorBinding.inflate(layoutInflater)
+        binding = ActivityFactorBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
 

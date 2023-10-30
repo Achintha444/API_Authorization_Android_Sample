@@ -14,12 +14,12 @@
         android:theme="@style/Theme.Api_auth_sample"
         tools:targetApi="31">
         <activity
-            android:name=".SignedInInterface"
+            android:name=".ui.SignedInInterface"
             android:exported="false"
             android:label="@string/title_activity_signed_in_interface"
             android:theme="@style/Theme.Api_auth_sample.NoActionBar" />
         <activity
-            android:name=".FirstFactor"
+            android:name=".ui.Factor"
             android:exported="false"
             android:label="@string/title_activity_first_factor"
             android:theme="@style/Theme.Api_auth_sample.NoActionBar" />

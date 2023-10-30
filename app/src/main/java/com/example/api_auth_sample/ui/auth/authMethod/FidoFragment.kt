@@ -1,4 +1,4 @@
-package com.example.api_auth_sample
+package com.example.api_auth_sample.ui.auth.authMethod
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,16 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import com.example.api_auth_sample.R
 import com.example.api_auth_sample.api.APICall
 import com.example.api_auth_sample.model.AuthParams
 import com.example.api_auth_sample.model.Authenticator
 import com.example.api_auth_sample.model.AuthenticatorFragment
+import com.example.api_auth_sample.ui.Factor
+import com.example.api_auth_sample.ui.SignedInInterface
 import com.example.api_auth_sample.util.UiUtil
 import com.fasterxml.jackson.databind.JsonNode
 
-class GoogleFragment : Fragment(), AuthenticatorFragment {
+class FidoFragment : Fragment(), AuthenticatorFragment {
 
-    private lateinit var googleButton: Button
+    private lateinit var fidoButton: Button
     private lateinit var layout: View
     override var authenticator: Authenticator? = null
 
@@ -25,11 +28,11 @@ class GoogleFragment : Fragment(), AuthenticatorFragment {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view: View = inflater.inflate(R.layout.fragment_google, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_fido, container, false)
 
         initializeComponents(view)
 
-        googleButton.setOnClickListener {
+        fidoButton.setOnClickListener {
             APICall.authenticate(
                 authenticator!!,
                 getAuthParams(),
@@ -40,21 +43,21 @@ class GoogleFragment : Fragment(), AuthenticatorFragment {
             );
         }
 
-        return view
+        return view;
     }
 
     private fun initializeComponents(view: View) {
-        googleButton = view.findViewById(R.id.googleButton)
-        layout = view.findViewById(R.id.googleIdpView)
+        fidoButton = view.findViewById(R.id.fidoButton)
+        layout = view.findViewById(R.id.fidoLayout)
     }
 
     override fun getAuthParams(): AuthParams {
-        return AuthParams(code = "code", state = "state")
+       return AuthParams(tokenResponse = "tokenResponse")
     }
 
     override fun onAuthorizeSuccess(authorizeObj: JsonNode) {
         if(authorizeObj["currentStep"] != null) {
-            val intent = Intent(requireActivity(), FirstFactor::class.java);
+            val intent = Intent(requireActivity(), Factor::class.java);
             intent.putExtra(
                 "authenticators",
                 authorizeObj["currentStep"]["authenticators"].toString()
@@ -72,13 +75,14 @@ class GoogleFragment : Fragment(), AuthenticatorFragment {
 
     override fun whenAuthorizing() {
         requireActivity().runOnUiThread {
-            googleButton.isEnabled = false;
+            fidoButton.isEnabled = false;
         }
     }
 
     override fun finallyAuthorizing() {
         requireActivity().runOnUiThread {
-            googleButton.isEnabled = true;
+            fidoButton.isEnabled = true;
         }
     }
+
 }
