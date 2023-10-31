@@ -13,7 +13,11 @@ class UiUtil {
         }
 
         fun hideActionBar(supportActionBar: ActionBar) {
-            supportActionBar.hide();
+            try {
+                supportActionBar.hide()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 

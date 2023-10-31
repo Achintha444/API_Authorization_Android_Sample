@@ -1,6 +1,5 @@
 package com.example.api_auth_sample.util
 
-import com.example.api_auth_sample.model.Authenticator
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper

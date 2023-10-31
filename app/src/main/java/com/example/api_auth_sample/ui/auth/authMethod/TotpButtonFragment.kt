@@ -9,6 +9,7 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.example.api_auth_sample.R
 import com.example.api_auth_sample.api.APICall
+import com.example.api_auth_sample.api.CustomTrust
 import com.example.api_auth_sample.model.AuthParams
 import com.example.api_auth_sample.model.Authenticator
 import com.example.api_auth_sample.model.AuthenticatorFragment
@@ -34,6 +35,8 @@ class TotpButtonFragment : Fragment(), AuthenticatorFragment {
 
         totpButton.setOnClickListener {
             APICall.authenticate(
+                CustomTrust.getInstance(requireContext()).client,
+                requireContext(),
                 authenticator!!,
                 getAuthParams(),
                 ::whenAuthorizing,
@@ -55,19 +58,6 @@ class TotpButtonFragment : Fragment(), AuthenticatorFragment {
         return AuthParams(otp = "1234")
     }
 
-    override fun onAuthorizeSuccess(authorizeObj: JsonNode) {
-        if (authorizeObj["currentStep"] != null) {
-            val intent = Intent(requireActivity(), Factor::class.java)
-            intent.putExtra(
-                "authenticators",
-                authorizeObj["currentStep"]["authenticators"].toString()
-            )
-            startActivity(intent)
-        } else {
-            val intent = Intent(requireActivity(), SignedInInterface::class.java)
-            startActivity(intent)
-        }
-    }
 
     override fun onAuthorizeFail() {
         UiUtil.showSnackBar(layout, "Sign in Failure")

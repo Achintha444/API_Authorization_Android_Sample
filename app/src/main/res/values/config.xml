@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="base_url">https://mock.apidog.com/m1/369147-0-default</string>
+    <string name="authorize_url">https://10.0.2.2:9443/oauth2/authorize</string>
+    <string name="authorize_next_url">https://10.0.2.2:9443/oauth2/authn</string>
+    <string name="client_id">WcsvXdaCRAwTy5uX6nOYq120NhYa</string>
+    <string name="redirect_uri">https://example-app.com/redirect</string>
+    <string name="scope">openid internal_login</string>
+    <string name="response_type">code</string>
+    <string name="state">random123</string>
+    <string name="response_mode">direct</string>
 </resources>

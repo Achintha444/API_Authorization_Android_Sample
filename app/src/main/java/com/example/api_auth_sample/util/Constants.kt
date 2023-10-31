@@ -2,7 +2,7 @@ package com.example.api_auth_sample.util
 
 object Constants {
 
-    const val BaseUrl: String = "https://mock.apidog.com/m1/369147-0-default";
+    const val BaseUrl: String = "https://10.100.8.100:9443";
     const val APIDogId: String = "3863493"; // 3863493, 3864484
     const val APIDogAuthId: String = "3863759"; // 3864485 3863759
     const val BASIC_AUTH: String = "BasicAuthenticator";

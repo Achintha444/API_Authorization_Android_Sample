@@ -11,7 +11,7 @@ import androidx.fragment.app.FragmentContainerView
 import com.example.api_auth_sample.R
 import com.example.api_auth_sample.controller.AuthController
 import com.example.api_auth_sample.model.Authenticator
-import com.example.api_auth_sample.util.Constants
+import com.example.api_auth_sample.model.AuthenticatorType
 import com.example.api_auth_sample.util.Util
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JsonNode
@@ -85,7 +85,7 @@ class AuthFragment : Fragment() {
 
     private fun hideOrSignInText() {
 
-        if (AuthController.isAuthenticatorAvailable(authenticators, Constants.BASIC_AUTH) != null
+        if (AuthController.isAuthenticatorAvailable(authenticators, AuthenticatorType.BASIC) != null
             && AuthController.numberOfAuthenticators(authenticators) > 1
         ) {
             orSignInText.visibility = View.VISIBLE

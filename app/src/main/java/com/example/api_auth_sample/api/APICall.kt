@@ -1,27 +1,30 @@
 package com.example.api_auth_sample.api
 
+import android.content.Context
 import com.example.api_auth_sample.controller.AuthController
 import com.example.api_auth_sample.model.AuthParams
 import com.example.api_auth_sample.util.Constants
 import com.example.api_auth_sample.util.Util
+import com.example.api_auth_sample.util.config.Configuration
 import com.fasterxml.jackson.databind.JsonNode
-import okhttp3.*
-import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.FormBody
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
+import okhttp3.Response
 import java.io.IOException
+import javax.net.ssl.SSLContext
 
 
 class APICall {
 
     companion object {
-        private val client: OkHttpClient = OkHttpClient();
-        private const val baseUrl: String = Constants.BaseUrl;
-
-        private fun getUrl(uri: String): HttpUrl.Builder {
-            return "$baseUrl$uri".toHttpUrlOrNull()!!.newBuilder();
-        }
-
         @Throws(IOException::class)
         fun authorize(
+            client: OkHttpClient,
+            context: Context,
             whenAuthentication: () -> Unit,
             finallyAuthentication: () -> Unit,
             onSuccessCallback: (authorizeObj: JsonNode) -> Unit,
@@ -31,14 +34,17 @@ class APICall {
             whenAuthentication();
 
             // authorize URL
-            val urlBuilder: HttpUrl.Builder = getUrl("/oauth2/authorize");
-            urlBuilder.addQueryParameter("apidogApiId", Constants.APIDogId);
+            val url: String = Configuration.getInstance(context).authorizeUri.toString()
 
-            val url: String = urlBuilder.build().toString();
-
-            // test POST body.
-            // Values are not required as this is mocked.
-            val formBody: RequestBody = FormBody.Builder().build();
+            // POST form parameters
+            val formBody: RequestBody = FormBody.Builder()
+                .add("client_id", Configuration.getInstance(context).clientId)
+                .add("response_type", Configuration.getInstance(context).responseType)
+                .add("redirect_uri", Configuration.getInstance(context).redirectUri.toString())
+                .add("state", Configuration.getInstance(context).state)
+                .add("scope", Configuration.getInstance(context).scope)
+                .add("response_mode", Configuration.getInstance(context).responseMode)
+                .build();
 
             val request: Request = Request.Builder().url(url).post(formBody).build();
 
@@ -55,12 +61,8 @@ class APICall {
                         // reading the json
                         val model: JsonNode = Util.getJsonObject(response.body!!.string());
 
-                        if (model["ApidogError"] === null) {
-                            onSuccessCallback(model);
-                        } else {
-                            onFailureCallback();
-                        }
-                    } catch (e: IOException) {
+                        onSuccessCallback(model);
+                    } catch (e: Exception) {
                         println(e);
                         onFailureCallback();
                     } finally {
@@ -72,21 +74,20 @@ class APICall {
 
         @Throws(IOException::class)
         fun authenticate(
+            client: OkHttpClient,
+            context: Context,
             authenticator: com.example.api_auth_sample.model.Authenticator,
             authParams: AuthParams,
             whenAuthentication: () -> Unit,
             finallyAuthentication: () -> Unit,
-            onSuccessCallback: (authorizeObj: JsonNode) -> Unit,
+            onSuccessCallback: (context: Context, authorizeObj: JsonNode) -> Unit,
             onFailureCallback: () -> Unit
         ) {
 
             whenAuthentication();
 
-            // authorize URL
-            val urlBuilder: HttpUrl.Builder = getUrl("/api/authenticate/v1");
-            urlBuilder.addQueryParameter("apidogApiId", Constants.APIDogAuthId);
-
-            val url: String = urlBuilder.build().toString();
+            // authorize next URL
+            val url: String = Configuration.getInstance(context).authorizeNextUri.toString();
 
             val request: Request = Request.Builder().url(url)
                 .post(AuthController.buildRequestBodyForAuth(authenticator, authParams)).build();
@@ -104,13 +105,7 @@ class APICall {
                         // reading the json
                         val model: JsonNode = Util.getJsonObject(response.body!!.string());
 
-                        println(model);
-
-                        if (model["ApidogError"] === null) {
-                            onSuccessCallback(model);
-                        } else {
-                            onFailureCallback();
-                        }
+                        onSuccessCallback(context, model);
                     } catch (e: IOException) {
                         println(e);
                         onFailureCallback();

@@ -10,8 +10,8 @@ import com.example.api_auth_sample.R
 import com.example.api_auth_sample.databinding.ActivityFactorBinding
 import com.example.api_auth_sample.model.Authenticator
 import com.example.api_auth_sample.model.AuthenticatorFragment
+import com.example.api_auth_sample.model.AuthenticatorType
 import com.example.api_auth_sample.ui.auth.AuthFragment
-import com.example.api_auth_sample.util.Constants
 
 class Factor : AppCompatActivity(), AuthFragment.AuthListener {
 
@@ -59,24 +59,20 @@ class Factor : AppCompatActivity(), AuthFragment.AuthListener {
         lateinit var authView: AuthenticatorFragment
 
         when (authenticator.authenticator) {
-            Constants.BASIC_AUTH -> {
+            AuthenticatorType.BASIC.authenticator-> {
                 authView = authChildFragmentManager!!.findFragmentById(R.id.basicAuthView) as AuthenticatorFragment
             }
 
-            Constants.FIDO -> {
+            AuthenticatorType.FIDO.authenticator -> {
                 authView = authChildFragmentManager!!.findFragmentById(R.id.fidoAuthView) as AuthenticatorFragment
             }
 
-            Constants.TOTP_IDP -> {
+            AuthenticatorType.TOTP.authenticator -> {
                 authView = authChildFragmentManager!!.findFragmentById(R.id.totpIdpView) as AuthenticatorFragment
             }
 
-            Constants.OPENID -> {
-                when (authenticator.idp) {
-                    Constants.GOOGLE_IDP -> {
-                        authView = authChildFragmentManager!!.findFragmentById(R.id.googleIdpView) as AuthenticatorFragment
-                    }
-                }
+            AuthenticatorType.GOOGLE.authenticator -> {
+                authView = authChildFragmentManager!!.findFragmentById(R.id.googleIdpView) as AuthenticatorFragment
             }
         }
 
