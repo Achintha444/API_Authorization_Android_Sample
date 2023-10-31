@@ -1,5 +1,6 @@
 package com.example.api_auth_sample.ui
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -12,11 +13,13 @@ import com.example.api_auth_sample.model.Authenticator
 import com.example.api_auth_sample.model.AuthenticatorFragment
 import com.example.api_auth_sample.model.AuthenticatorType
 import com.example.api_auth_sample.ui.auth.AuthFragment
+import com.example.api_auth_sample.util.UiUtil
 
 class Factor : AppCompatActivity(), AuthFragment.AuthListener {
 
     private lateinit var binding: ActivityFactorBinding
-    private lateinit var authenticatorsString: String
+    private lateinit var stepString: String
+    private lateinit var flowId: String
     private lateinit var fragmentManager: FragmentManager
     private lateinit var authFragment: AuthFragment
     private lateinit var bundle: Bundle
@@ -38,7 +41,8 @@ class Factor : AppCompatActivity(), AuthFragment.AuthListener {
 
     private fun setAuthenticatorsString() {
         val intent: Intent = intent
-        authenticatorsString = intent.getStringExtra("authenticators")!!
+        stepString = intent.getStringExtra("step")!!
+        flowId = intent.getStringExtra("flowId")!!
     }
 
     private fun initalizeAuthFragment() {
@@ -47,7 +51,9 @@ class Factor : AppCompatActivity(), AuthFragment.AuthListener {
         authFragment = AuthFragment()
 
         bundle = Bundle()
-        bundle.putString("authenticatorsString", authenticatorsString)
+        bundle.putString("stepString", stepString)
+        bundle.putString("flowId", flowId)
+
         authFragment.arguments = bundle
         mFragmentTransaction.add(R.id.authLayoutView, authFragment).commit()
     }

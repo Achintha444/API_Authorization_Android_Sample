@@ -15,12 +15,20 @@ interface AuthenticatorFragment {
      * Authenticator of the fragment
      */
     var authenticator: Authenticator?;
+    var flowId: String?;
 
     /**
      * Update authenticator
      */
     fun updateAuthenticator(authenticator: Authenticator) {
         this.authenticator = authenticator;
+    }
+
+    /**
+     * Update flow id
+     */
+    fun updateFlowId(flowId: String) {
+        this.flowId = flowId;
     }
 
     /**

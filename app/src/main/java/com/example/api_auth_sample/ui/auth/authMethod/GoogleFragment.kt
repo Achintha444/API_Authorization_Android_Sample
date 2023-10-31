@@ -23,6 +23,7 @@ class GoogleFragment : Fragment(), AuthenticatorFragment {
     private lateinit var googleButton: Button
     private lateinit var layout: View
     override var authenticator: Authenticator? = null
+    override var flowId: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +36,6 @@ class GoogleFragment : Fragment(), AuthenticatorFragment {
 
         googleButton.setOnClickListener {
             APICall.authenticate(
-                CustomTrust.getInstance(requireContext()).client,
                 requireContext(),
                 authenticator!!,
                 getAuthParams(),

@@ -1,5 +1,6 @@
 package com.example.api_auth_sample.util
 
+import android.content.SharedPreferences
 import androidx.appcompat.app.ActionBar
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
@@ -18,6 +19,17 @@ class UiUtil {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+        }
+
+        fun writeToSharedPreferences(sharedPreferences: SharedPreferences, key: String, value: String) {
+            with(sharedPreferences.edit()) {
+                putString(key, value)
+                apply()
+            }
+        }
+
+        fun readFromSharedPreferences(sharedPreferences: SharedPreferences, key: String): String? {
+            return sharedPreferences.getString(key, null)
         }
     }
 

@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity() {
         // set on-click listener
         signInButton.setOnClickListener {
             APICall.authorize(
-                CustomTrust.getInstance(applicationContext).client,
                 applicationContext,
                 ::whenAuthentication,
                 ::finallyAuthentication,
@@ -49,8 +48,12 @@ class MainActivity : AppCompatActivity() {
     private fun onAuthenticationSuccess(authorizeObj: JsonNode) {
         val intent = Intent(this@MainActivity, Factor::class.java);
         intent.putExtra(
-            "authenticators",
-            authorizeObj["nextStep"]["authenticators"].toString()
+            "flowId",
+            authorizeObj["flowId"].toString()
+        );
+        intent.putExtra(
+            "step",
+            authorizeObj["nextStep"].toString()
         );
         startActivity(intent)
     }

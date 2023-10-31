@@ -23,6 +23,8 @@ class FidoFragment : Fragment(), AuthenticatorFragment {
     private lateinit var fidoButton: Button
     private lateinit var layout: View
     override var authenticator: Authenticator? = null
+    override var flowId: String? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +37,6 @@ class FidoFragment : Fragment(), AuthenticatorFragment {
 
         fidoButton.setOnClickListener {
             APICall.authenticate(
-                CustomTrust.getInstance(requireContext()).client,
                 requireContext(),
                 authenticator!!,
                 getAuthParams(),

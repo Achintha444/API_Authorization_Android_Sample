@@ -1,9 +1,11 @@
 package com.example.api_auth_sample.api
 
 import android.content.Context
+import com.example.api_auth_sample.R
 import com.example.api_auth_sample.controller.AuthController
 import com.example.api_auth_sample.model.AuthParams
 import com.example.api_auth_sample.util.Constants
+import com.example.api_auth_sample.util.UiUtil
 import com.example.api_auth_sample.util.Util
 import com.example.api_auth_sample.util.config.Configuration
 import com.fasterxml.jackson.databind.JsonNode
@@ -23,13 +25,14 @@ class APICall {
     companion object {
         @Throws(IOException::class)
         fun authorize(
-            client: OkHttpClient,
             context: Context,
             whenAuthentication: () -> Unit,
             finallyAuthentication: () -> Unit,
             onSuccessCallback: (authorizeObj: JsonNode) -> Unit,
             onFailureCallback: () -> Unit
         ) {
+
+            val client: OkHttpClient = CustomTrust.getInstance(context).client
 
             whenAuthentication();
 
@@ -74,7 +77,6 @@ class APICall {
 
         @Throws(IOException::class)
         fun authenticate(
-            client: OkHttpClient,
             context: Context,
             authenticator: com.example.api_auth_sample.model.Authenticator,
             authParams: AuthParams,
@@ -84,13 +86,17 @@ class APICall {
             onFailureCallback: () -> Unit
         ) {
 
+            val client: OkHttpClient = CustomTrust.getInstance(context).client
+            val flowId: String? = UiUtil.readFromSharedPreferences(context.getSharedPreferences(
+                R.string.app_name.toString(), Context.MODE_PRIVATE), "flowId").toString()
+
             whenAuthentication();
 
             // authorize next URL
             val url: String = Configuration.getInstance(context).authorizeNextUri.toString();
 
             val request: Request = Request.Builder().url(url)
-                .post(AuthController.buildRequestBodyForAuth(authenticator, authParams)).build();
+                .post(AuthController.buildRequestBodyForAuth(flowId, authenticator, authParams)).build();
 
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
@@ -102,15 +108,20 @@ class APICall {
                 @Throws(IOException::class)
                 override fun onResponse(call: Call, response: Response) {
                     try {
-                        // reading the json
-                        val model: JsonNode = Util.getJsonObject(response.body!!.string());
+                        if(response.code == 200) {
+                            // reading the json
+                            val model: JsonNode = Util.getJsonObject(response.body!!.string())
 
-                        onSuccessCallback(context, model);
+                            onSuccessCallback(context, model)
+                        } else {
+                            onFailureCallback()
+                        }
+
                     } catch (e: IOException) {
                         println(e);
-                        onFailureCallback();
+                        onFailureCallback()
                     } finally {
-                        finallyAuthentication();
+                        finallyAuthentication()
                     }
                 }
             })

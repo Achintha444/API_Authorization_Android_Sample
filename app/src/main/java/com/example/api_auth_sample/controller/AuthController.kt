@@ -76,13 +76,11 @@ class AuthController {
         /**
          * Get param body for basic auth
          */
-        private fun getparamBodyForBasicAuth(
+        private fun getParamBodyForBasicAuth(
             username: String,
             password: String
         ): LinkedHashMap<String, String> {
             val paramBody = LinkedHashMap<String, String>();
-            paramBody["authenticator"] = Constants.BASIC_AUTH;
-            paramBody["idp"] = Constants.LOCAL_IDP;
             paramBody["username"] = username;
             paramBody["password"] = password;
 
@@ -92,7 +90,7 @@ class AuthController {
         /**
          * Get param body for google
          */
-        private fun getparamBodyForGoogle(
+        private fun getParamBodyForGoogle(
             code: String,
             state: String
         ): LinkedHashMap<String, String> {
@@ -108,7 +106,7 @@ class AuthController {
         /**
          * Get param body for fido
          */
-        private fun getparamBodyForFido(tokenResponse: String): LinkedHashMap<String, String> {
+        private fun getParamBodyForFido(tokenResponse: String): LinkedHashMap<String, String> {
             val paramBody = LinkedHashMap<String, String>();
             paramBody["authenticator"] = Constants.FIDO
             paramBody["idp"] = Constants.LOCAL_IDP
@@ -120,7 +118,7 @@ class AuthController {
         /**
          * Get param body for totp
          */
-        private fun getparamBodyForTotp(otp: String): LinkedHashMap<String, String> {
+        private fun getParamBodyForTotp(otp: String): LinkedHashMap<String, String> {
             val paramBody = LinkedHashMap<String, String>();
             paramBody["authenticator"] = Constants.TOTP_IDP
             paramBody["idp"] = Constants.LOCAL_IDP
@@ -133,29 +131,30 @@ class AuthController {
          * Build request body for auth
          */
         fun buildRequestBodyForAuth(
+            flowId: String?,
             authenticator: Authenticator,
             authParams: AuthParams
         ): RequestBody {
 
             val authBody = LinkedHashMap<String, Any>();
-            authBody["flowId"] = "3bd1f207-e5b5-4b45-8a91-13b0acfb2151";
+            authBody["flowId"] = flowId!!;
 
             val selectedAuthenticator = LinkedHashMap<String, Any>();
-            selectedAuthenticator["authenticatorId"] = authenticator;
+            selectedAuthenticator["authenticatorId"] = authenticator.authenticatorId;
             when (authenticator.authenticator) {
                 AuthenticatorType.BASIC.authenticator -> {
                     selectedAuthenticator["params"] =
-                        getparamBodyForBasicAuth(authParams.username!!, authParams.password!!)
+                        getParamBodyForBasicAuth(authParams.username!!, authParams.password!!)
                 }
 
                 AuthenticatorType.GOOGLE.authenticator -> selectedAuthenticator["params"] =
-                    getparamBodyForGoogle(authParams.code!!, authParams.state!!)
+                    getParamBodyForGoogle(authParams.code!!, authParams.state!!)
 
                 AuthenticatorType.TOTP.authenticator -> selectedAuthenticator["params"] =
-                    getparamBodyForTotp(authParams.otp!!)
+                    getParamBodyForTotp(authParams.otp!!)
 
                 AuthenticatorType.FIDO.authenticator -> selectedAuthenticator["params"] =
-                    getparamBodyForFido(authParams.tokenResponse!!)
+                    getParamBodyForFido(authParams.tokenResponse!!)
             }
 
             authBody["selectedAuthenticator"] = selectedAuthenticator;

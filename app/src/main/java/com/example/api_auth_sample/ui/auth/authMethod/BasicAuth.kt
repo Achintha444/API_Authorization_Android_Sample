@@ -26,6 +26,7 @@ class BasicAuth : Fragment(), AuthenticatorFragment {
     private lateinit var password: EditText;
     private lateinit var layout: View;
     override var authenticator: Authenticator? = null
+    override var flowId: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +39,6 @@ class BasicAuth : Fragment(), AuthenticatorFragment {
         // set on-click listener
         signingBasicAuth.setOnClickListener {
             APICall.authenticate(
-                CustomTrust.getInstance(requireContext()).client,
                 requireContext(),
                 authenticator!!,
                 getAuthParams(),

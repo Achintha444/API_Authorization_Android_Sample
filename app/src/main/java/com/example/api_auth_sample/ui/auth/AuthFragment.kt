@@ -12,11 +12,15 @@ import com.example.api_auth_sample.R
 import com.example.api_auth_sample.controller.AuthController
 import com.example.api_auth_sample.model.Authenticator
 import com.example.api_auth_sample.model.AuthenticatorType
+import com.example.api_auth_sample.model.Step
+import com.example.api_auth_sample.util.UiUtil
 import com.example.api_auth_sample.util.Util
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JsonNode
 
 class AuthFragment : Fragment() {
+    private lateinit var flowId: String
+
     private lateinit var authenticators: ArrayList<Authenticator>
     private lateinit var orSignInText: LinearLayout
 
@@ -47,6 +51,7 @@ class AuthFragment : Fragment() {
 
         if (bundle != null) {
             setAuthenticators(bundle)
+            setFlowId(bundle)
 
             passAuthenticatorToAuthFragment()
 
@@ -76,11 +81,23 @@ class AuthFragment : Fragment() {
 
     private fun setAuthenticators(bundle: Bundle) {
 
-        val authenticatorsString: String? = bundle.getString("authenticatorsString")
-        val authenticatorNode: JsonNode = Util.getJsonObject(authenticatorsString!!)
-        val authenticatorsTypeReference = object : TypeReference<ArrayList<Authenticator>>() {}
+        val stepString: String? = bundle.getString("stepString")
+        val stepNode: JsonNode = Util.getJsonObject(stepString!!)
+        val stepTypeReference = object : TypeReference<Step>() {}
 
-        authenticators = Util.jsonNodeToObject(authenticatorNode, authenticatorsTypeReference)
+        authenticators = Util.jsonNodeToObject(stepNode, stepTypeReference).authenticators
+    }
+
+    private fun setFlowId(bundle: Bundle) {
+        val flowIdString: String? = bundle.getString("flowId")
+        val flowIdJson: JsonNode = Util.getJsonObject(flowIdString!!)
+        val flowIdTypeReference = object : TypeReference<String>() {}
+        flowId = Util.jsonNodeToObject(flowIdJson, flowIdTypeReference)
+
+        // save flowId to shared preferences to be used when authenticating user
+        UiUtil.writeToSharedPreferences(
+            requireContext().getSharedPreferences(R.string.app_name.toString(),
+                Context.MODE_PRIVATE), "flowId", flowId)
     }
 
     private fun hideOrSignInText() {
