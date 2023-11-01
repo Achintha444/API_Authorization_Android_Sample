@@ -82,7 +82,7 @@ class APICall {
             authParams: AuthParams,
             whenAuthentication: () -> Unit,
             finallyAuthentication: () -> Unit,
-            onSuccessCallback: (context: Context, authorizeObj: JsonNode) -> Unit,
+            onSuccessCallback: (authorizeObj: JsonNode) -> Unit,
             onFailureCallback: () -> Unit
         ) {
 
@@ -112,7 +112,7 @@ class APICall {
                             // reading the json
                             val model: JsonNode = Util.getJsonObject(response.body!!.string())
 
-                            onSuccessCallback(context, model)
+                            onSuccessCallback(model)
                         } else {
                             onFailureCallback()
                         }
