@@ -21,6 +21,7 @@ class Configuration private constructor(context: Context) {
     private var mState: String? = null
     private var mResponseMode: String? = null
     private var mResponseType: String? = null
+    private var mGoogleWebClientId: String? = null
 
     init {
         mResources = context.resources
@@ -90,6 +91,14 @@ class Configuration private constructor(context: Context) {
          */
         get() = mResponseType!!
 
+    val googleWebClientId: String
+        /**
+         * Returns the google web client id specified in the res/values/config file.
+         *
+         * @return Google Web Client ID.
+         */
+        get() = mGoogleWebClientId!!
+
     /**
      * Reads the configuration values.
      */
@@ -102,6 +111,7 @@ class Configuration private constructor(context: Context) {
         mState = getRequiredConfigString(mResources.getString(R.string.state))
         mResponseMode = getRequiredConfigString(mResources.getString(R.string.response_mode))
         mResponseType = getRequiredConfigString(mResources.getString(R.string.response_type))
+        mGoogleWebClientId = getRequiredConfigString(mResources.getString(R.string.google_web_client_id))
     }
 
     /**

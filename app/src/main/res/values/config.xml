@@ -8,4 +8,5 @@
     <string name="response_type">code</string>
     <string name="state">random123</string>
     <string name="response_mode">direct</string>
+    <string name="google_web_client_id">google_web_client_id</string>
 </resources>

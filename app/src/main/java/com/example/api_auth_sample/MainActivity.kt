@@ -7,7 +7,6 @@ import android.widget.Button
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import com.example.api_auth_sample.api.APICall
-import com.example.api_auth_sample.api.CustomTrust
 import com.example.api_auth_sample.ui.Factor
 import com.example.api_auth_sample.util.UiUtil
 import com.fasterxml.jackson.databind.JsonNode

@@ -45,8 +45,6 @@ class AuthFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initializeComponents(view)
-
         var bundle: Bundle? = arguments;
 
         if (bundle != null) {
