@@ -120,9 +120,7 @@ class AuthController {
          */
         private fun getParamBodyForTotp(otp: String): LinkedHashMap<String, String> {
             val paramBody = LinkedHashMap<String, String>();
-            paramBody["authenticator"] = Constants.TOTP_IDP
-            paramBody["idp"] = Constants.LOCAL_IDP
-            paramBody["otp"] = otp
+            paramBody["token"] = otp
 
             return paramBody;
         }
@@ -151,7 +149,7 @@ class AuthController {
                     getParamBodyForGoogle(authParams.code!!, authParams.state!!)
 
                 AuthenticatorType.TOTP.authenticator -> selectedAuthenticator["params"] =
-                    getParamBodyForTotp(authParams.otp!!)
+                    getParamBodyForTotp(authParams.totp!!)
 
                 AuthenticatorType.FIDO.authenticator -> selectedAuthenticator["params"] =
                     getParamBodyForFido(authParams.tokenResponse!!)

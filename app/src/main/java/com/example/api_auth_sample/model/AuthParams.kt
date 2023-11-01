@@ -23,7 +23,7 @@ data class AuthParams (
     /**
      * Otp code
      */
-    val otp: String? = null,
+    val totp: String? = null,
     /**
      * Token response
      */

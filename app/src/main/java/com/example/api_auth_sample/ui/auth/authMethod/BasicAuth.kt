@@ -41,7 +41,7 @@ class BasicAuth : Fragment(), AuthenticatorFragment {
                 ::finallyAuthorizing,
                 ::onAuthorizeSuccess,
                 ::onAuthorizeFail
-            );
+            )
         }
 
         return view

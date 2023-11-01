@@ -42,8 +42,12 @@ interface AuthenticatorFragment {
         if(authorizeObj["nextStep"] != null) {
             val intent = Intent(context, Factor::class.java);
             intent.putExtra(
-                "authenticators",
-                authorizeObj["nextStep"]["authenticators"].toString()
+                "flowId",
+                authorizeObj["flowId"].toString()
+            );
+            intent.putExtra(
+                "step",
+                authorizeObj["nextStep"].toString()
             );
             context.startActivity(intent)
         } else {

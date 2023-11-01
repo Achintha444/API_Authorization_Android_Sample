@@ -76,7 +76,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/totpIdpView"
-        android:name="com.example.api_auth_sample.ui.auth.authMethod.TotpButtonFragment"
+        android:name="com.example.api_auth_sample.ui.auth.authMethod.TotpFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -84,6 +84,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/googleIdpView"
-        tools:layout="@layout/fragment_totp_button" />
+        tools:layout="@layout/fragment_totp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

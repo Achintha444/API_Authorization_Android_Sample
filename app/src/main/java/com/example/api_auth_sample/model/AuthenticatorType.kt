@@ -5,19 +5,19 @@ package com.example.api_auth_sample.model
  */
 enum class AuthenticatorType(val authenticator: String) {
     /**
-     * Google idp type
+     * Google authenticator type
      */
     GOOGLE("Google"),
     /**
-     * Local idp type
+     * Local authenticator type
      */
     BASIC("Username & Password"),
     /**
-     * TOTP idp type
+     * TOTP authenticator type
      */
-    TOTP("totp"),
+    TOTP("TOTP"),
     /**
-     * FIDO idp type
+     * FIDO authenticator type
      */
     FIDO("fido")
 }

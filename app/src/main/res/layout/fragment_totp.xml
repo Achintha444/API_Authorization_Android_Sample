@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/totpIdpView"
     tools:context=".ui.auth.authMethod.TotpFragment">
 
     <Button
-        android:id="@+id/signin4"
+        android:id="@+id/totpContinueButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="72dp"
@@ -15,7 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/totp" />
+        app:layout_constraintTop_toBottomOf="@+id/totpValue" />
 
     <TextView
         android:id="@+id/totpTitle"
@@ -43,7 +44,7 @@
         app:layout_constraintTop_toBottomOf="@+id/totpTitle" />
 
     <EditText
-        android:id="@+id/totp"
+        android:id="@+id/totpValue"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"

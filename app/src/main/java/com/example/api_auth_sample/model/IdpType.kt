@@ -11,13 +11,5 @@ enum class IdpType(val idp: String) {
     /**
      * Local idp type
      */
-    LOCAL("LOCAL"),
-    /**
-     * TOTP idp type
-     */
-    TOTP("totp"),
-    /**
-     * FIDO idp type
-     */
-    FIDO("fido")
+    LOCAL("LOCAL")
 }
