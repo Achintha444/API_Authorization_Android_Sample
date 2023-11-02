@@ -7,12 +7,15 @@
     android:id="@+id/googleIdpView"
     tools:context=".ui.auth.authMethod.GoogleFragment">
 
-    <com.google.android.gms.common.SignInButton
+    <Button
         android:id="@+id/googleButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/asgardeo_secondary"
+        android:text="Sign in with Google"
         android:textColor="@color/black"
+        app:icon="@drawable/googleg_standard_color_18"
+        app:iconGravity="textStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

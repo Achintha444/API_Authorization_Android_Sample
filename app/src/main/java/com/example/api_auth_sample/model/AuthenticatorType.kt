@@ -19,5 +19,5 @@ enum class AuthenticatorType(val authenticator: String) {
     /**
      * FIDO authenticator type
      */
-    FIDO("fido")
+    PASSKEY("Passkey")
 }

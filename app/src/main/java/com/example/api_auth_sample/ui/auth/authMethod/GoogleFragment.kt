@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import com.example.api_auth_sample.R
@@ -19,7 +20,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 
@@ -28,7 +28,7 @@ class GoogleFragment : Fragment(), AuthenticatorFragment {
 
     private var TAG = "GoogleFragment";
 
-    private lateinit var googleButton: SignInButton
+    private lateinit var googleButton: Button
     private lateinit var layout: View
     override var authenticator: Authenticator? = null
 
@@ -80,7 +80,6 @@ class GoogleFragment : Fragment(), AuthenticatorFragment {
 
     private fun initializeComponents(view: View) {
         googleButton = view.findViewById(R.id.googleButton)
-        googleButton.setSize(SignInButton.SIZE_STANDARD);
 
         layout = view.findViewById(R.id.googleIdpView)
     }

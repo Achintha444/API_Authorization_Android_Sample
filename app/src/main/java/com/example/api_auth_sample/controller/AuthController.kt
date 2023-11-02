@@ -59,7 +59,7 @@ class AuthController {
             when (authenticator.authenticator) {
                 AuthenticatorType.BASIC.authenticator -> basicAuthView!!.visibility = View.VISIBLE;
 
-                AuthenticatorType.FIDO.authenticator -> fidoAuthView!!.visibility = View.VISIBLE;
+                AuthenticatorType.PASSKEY.authenticator -> fidoAuthView!!.visibility = View.VISIBLE;
 
                 AuthenticatorType.TOTP.authenticator-> totpAuthView!!.visibility = View.VISIBLE;
 
@@ -149,7 +149,7 @@ class AuthController {
                 AuthenticatorType.TOTP.authenticator -> selectedAuthenticator["params"] =
                     getParamBodyForTotp(authParams.totp!!)
 
-                AuthenticatorType.FIDO.authenticator -> selectedAuthenticator["params"] =
+                AuthenticatorType.PASSKEY.authenticator -> selectedAuthenticator["params"] =
                     getParamBodyForFido(authParams.tokenResponse!!)
             }
 

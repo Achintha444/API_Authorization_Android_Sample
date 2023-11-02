@@ -69,7 +69,7 @@ class Factor : AppCompatActivity(), AuthFragment.AuthListener {
                 authView = authChildFragmentManager!!.findFragmentById(R.id.basicAuthView) as AuthenticatorFragment
             }
 
-            AuthenticatorType.FIDO.authenticator -> {
+            AuthenticatorType.PASSKEY.authenticator -> {
                 authView = authChildFragmentManager!!.findFragmentById(R.id.fidoAuthView) as AuthenticatorFragment
             }
 
