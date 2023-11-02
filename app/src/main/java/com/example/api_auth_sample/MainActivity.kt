@@ -13,7 +13,6 @@ import com.fasterxml.jackson.databind.JsonNode
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var signInButton: Button;
     private lateinit var signInLoader: ProgressBar;
     lateinit var layout: View;
 
@@ -26,20 +25,17 @@ class MainActivity : AppCompatActivity() {
         UiUtil.hideActionBar(supportActionBar!!);
 
         // set on-click listener
-        signInButton.setOnClickListener {
-            APICall.authorize(
-                applicationContext,
-                ::whenAuthentication,
-                ::finallyAuthentication,
-                ::onAuthenticationSuccess,
-                ::onAuthenticationFail
-            );
-        }
+        APICall.authorize(
+            applicationContext,
+            ::whenAuthentication,
+            ::finallyAuthentication,
+            ::onAuthenticationSuccess,
+            ::onAuthenticationFail
+        );
     }
 
     private fun initializeComponents() {
         setContentView(R.layout.activity_main);
-        signInButton = findViewById(R.id.button);
         layout = findViewById(R.id.layout);
         signInLoader = findViewById(R.id.signinLoader);
     }
@@ -64,14 +60,12 @@ class MainActivity : AppCompatActivity() {
     private fun whenAuthentication() {
         runOnUiThread {
             signInLoader.visibility = View.VISIBLE;
-            signInButton.isEnabled = false;
         }
     }
 
     private fun finallyAuthentication() {
         runOnUiThread {
             signInLoader.visibility = View.INVISIBLE;
-            signInButton.isEnabled = true;
         }
     }
 }
