@@ -91,14 +91,12 @@ class AuthController {
          * Get param body for google
          */
         private fun getParamBodyForGoogle(
-            code: String,
-            state: String
+            accessToken: String,
+            idToken: String
         ): LinkedHashMap<String, String> {
             val paramBody = LinkedHashMap<String, String>();
-            paramBody["authenticator"] = Constants.GOOGLE_OPENID
-            paramBody["idp"] = Constants.GOOGLE_IDP
-            paramBody["code"] = code;
-            paramBody["state"] = state;
+            paramBody["idToken"] = idToken;
+            paramBody["accessToken"] = accessToken;
 
             return paramBody;
         }
@@ -146,7 +144,7 @@ class AuthController {
                 }
 
                 AuthenticatorType.GOOGLE.authenticator -> selectedAuthenticator["params"] =
-                    getParamBodyForGoogle(authParams.code!!, authParams.state!!)
+                    getParamBodyForGoogle(authParams.accessToken!!, authParams.idToken!!)
 
                 AuthenticatorType.TOTP.authenticator -> selectedAuthenticator["params"] =
                     getParamBodyForTotp(authParams.totp!!)

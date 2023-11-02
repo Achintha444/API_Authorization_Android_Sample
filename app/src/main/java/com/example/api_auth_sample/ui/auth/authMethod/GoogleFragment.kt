@@ -1,5 +1,6 @@
 package com.example.api_auth_sample.ui.auth.authMethod
 
+import android.content.IntentSender
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,12 +9,16 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import com.example.api_auth_sample.R
+import com.example.api_auth_sample.api.APICall
 import com.example.api_auth_sample.model.AuthParams
 import com.example.api_auth_sample.model.Authenticator
 import com.example.api_auth_sample.model.AuthenticatorFragment
 import com.example.api_auth_sample.model.GoogleSignInActivityResultContract
 import com.example.api_auth_sample.util.config.Configuration
 import com.fasterxml.jackson.databind.JsonNode
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.identity.Identity
+import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -34,6 +39,10 @@ class GoogleFragment : Fragment(), AuthenticatorFragment {
     private lateinit  var googleSignInOptions: GoogleSignInOptions
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var signInLauncher: ActivityResultLauncher<Unit>
+    private lateinit var googleAccount: GoogleSignInAccount
+
+    private lateinit var oneTapClient: SignInClient
+    private lateinit var signInRequest: BeginSignInRequest
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +50,7 @@ class GoogleFragment : Fragment(), AuthenticatorFragment {
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestServerAuthCode(Configuration.getInstance(requireContext()).googleWebClientId)
             .requestIdToken(Configuration.getInstance(requireContext()).googleWebClientId)
             .requestEmail()
             .build()
@@ -58,6 +68,21 @@ class GoogleFragment : Fragment(), AuthenticatorFragment {
                 // Handle the sign-in failure or cancellation
             }
         }
+
+
+//        oneTapClient = Identity.getSignInClient(requireActivity())
+//        signInRequest = BeginSignInRequest.builder()
+//            .setGoogleIdTokenRequestOptions(
+//                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+//                    .setSupported(true)
+//                    // Your server's client ID, not your Android client ID.
+//                    .setServerClientId(Configuration.getInstance(requireContext()).googleWebClientId)
+//                    // Only show accounts previously used to sign in.
+//                    .setFilterByAuthorizedAccounts(true)
+//                    .build())
+//            // Automatically sign in when exactly one credential is retrieved.
+//            .setAutoSelectEnabled(true)
+//            .build()
     }
 
     override fun onCreateView(
@@ -82,7 +107,8 @@ class GoogleFragment : Fragment(), AuthenticatorFragment {
     }
 
     override fun getAuthParams(): AuthParams {
-        return AuthParams(code = "code", state = "state")
+        return AuthParams(accessToken = googleAccount.serverAuthCode,
+            idToken = googleAccount.idToken)
     }
 
     override fun onAuthorizeSuccess(authorizeObj: JsonNode) {
@@ -108,25 +134,37 @@ class GoogleFragment : Fragment(), AuthenticatorFragment {
     private fun googleButtonOnClick() {
         googleButton.setOnClickListener {
             signInLauncher.launch(Unit)
-            //            APICall.authenticate(
-//                requireContext(),
-//                authenticator!!,
-//                getAuthParams(),
-//                ::whenAuthorizing,
-//                ::finallyAuthorizing,
-//                ::onAuthorizeSuccess,
-//                ::onAuthorizeFail
-//            );
+//            oneTapClient.beginSignIn(signInRequest)
+//                .addOnSuccessListener(requireActivity()) { result ->
+//                    try {
+//                        startIntentSenderForResult(
+//                            result.pendingIntent.intentSender, 200,
+//                            null, 0, 0, 0, null)
+//                    } catch (e: IntentSender.SendIntentException) {
+//                        Log.e(TAG, "Couldn't start One Tap UI: ${e.localizedMessage}")
+//                    }
+//                }
+//                .addOnFailureListener(requireActivity()) { e ->
+//                    // No saved credentials found. Launch the One Tap sign-up flow, or
+//                    // do nothing and continue presenting the signed-out UI.
+//                    Log.d(TAG, e.localizedMessage)
+//                }
         }
     }
 
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
-            val account: GoogleSignInAccount = completedTask.getResult(ApiException::class.java)
-            val idToken = account.idToken
-            val test = "test";
-            // Signed in successfully, show authenticated UI.
-            //updateUI(account)
+            googleAccount = completedTask.getResult(ApiException::class.java)
+
+            APICall.authenticate(
+                requireContext(),
+                authenticator!!,
+                getAuthParams(),
+                ::whenAuthorizing,
+                ::finallyAuthorizing,
+                ::onAuthorizeSuccess,
+                ::onAuthorizeFail
+            );
         } catch (e: ApiException) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.

@@ -15,11 +15,11 @@ data class AuthParams (
     /**
      * Code
      */
-    val code: String? = null,
+    val accessToken: String? = null,
     /**
      * State
      */
-    val state: String? = null,
+    val idToken: String? = null,
     /**
      * Otp code
      */
