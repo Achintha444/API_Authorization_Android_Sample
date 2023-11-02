@@ -13,7 +13,8 @@ import com.fasterxml.jackson.databind.JsonNode
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var signInLoader: ProgressBar;
+    private lateinit var signInLoader: ProgressBar
+    private lateinit var retrySiginButton: Button
     lateinit var layout: View;
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +23,9 @@ class MainActivity : AppCompatActivity() {
         initializeComponents();
 
         // hide the action bar in the initial screen
-        UiUtil.hideActionBar(supportActionBar!!);
+        UiUtil.hideActionBar(supportActionBar!!)
+
+        retrySignInButtonOnClick()
 
         // set on-click listener
         APICall.authorize(
@@ -31,13 +34,26 @@ class MainActivity : AppCompatActivity() {
             ::finallyAuthentication,
             ::onAuthenticationSuccess,
             ::onAuthenticationFail
-        );
+        )
     }
 
     private fun initializeComponents() {
         setContentView(R.layout.activity_main);
-        layout = findViewById(R.id.layout);
-        signInLoader = findViewById(R.id.signinLoader);
+        layout = findViewById(R.id.layout)
+        retrySiginButton = findViewById(R.id.retrySigin)
+        signInLoader = findViewById(R.id.signinLoader)
+    }
+
+    private fun retrySignInButtonOnClick() {
+        retrySiginButton.setOnClickListener {
+            APICall.authorize(
+                applicationContext,
+                ::whenAuthentication,
+                ::finallyAuthentication,
+                ::onAuthenticationSuccess,
+                ::onAuthenticationFail
+            );
+        }
     }
 
     private fun onAuthenticationSuccess(authorizeObj: JsonNode) {
@@ -55,6 +71,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun onAuthenticationFail() {
         UiUtil.showSnackBar(layout, "Sign in Failure");
+        runOnUiThread {
+            retrySiginButton.visibility = View.VISIBLE;
+        }
     }
 
     private fun whenAuthentication() {
