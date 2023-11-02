@@ -26,6 +26,10 @@ class MainActivity : AppCompatActivity() {
         UiUtil.hideActionBar(supportActionBar!!)
 
         retrySignInButtonOnClick()
+    }
+
+    override fun onStart() {
+        super.onStart()
 
         // set on-click listener
         APICall.authorize(
@@ -35,6 +39,12 @@ class MainActivity : AppCompatActivity() {
             ::onAuthenticationSuccess,
             ::onAuthenticationFail
         )
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+
+        retrySiginButton.visibility = View.VISIBLE;
     }
 
     private fun initializeComponents() {
