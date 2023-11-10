@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">Pet Care</string>
+    <string name="app_subtitle">Taking good care of your pets</string>
+    <string name="app_welcome_to">Welcome to</string>
+    <string name="app_signout">Sign Out</string>
     <string name="title_activity_first_factor">first_factor</string>
+    <string name="doctors">Available Doctors</string>
+    <string name="pharmacys">Available Pharmacies</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>

@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_background"
+    android:background="@color/white"
     tools:context=".ui.Factor">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentContainerView3"
             android:name="com.example.api_auth_sample.ui.common.Logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
+            android:layout_width="300dp"
+            android:layout_height="71dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout="@layout/fragment_logo" />
@@ -23,11 +23,21 @@
             android:name="com.example.api_auth_sample.ui.auth.AuthFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            tools:layout="@layout/fragment_auth" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="239dp"
+            android:layout_height="226dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragmentContainerView3"
-            tools:layout="@layout/fragment_auth" />
+            app:srcCompat="@drawable/undraw_friends_r511_1" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
