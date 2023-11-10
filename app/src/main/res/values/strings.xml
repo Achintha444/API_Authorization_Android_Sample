@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">API Auth Sample</string>
+    <string name="app_name">Pet Care</string>
     <string name="title_activity_first_factor">first_factor</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
