@@ -7,7 +7,7 @@
     android:id="@+id/totpIdpView"
     tools:context=".ui.auth.authMethod.TotpFragment">
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/totpContinueButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

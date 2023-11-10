@@ -7,14 +7,15 @@
     android:id="@+id/fidoLayout"
     tools:context=".ui.auth.authMethod.FidoFragment">
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/fidoButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/asgardeo_secondary"
-        android:text="Sign in with Passkey"
-        android:textColor="@color/black"
+        android:text="Sign in with FIDO"
+        android:textColor="@color/asgardeo_colour"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@color/asgardeo_colour"
+        style="?attr/materialButtonOutlinedStyle" />
 </androidx.constraintlayout.widget.ConstraintLayout>
