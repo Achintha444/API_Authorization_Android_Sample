@@ -9,7 +9,6 @@
  ```
  Android Studio version >= Giraffe
  ```
-## WSO2 
 
 ## Setup steps
 
