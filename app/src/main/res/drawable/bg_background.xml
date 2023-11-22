@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <gradient
-        android:type="radial"
-        android:gradientRadius="100%p"
-        android:centerX="1"
-        android:centerY="1"
-        android:startColor="@color/asgardeo_colour"
-        android:endColor="@color/white" />
-</shape>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:drawable="@color/asgardeo_secondary">
+    </item>
+
+    <item>
+        <rotate
+            android:fromDegrees="55"
+            android:pivotX="-60%"
+            android:pivotY="90%"
+            >
+            <shape
+                android:shape="oval">
+                <solid android:color="@color/asgardeo_colour_variant" />
+                <corners android:radius="2000dp" />
+            </shape>
+        </rotate>
+    </item>
+
+</layer-list>

@@ -1,8 +1,14 @@
 package com.example.api_auth_sample.util
 
 import android.content.SharedPreferences
+import android.content.res.Resources
+import android.content.res.Resources.Theme
+import android.os.Build
 import androidx.appcompat.app.ActionBar
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
+import com.example.api_auth_sample.R
 import com.google.android.material.snackbar.Snackbar
 
 class UiUtil {
@@ -30,6 +36,19 @@ class UiUtil {
 
         fun readFromSharedPreferences(sharedPreferences: SharedPreferences, key: String): String? {
             return sharedPreferences.getString(key, null)
+        }
+
+        fun hideStatusBar(window: Window, resources: Resources, theme: Theme, color: Int) {
+            // Fullscreen mode
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                window.setDecorFitsSystemWindows(false)
+                window.statusBarColor = resources.getColor(color, theme)
+            } else {
+                window.setFlags(
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN
+                )
+            }
         }
     }
 

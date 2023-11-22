@@ -11,6 +11,7 @@ import com.example.api_auth_sample.MainActivity
 import com.example.api_auth_sample.R
 import com.example.api_auth_sample.api.DataSource
 import com.example.api_auth_sample.databinding.ActivitySignedInInterfaceBinding
+import com.example.api_auth_sample.util.UiUtil
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 
@@ -25,6 +26,9 @@ class SignedInInterface : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         initializeComponents()
+
+        // hide action bar and status bar
+        UiUtil.hideStatusBar(window, resources, theme, R.color.asgardeo_secondary)
 
         setDoctorsCardAdapter()
         setPharmacysCardAdapter()

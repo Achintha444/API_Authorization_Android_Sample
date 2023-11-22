@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">Pet Care</string>
     <string name="app_subtitle">Taking good care of your pets</string>
+
+    <!--  Main Activity  -->
+    <string name="main_activity.sign_in">Get Started</string>
+    <string name="main_activity.description">Helping you to take good care of your pets</string>
+
     <string name="app_welcome_to">Welcome to</string>
     <string name="app_signout">Sign Out</string>
     <string name="title_activity_first_factor">first_factor</string>

@@ -2,7 +2,9 @@ package com.example.api_auth_sample.ui
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -32,6 +34,9 @@ class Factor : AppCompatActivity(), AuthFragment.AuthListener {
         initalizeAuthFragment()
 
         initializeComponents()
+
+        // hide action bar and status bar
+        UiUtil.hideStatusBar(window, resources, theme, R.color.font_white)
     }
 
     private fun initializeComponents() {

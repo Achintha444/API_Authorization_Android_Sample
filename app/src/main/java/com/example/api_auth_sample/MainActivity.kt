@@ -1,8 +1,11 @@
 package com.example.api_auth_sample
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.WindowInsets
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
@@ -22,29 +25,26 @@ class MainActivity : AppCompatActivity() {
 
         initializeComponents();
 
-        // hide the action bar in the initial screen
+        // hide action bar and status bar
         UiUtil.hideActionBar(supportActionBar!!)
+        UiUtil.hideStatusBar(window, resources, theme, R.color.asgardeo_secondary)
 
         retrySignInButtonOnClick()
     }
 
-    override fun onStart() {
-        super.onStart()
+    private fun hideStatusBar() {
+        UiUtil.hideActionBar(supportActionBar!!)
 
-        // set on-click listener
-        APICall.authorize(
-            applicationContext,
-            ::whenAuthentication,
-            ::finallyAuthentication,
-            ::onAuthenticationSuccess,
-            ::onAuthenticationFail
-        )
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-
-        retrySiginButton.visibility = View.VISIBLE;
+        // Fullscreen mode
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.setDecorFitsSystemWindows(false)
+            window.statusBarColor = resources.getColor(R.color.asgardeo_secondary, theme)
+        } else {
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+            )
+        }
     }
 
     private fun initializeComponents() {
