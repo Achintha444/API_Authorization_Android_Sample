@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.api_auth_sample.R
 import com.example.api_auth_sample.controller.AuthController
 import com.example.api_auth_sample.model.AuthParams
+import com.example.api_auth_sample.model.FlowStatus
 import com.example.api_auth_sample.util.Constants
 import com.example.api_auth_sample.util.UiUtil
 import com.example.api_auth_sample.util.Util
@@ -112,11 +113,16 @@ class APICall {
                             // reading the json
                             val model: JsonNode = Util.getJsonObject(response.body!!.string())
 
-                            onSuccessCallback(model)
+                            val flowStatus: String = model["flowStatus"].asText()
+
+                            if(flowStatus == FlowStatus.FAIL_INCOMPLETE.flowStatus) {
+                                onFailureCallback()
+                            } else {
+                                onSuccessCallback(model)
+                            }
                         } else {
                             onFailureCallback()
                         }
-
                     } catch (e: IOException) {
                         println(e);
                         onFailureCallback()
