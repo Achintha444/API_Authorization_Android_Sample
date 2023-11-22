@@ -113,7 +113,14 @@ class APICall {
                             // reading the json
                             val model: JsonNode = Util.getJsonObject(response.body!!.string())
 
-                            val flowStatus: String = model["flowStatus"].asText()
+                            // Assesing the flow status
+                            val flowStatusNode: JsonNode? = model["flowStatus"]
+                            val flowStatus: String = if (flowStatusNode != null && flowStatusNode.isTextual) {
+                                flowStatusNode.asText()
+                            } else {
+                                // Handle the case when "flowStatus" is null or not a valid string
+                                FlowStatus.SUCCESS.flowStatus
+                            }
 
                             if(flowStatus == FlowStatus.FAIL_INCOMPLETE.flowStatus) {
                                 onFailureCallback()
