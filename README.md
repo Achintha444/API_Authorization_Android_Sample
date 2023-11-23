@@ -48,7 +48,7 @@ keytool -import -alias wso2is -file wso2carbon.pem -keystore client-truststore.j
 9. Go to `https://console.cloud.google.com/` and create a new project.
 10. In the `credentials` section create two `Oauth Client IDs` one for `android app(Select Android)` and one for `WSO2 identity server(Select Web Application)`.
 > Follow the steps to get the SHA-1 key to create Oauth Client ID for our Android app
-> https://stackoverflow.com/a/33479550/10601286
+> https://stackoverflow.com/a/67983215/10601286
 
 > `WSO2_CLIENT_ID_OF_GOOGLE` is the client ID of the client ID crated for the WSO2 identity server.
 
