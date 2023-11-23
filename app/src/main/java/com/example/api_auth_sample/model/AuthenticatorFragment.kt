@@ -3,6 +3,7 @@ package com.example.api_auth_sample.model
 import android.content.Context
 import android.content.Intent
 import android.view.View
+import com.example.api_auth_sample.R
 import com.example.api_auth_sample.ui.Factor
 import com.example.api_auth_sample.ui.SignedInInterface
 import com.example.api_auth_sample.util.UiUtil
@@ -64,8 +65,8 @@ interface AuthenticatorFragment {
     /**
      * Show sign in error
      */
-    fun showSignInError(layout: View) {
-        UiUtil.showSnackBar(layout, "Sign in Failure")
+    fun showSignInError(layout: View, context: Context) {
+        UiUtil.showSnackBar(layout, context.getString(R.string.sign_in_failed))
     }
 
     /**

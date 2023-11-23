@@ -22,7 +22,6 @@ import okhttp3.RequestBody
 import okhttp3.Response
 import java.io.IOException
 
-
 class OauthClient {
 
     companion object {
@@ -35,7 +34,7 @@ class OauthClient {
             onFailureCallback: () -> Unit
         ) {
 
-            val client: OkHttpClient = CustomTrust.getInstance(context).client
+            val client: OkHttpClient = CustomTrust.getInstance().client
 
             whenAuthentication();
 
@@ -89,7 +88,7 @@ class OauthClient {
             onFailureCallback: () -> Unit
         ) {
 
-            val client: OkHttpClient = CustomTrust.getInstance(context).client
+            val client: OkHttpClient = CustomTrust.getInstance().client
             val flowId: String? = UiUtil.readFromSharedPreferences(
                 context.getSharedPreferences(
                     R.string.app_name.toString(), Context.MODE_PRIVATE

@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.JsonNode
 class MainActivity : AppCompatActivity() {
 
     private lateinit var signInLoader: ProgressBar
-    private lateinit var retrySiginButton: Button
+    private lateinit var getStartedButton: Button
     lateinit var layout: View;
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,18 +26,18 @@ class MainActivity : AppCompatActivity() {
         UiUtil.hideActionBar(supportActionBar!!)
         UiUtil.hideStatusBar(window, resources, theme, R.color.asgardeo_secondary)
 
-        retrySignInButtonOnClick()
+        getStartedButtonOnClick()
     }
 
     private fun initializeComponents() {
         setContentView(R.layout.activity_main);
         layout = findViewById(R.id.layout)
-        retrySiginButton = findViewById(R.id.retrySigin)
+        getStartedButton = findViewById(R.id.getStarted)
         signInLoader = findViewById(R.id.signinLoader)
     }
 
-    private fun retrySignInButtonOnClick() {
-        retrySiginButton.setOnClickListener {
+    private fun getStartedButtonOnClick() {
+        getStartedButton.setOnClickListener {
             OauthClient.authorize(
                 applicationContext,
                 ::whenAuthentication,
@@ -62,15 +62,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onAuthenticationFail() {
-        UiUtil.showSnackBar(layout, "Sign in Failure");
+        UiUtil.showSnackBar(layout, getString(R.string.api_auth_failed))
         runOnUiThread {
-            retrySiginButton.visibility = View.VISIBLE;
+            signInLoader.visibility = View.VISIBLE;
         }
     }
 
     private fun whenAuthentication() {
         runOnUiThread {
-            signInLoader.visibility = View.VISIBLE;
+            signInLoader.visibility = View.INVISIBLE;
         }
     }
 

@@ -57,7 +57,7 @@ class FidoFragment : Fragment(), AuthenticatorFragment {
     }
 
     override fun onAuthorizeFail() {
-        this.showSignInError(layout)
+        this.showSignInError(layout, requireContext())
     }
 
     override fun whenAuthorizing() {

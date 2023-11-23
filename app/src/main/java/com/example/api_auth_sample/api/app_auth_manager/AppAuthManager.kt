@@ -29,7 +29,7 @@ class AppAuthManager(private val context: Context) {
         private const val TAG = "com.example.api_auth_sample.api.app_auth_manager.AppAuthManager"
     }
 
-    private val customTrustClient: OkHttpClient = CustomTrust.getInstance(context).client
+    private val customTrustClient: OkHttpClient = CustomTrust.getInstance().client
 
     fun exchangeAuthorizationCodeForAccessToken(authorizationCode: String, callback: TokenRequestCallback) {
         val tokenRequest: TokenRequest = TokenRequest.Builder(

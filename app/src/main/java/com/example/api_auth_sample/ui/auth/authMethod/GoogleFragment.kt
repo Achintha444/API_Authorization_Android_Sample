@@ -48,7 +48,6 @@ class GoogleFragment : Fragment(), AuthenticatorFragment {
             .requestEmail()
             .build()
 
-
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), googleSignInOptions);
 
@@ -94,7 +93,7 @@ class GoogleFragment : Fragment(), AuthenticatorFragment {
     }
 
     override fun onAuthorizeFail() {
-        this.showSignInError(layout)
+        this.showSignInError(layout, requireContext())
     }
 
     override fun whenAuthorizing() {

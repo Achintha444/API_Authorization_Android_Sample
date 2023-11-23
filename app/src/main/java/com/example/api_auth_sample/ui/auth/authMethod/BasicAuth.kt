@@ -54,8 +54,12 @@ class BasicAuth : Fragment(), AuthenticatorFragment {
     }
 
     override fun getAuthParams(): AuthParams {
-        val usernameText: String = username.text.toString().ifEmpty { "username" }
-        val passwordText: String = password.text.toString().ifEmpty { "password" }
+        val usernameText: String = username.text.toString().ifEmpty {
+            getString(R.string.activity_factor_basic_auth_username)
+        }
+        val passwordText: String = password.text.toString().ifEmpty {
+            getString(R.string.activity_factor_basic_auth_password)
+        }
 
         return AuthParams(username = usernameText, password = passwordText)
     }
@@ -65,7 +69,7 @@ class BasicAuth : Fragment(), AuthenticatorFragment {
     }
 
     override fun onAuthorizeFail() {
-        this.showSignInError(layout)
+        this.showSignInError(layout, requireContext())
     }
 
     override fun whenAuthorizing() {
