@@ -16,7 +16,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        manifestPlaceholders = [appAuthRedirectScheme: 'https://oauth.pstmn.io/v1/callback']
+        manifestPlaceholders = [appAuthRedirectScheme: 'https://example-app.com/redirect']
     }
 
     buildTypes {
