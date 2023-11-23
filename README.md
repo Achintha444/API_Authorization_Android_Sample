@@ -18,10 +18,9 @@
 
 ```
 <resources>
-    <string name="authorize_url">https://10.0.2.2:9443/oauth2/authorize</string>
-    <string name="authorize_next_url">https://10.0.2.2:9443/oauth2/authn</string>
+    <string name="base_url"> <BASE_URL> </BASE_URL></string>
     <string name="client_id"> <CLIENT_ID> </string>
-    <string name="redirect_uri"> <REDIRECT_URI> </string>
+    <string name="redirect_uri">https://example-app.com/redirect</string>
     <string name="scope">openid internal_login</string>
     <string name="response_type">code</string>
     <string name="state">random123</string>
