@@ -8,7 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import com.example.api_auth_sample.R
-import com.example.api_auth_sample.api.APICall
+import com.example.api_auth_sample.api.OauthClient
 import com.example.api_auth_sample.model.AuthParams
 import com.example.api_auth_sample.model.Authenticator
 import com.example.api_auth_sample.model.AuthenticatorFragment
@@ -42,7 +42,7 @@ class TotpFragment : Fragment(), AuthenticatorFragment {
 
     private fun setTotpContinueButtonListener() {
         totpContinueButton.setOnClickListener {
-            APICall.authenticate(
+            OauthClient.authenticate(
                 requireContext(),
                 authenticator!!,
                 getAuthParams(),

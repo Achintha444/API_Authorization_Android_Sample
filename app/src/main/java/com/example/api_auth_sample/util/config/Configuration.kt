@@ -13,8 +13,10 @@ import java.lang.ref.WeakReference
  */
 class Configuration private constructor(context: Context) {
     private val mResources: Resources
+    private var mBaseUri: Uri? = null
     private var mAuthorizeUri: Uri? = null
     private var mAuthorizeNextUri: Uri? = null
+    private var mTokenUri: Uri? = null
     private var mClientId: String? = null
     private var mRedirectUri: Uri? = null
     private var mScope: String? = null
@@ -43,6 +45,14 @@ class Configuration private constructor(context: Context) {
          * @return Next Authorize URI.
          */
         get() = mAuthorizeNextUri!!
+
+    val tokenUri: Uri
+        /**
+         * Returns the token endpoint URI specified in the res/values/config file.
+         *
+         * @return Token URI.
+         */
+        get() = mTokenUri!!
 
     val clientId: String
         /**
@@ -103,8 +113,12 @@ class Configuration private constructor(context: Context) {
      * Reads the configuration values.
      */
     private fun readConfiguration() {
-        mAuthorizeUri = getRequiredUri(mResources.getString(R.string.authorize_url))
-        mAuthorizeNextUri = getRequiredUri(mResources.getString(R.string.authorize_next_url))
+
+        mBaseUri = getRequiredUri(mResources.getString(R.string.base_url))
+
+        mAuthorizeUri = getRequiredUri(mBaseUri.toString() + "/oauth2/authorize")
+        mAuthorizeNextUri = getRequiredUri(mBaseUri.toString() + "/oauth2/authn")
+        mTokenUri = getRequiredUri(mBaseUri.toString() + "/oauth2/token")
         mClientId = getRequiredConfigString(mResources.getString(R.string.client_id))
         mRedirectUri = getRequiredUri(mResources.getString(R.string.redirect_uri))
         mScope = getRequiredConfigString(mResources.getString(R.string.scope))

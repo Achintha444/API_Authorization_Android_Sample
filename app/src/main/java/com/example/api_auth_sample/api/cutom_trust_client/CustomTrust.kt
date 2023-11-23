@@ -1,8 +1,7 @@
-package com.example.api_auth_sample.api
+package com.example.api_auth_sample.api.cutom_trust_client
 
 import com.example.api_auth_sample.R
 import android.content.Context
-import com.example.api_auth_sample.util.config.Configuration
 import okhttp3.OkHttpClient
 import okhttp3.Protocol
 import java.io.IOException
@@ -86,9 +85,8 @@ class CustomTrust private constructor(private val context: Context) {
         // Put the certificates a key store.
         val password = "password".toCharArray() // Any password will work.
         val keyStore = newEmptyKeyStore(password)
-        var index = 0
-        for (certificate: Certificate in certificates) {
-            val certificateAlias = (index++).toString()
+        for ((index, certificate: Certificate) in certificates.withIndex()) {
+            val certificateAlias = (index).toString()
             keyStore.setCertificateEntry(certificateAlias, certificate)
         }
 

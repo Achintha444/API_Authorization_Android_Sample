@@ -1,6 +1,7 @@
 package com.example.api_auth_sample.ui
 
 import CardAdapter
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
@@ -29,6 +30,12 @@ class SignedInInterface : AppCompatActivity() {
 
         // hide action bar and status bar
         UiUtil.hideStatusBar(window, resources, theme, R.color.asgardeo_secondary)
+
+        val accessToken = UiUtil.readFromSharedPreferences(
+            applicationContext.getSharedPreferences(
+                R.string.app_name.toString(), Context.MODE_PRIVATE
+            ), "accessToken"
+        ).toString()
 
         setDoctorsCardAdapter()
         setPharmacysCardAdapter()

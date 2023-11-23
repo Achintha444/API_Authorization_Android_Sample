@@ -7,11 +7,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.example.api_auth_sample.R
-import com.example.api_auth_sample.api.APICall
+import com.example.api_auth_sample.api.OauthClient
 import com.example.api_auth_sample.model.AuthParams
 import com.example.api_auth_sample.model.Authenticator
 import com.example.api_auth_sample.model.AuthenticatorFragment
-import com.example.api_auth_sample.util.UiUtil
 import com.fasterxml.jackson.databind.JsonNode
 
 class FidoFragment : Fragment(), AuthenticatorFragment {
@@ -30,7 +29,7 @@ class FidoFragment : Fragment(), AuthenticatorFragment {
         initializeComponents(view)
 
         fidoButton.setOnClickListener {
-            APICall.authenticate(
+            OauthClient.authenticate(
                 requireContext(),
                 authenticator!!,
                 getAuthParams(),

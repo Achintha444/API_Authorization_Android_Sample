@@ -17,8 +17,7 @@
             android:name=".ui.SignedInInterface"
             android:exported="true"
             android:label="@string/title_activity_signed_in_interface"
-            android:theme="@style/Theme.Api_auth_sample.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.Api_auth_sample.NoActionBar" />
         <activity
             android:name=".ui.Factor"
             android:exported="false"

@@ -1,11 +1,14 @@
 package com.example.api_auth_sample.api
 
+import com.example.api_auth_sample.api.app_auth_manager.AppAuthManager
 import android.content.Context
+import android.util.Log
 import com.example.api_auth_sample.R
+import com.example.api_auth_sample.api.app_auth_manager.TokenRequestCallback
+import com.example.api_auth_sample.api.cutom_trust_client.CustomTrust
 import com.example.api_auth_sample.controller.AuthController
 import com.example.api_auth_sample.model.AuthParams
 import com.example.api_auth_sample.model.FlowStatus
-import com.example.api_auth_sample.util.Constants
 import com.example.api_auth_sample.util.UiUtil
 import com.example.api_auth_sample.util.Util
 import com.example.api_auth_sample.util.config.Configuration
@@ -18,10 +21,9 @@ import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.Response
 import java.io.IOException
-import javax.net.ssl.SSLContext
 
 
-class APICall {
+class OauthClient {
 
     companion object {
         @Throws(IOException::class)
@@ -88,8 +90,11 @@ class APICall {
         ) {
 
             val client: OkHttpClient = CustomTrust.getInstance(context).client
-            val flowId: String? = UiUtil.readFromSharedPreferences(context.getSharedPreferences(
-                R.string.app_name.toString(), Context.MODE_PRIVATE), "flowId").toString()
+            val flowId: String? = UiUtil.readFromSharedPreferences(
+                context.getSharedPreferences(
+                    R.string.app_name.toString(), Context.MODE_PRIVATE
+                ), "flowId"
+            ).toString()
 
             whenAuthentication();
 
@@ -97,7 +102,8 @@ class APICall {
             val url: String = Configuration.getInstance(context).authorizeNextUri.toString();
 
             val request: Request = Request.Builder().url(url)
-                .post(AuthController.buildRequestBodyForAuth(flowId, authenticator, authParams)).build();
+                .post(AuthController.buildRequestBodyForAuth(flowId, authenticator, authParams))
+                .build();
 
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
@@ -109,23 +115,30 @@ class APICall {
                 @Throws(IOException::class)
                 override fun onResponse(call: Call, response: Response) {
                     try {
-                        if(response.code == 200) {
+                        if (response.code == 200) {
                             // reading the json
                             val model: JsonNode = Util.getJsonObject(response.body!!.string())
 
                             // Assessing the flow status
                             val flowStatusNode: JsonNode? = model["flowStatus"]
-                            val flowStatus: String = if (flowStatusNode != null && flowStatusNode.isTextual) {
-                                flowStatusNode.asText()
-                            } else {
-                                // Handle the case when "flowStatus" is null or not a valid string
-                                FlowStatus.SUCCESS.flowStatus
-                            }
+                            val flowStatus: String =
+                                if (flowStatusNode != null && flowStatusNode.isTextual) {
+                                    flowStatusNode.asText()
+                                } else {
+                                    // Handle the case when "flowStatus" is null or not a valid string
+                                    FlowStatus.SUCCESS.flowStatus
+                                }
 
-                            if(flowStatus == FlowStatus.FAIL_INCOMPLETE.flowStatus) {
-                                onFailureCallback()
-                            } else {
-                                onSuccessCallback(model)
+                            when(flowStatus) {
+                                 FlowStatus.FAIL_INCOMPLETE.flowStatus -> {
+                                     onFailureCallback()
+                                 }
+                                FlowStatus.INCOMPLETE.flowStatus -> {
+                                    onSuccessCallback(model)
+                                }
+                                FlowStatus.SUCCESS.flowStatus -> {
+                                    token(context, model, onSuccessCallback, onFailureCallback)
+                                }
                             }
                         } else {
                             onFailureCallback()
@@ -140,6 +153,28 @@ class APICall {
             })
         }
 
+        fun token(
+            context: Context,
+            model: JsonNode?,
+            onSuccessCallback: (authorizeObj: JsonNode) -> Unit,
+            onFailureCallback: () -> Unit
+        ) {
 
+            val appAuthManager: AppAuthManager = AppAuthManager(context)
+            val authorizationCode: String = model!!.get("code").asText()
+
+            appAuthManager.exchangeAuthorizationCodeForAccessToken(authorizationCode, TokenRequestCallback(
+                onSuccess = { accessToken: String ->
+                    UiUtil.writeToSharedPreferences(
+                        context.getSharedPreferences(R.string.app_name.toString(),
+                            Context.MODE_PRIVATE), "accessToken", accessToken)
+                    onSuccessCallback(model);
+                },
+                onFailure = { error: java.lang.Exception ->
+                    Log.e("oken request failed", error.toString())
+                    onFailureCallback()
+                }
+            ))
+        }
     }
 }

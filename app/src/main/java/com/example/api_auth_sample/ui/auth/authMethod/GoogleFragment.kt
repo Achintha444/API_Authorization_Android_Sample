@@ -9,7 +9,7 @@ import android.widget.Button
 import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import com.example.api_auth_sample.R
-import com.example.api_auth_sample.api.APICall
+import com.example.api_auth_sample.api.OauthClient
 import com.example.api_auth_sample.model.AuthParams
 import com.example.api_auth_sample.model.Authenticator
 import com.example.api_auth_sample.model.AuthenticatorFragment
@@ -119,7 +119,7 @@ class GoogleFragment : Fragment(), AuthenticatorFragment {
         try {
             googleAccount = completedTask.getResult(ApiException::class.java)
 
-            APICall.authenticate(
+            OauthClient.authenticate(
                 requireContext(),
                 authenticator!!,
                 getAuthParams(),

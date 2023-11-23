@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="authorize_url">https://10.0.2.2:9443/oauth2/authorize</string>
-    <string name="authorize_next_url">https://10.0.2.2:9443/oauth2/authn</string>
+    <string name="base_url">https://10.0.2.2:9443</string>
     <string name="client_id">8vebTRxnI8RcZPzVR9vKpf5lBZEa</string>
     <string name="redirect_uri">https://oauth.pstmn.io/v1/callback</string>
     <string name="scope">openid internal_login</string>

@@ -1,15 +1,12 @@
 package com.example.api_auth_sample
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.WindowInsets
-import android.view.WindowManager
 import android.widget.Button
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
-import com.example.api_auth_sample.api.APICall
+import com.example.api_auth_sample.api.OauthClient
 import com.example.api_auth_sample.ui.Factor
 import com.example.api_auth_sample.util.UiUtil
 import com.fasterxml.jackson.databind.JsonNode
@@ -41,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun retrySignInButtonOnClick() {
         retrySiginButton.setOnClickListener {
-            APICall.authorize(
+            OauthClient.authorize(
                 applicationContext,
                 ::whenAuthentication,
                 ::finallyAuthentication,

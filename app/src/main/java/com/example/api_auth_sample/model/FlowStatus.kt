@@ -7,6 +7,11 @@ enum class FlowStatus(val flowStatus: String) {
     FAIL_INCOMPLETE("FAIL_INCOMPLETE"),
 
     /**
+     * Flow status is incomplete.
+     */
+    INCOMPLETE("INCOMPLETE"),
+
+    /**
      * Flow status is success.
      */
     SUCCESS("SUCCESS"),
