@@ -113,7 +113,7 @@ class APICall {
                             // reading the json
                             val model: JsonNode = Util.getJsonObject(response.body!!.string())
 
-                            // Assesing the flow status
+                            // Assessing the flow status
                             val flowStatusNode: JsonNode? = model["flowStatus"]
                             val flowStatus: String = if (flowStatusNode != null && flowStatusNode.isTextual) {
                                 flowStatusNode.asText()

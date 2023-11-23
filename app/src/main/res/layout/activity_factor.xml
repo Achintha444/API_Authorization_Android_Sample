@@ -4,54 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/font_white"
+    android:background="@drawable/bg_background_white"
     tools:context=".ui.Factor">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView3"
-        android:name="com.example.api_auth_sample.ui.common.Logo"
-        android:layout_width="301dp"
-        android:layout_height="87dp"
-        android:layout_marginTop="32dp"
+    <RelativeLayout
+        android:id="@+id/topBar"
+        android:layout_width="420dp"
+        android:layout_height="70dp"
+        android:background="@color/asgardeo_secondary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout="@layout/fragment_logo_inverted" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/view2"
-        android:layout_width="170dp"
-        android:layout_height="170dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
-        android:elevation="0dp"
-        app:cardCornerRadius="100dp"
-        app:cardElevation="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragmentContainerView3">
+        <fragment
+            android:id="@+id/logoView"
+            android:name="com.example.api_auth_sample.ui.common.Logo"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:padding="32dp"
+            tools:layout="@layout/fragment_logo" />
 
-        <ImageView
-            android:id="@+id/imageView2"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            app:srcCompat="@mipmap/dog_round" />
+            android:layout_height="4dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/asgardeo_colour" />
 
-    </com.google.android.material.card.MaterialCardView>
+    </RelativeLayout>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/authLayoutView"
         android:name="com.example.api_auth_sample.ui.auth.AuthFragment"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view2"
+        app:layout_constraintTop_toBottomOf="@+id/topBar"
+        app:layout_constraintVertical_bias="0.236"
         tools:layout="@layout/fragment_auth" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

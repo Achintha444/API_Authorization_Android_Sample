@@ -17,23 +17,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragmentContainerView2"
+        <fragment
+            android:id="@+id/fragmentContainerView"
             android:name="com.example.api_auth_sample.ui.common.Logo"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
+            android:layout_alignBaseline="@id/signOutButton"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="14dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="219dp"
             android:layout_marginBottom="8dp"
             android:layout_toStartOf="@+id/signOutButton"
             android:padding="32dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             tools:layout="@layout/fragment_logo" />
 
         <ImageButton

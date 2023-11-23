@@ -32,21 +32,6 @@ class MainActivity : AppCompatActivity() {
         retrySignInButtonOnClick()
     }
 
-    private fun hideStatusBar() {
-        UiUtil.hideActionBar(supportActionBar!!)
-
-        // Fullscreen mode
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.setDecorFitsSystemWindows(false)
-            window.statusBarColor = resources.getColor(R.color.asgardeo_secondary, theme)
-        } else {
-            window.setFlags(
-                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN
-            )
-        }
-    }
-
     private fun initializeComponents() {
         setContentView(R.layout.activity_main);
         layout = findViewById(R.id.layout)

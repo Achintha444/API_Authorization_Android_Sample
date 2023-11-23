@@ -15,6 +15,7 @@ import com.example.api_auth_sample.model.Authenticator
 import com.example.api_auth_sample.model.AuthenticatorFragment
 import com.example.api_auth_sample.model.AuthenticatorType
 import com.example.api_auth_sample.ui.auth.AuthFragment
+import com.example.api_auth_sample.ui.common.Logo
 import com.example.api_auth_sample.util.UiUtil
 
 class Factor : AppCompatActivity(), AuthFragment.AuthListener {
@@ -24,6 +25,7 @@ class Factor : AppCompatActivity(), AuthFragment.AuthListener {
     private lateinit var flowId: String
     private lateinit var fragmentManager: FragmentManager
     private lateinit var authFragment: AuthFragment
+    private lateinit var logoFragment: Logo
     private lateinit var bundle: Bundle
 
     override fun onCreate(savedInstanceState: Bundle?) {
