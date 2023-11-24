@@ -19,14 +19,15 @@
 
 ```
 <resources>
-    <string name="base_url"> <BASE_URL> </BASE_URL></string>
-    <string name="client_id"> <CLIENT_ID> </string>
-    <string name="redirect_uri">https://example-app.com/redirect</string>
-    <string name="scope">openid internal_login</string>
-    <string name="response_type">code</string>
-    <string name="state">random123</string>
-    <string name="response_mode">direct</string>
-    <string name="google_web_client_id"> <WSO2_CLIENT_ID_OF_GOOGLE> </string>
+    <string name="oauth_client_base_url"> <BASE_URL> </string>
+    <string name="oauth_client_client_id"> <CLIENT_ID> </string>
+    <string name="oauth_client_redirect_uri">https://example-app.com/redirect</string>
+    <string name="oauth_client_scope">openid internal_login</string>
+    <string name="oauth_client_response_type">code</string>
+    <string name="oauth_client_state">random123</string>
+    <string name="oauth_client_response_mode">direct</string>
+    <string name="oauth_client_google_web_client_id"> <WSO2_CLIENT_ID_OF_GOOGLE> </string>
+    <string name="data_source_resource_server_url"> <PET_RESOURCE_SERVER_URL> </string>
 </resources>
 ```
 
