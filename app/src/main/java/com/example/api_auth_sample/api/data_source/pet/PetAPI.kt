@@ -1,9 +1,12 @@
 package com.example.api_auth_sample.api.data_source.pet
 
 import android.content.Context
+import com.example.api_auth_sample.R
 import com.example.api_auth_sample.api.cutom_trust_client.CustomTrust
 import com.example.api_auth_sample.model.api.data_source.pet.GetAllPetsCallback
 import com.example.api_auth_sample.model.data.Pet
+import com.example.api_auth_sample.model.util.uiUtil.SharedPreferencesKeys
+import com.example.api_auth_sample.util.UiUtil
 import com.example.api_auth_sample.util.config.DataSourceConfiguration
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import okhttp3.Call
@@ -21,16 +24,19 @@ class PetAPI {
 
         @Throws(IOException::class)
         fun getPets(
-            context: Context,
-            accessToken: String,
-            callback: GetAllPetsCallback
+            context: Context
+            //callback: GetAllPetsCallback
         ) {
 
-            callback.onWaiting()
+            //callback.onWaiting()
 
             // authorize URL
             val url: String = DataSourceConfiguration.getInstance(context).resourceServerUrl.toString() + "/pets"
-
+            val accessToken: String = UiUtil.readFromSharedPreferences(
+                context.getSharedPreferences(
+                    R.string.app_name.toString(), Context.MODE_PRIVATE
+                ), SharedPreferencesKeys.ACCESS_TOKEN.key
+            ).toString()
 
             val requestBuilder: Request.Builder = Request.Builder().url(url)
             requestBuilder.addHeader("Authorization", "Bearer $accessToken")
@@ -38,8 +44,8 @@ class PetAPI {
             client.newCall(requestBuilder.build()).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     println(e)
-                    callback.onFailure(e)
-                    callback.onFinally()
+                    //callback.onFailure()
+                    //callback.onFinally()
                 }
 
                 @Throws(IOException::class)
@@ -53,12 +59,13 @@ class PetAPI {
                                 Pet::class.java
                             )
                         )
-                        callback.onSuccess(pets)
+                        val x = 1
+                        //callback.onSuccess(pets)
                     } catch (e: Exception) {
                         println(e)
-                        callback.onFailure(e)
+                        //callback.onFailure()
                     } finally {
-                        callback.onFinally()
+                        //callback.onFinally()
                     }
                 }
             })

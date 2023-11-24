@@ -5,6 +5,7 @@
     <color name="asgardeo_secondary">#49D6DB</color>
     <color name="font_white">#F6F6F6</color>
     <color name="font_black">#CE1B1B1B</color>
+    <color name="font_accent_black">#CE403C3C</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>

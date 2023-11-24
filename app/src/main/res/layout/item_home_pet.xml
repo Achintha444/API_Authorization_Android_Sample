@@ -23,7 +23,8 @@
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/bg_background" />
+                android:src="@drawable/bg_background"
+                app:srcCompat="@mipmap/cat" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -31,32 +32,52 @@
                 android:gravity="center|left"
                 android:orientation="vertical" >
 
-                <TextView
-                    android:id="@+id/doctorNameTextView"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Doctor Name"
-                    android:textColor="@color/font_black"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:gravity="start|center"
+                    android:orientation="horizontal"
+                    android:showDividers="middle">
 
-                <TextView
-                    android:id="@+id/doctorDescriptionTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="8dp"
-                    android:text="Doctor Description"
-                    android:textColor="@color/font_black"
-                    android:textSize="12sp" />
+                    <TextView
+                        android:id="@+id/petName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="8dp"
+                        android:text="Pet Name"
+                        android:textColor="@color/font_black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/petBreed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pet Breed"
+                        android:textColor="@color/font_black"
+                        android:textSize="10sp"
+                        android:textStyle="italic" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/doctorLocationTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="8dp"
-                    android:text="Doctor Location"
-                    android:textColor="@color/font_black"
+                    android:text="DOB"
+                    android:textColor="@color/font_accent_black"
                     android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/doctorDescriptionTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:text="Owner"
+                    android:textColor="@color/font_black"
+                    android:textSize="12sp" />
+
+
 
             </LinearLayout>
         </LinearLayout>

@@ -13,6 +13,7 @@ import com.example.api_auth_sample.controller.ui.activities.fragments.auth.AuthC
 import com.example.api_auth_sample.model.data.authenticator.Authenticator
 import com.example.api_auth_sample.model.data.authenticator.AuthenticatorType
 import com.example.api_auth_sample.model.ui.activities.login.fragments.auth.Step
+import com.example.api_auth_sample.model.util.uiUtil.SharedPreferencesKeys
 import com.example.api_auth_sample.util.UiUtil
 import com.example.api_auth_sample.util.Util
 import com.fasterxml.jackson.core.type.TypeReference
@@ -95,7 +96,7 @@ class AuthFragment : Fragment() {
         // save flowId to shared preferences to be used when authenticating user
         UiUtil.writeToSharedPreferences(
             requireContext().getSharedPreferences(R.string.app_name.toString(),
-                Context.MODE_PRIVATE), "flowId", flowId)
+                Context.MODE_PRIVATE), SharedPreferencesKeys.FLOW_ID.key, flowId)
     }
 
     private fun hideOrSignInText() {

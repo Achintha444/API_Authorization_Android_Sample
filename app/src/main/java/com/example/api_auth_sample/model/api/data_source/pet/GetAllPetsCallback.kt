@@ -5,7 +5,7 @@ import com.example.api_auth_sample.model.data.Pet
 
 class GetAllPetsCallback(
     private val onSuccess: (pets: ArrayList<Pet>) -> Unit,
-    private val onFailure: (error: Exception) -> Unit,
+    private val onFailure: () -> Unit,
     private val onWaiting: () -> Unit,
     private val onFinally: () -> Unit
 ): Callback() {
@@ -14,8 +14,8 @@ class GetAllPetsCallback(
         onSuccess.invoke(pets)
     }
 
-    fun onFailure(error: Exception) {
-        onFailure.invoke(error)
+    fun onFailure() {
+        onFailure.invoke()
     }
 
     override fun onWaiting() {
