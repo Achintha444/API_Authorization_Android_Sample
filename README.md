@@ -10,11 +10,12 @@
  Android Studio version >= Giraffe
  ```
 
-## Setup steps
-
+#### Setup steps Identity Server
 1. Setup the latest version of WSO2 Identity Sever.
 2. Create a mobile application.
-1. Create `config.xml` file in `res/values`
+
+#### Import the configurations
+3. Create `config.xml` file in `res/values`
 
 ```
 <resources>
@@ -29,30 +30,15 @@
 </resources>
 ```
 
-#### (Assuming you are using an emulator) We need to add the certificate of WSO2 identity server to our app
-4. Create a new keystore with CN as localhost and SAN as 10.0.2.2
-```
-keytool -genkey -alias wso2carbon -keyalg RSA -keystore wso2carbon.jks -keysize 2048 -ext SAN=IP:10.0.2.2
-```
-6. Export the public certificate (name it as wso2carbon.pem)to add into the truststore.
-```
-keytool -exportcert -alias wso2carbon -keystore wso2carbon.jks -rfc -file wso2carbon.pem
-```
-7. Import the certificate in the client-truststore.jks file located in `<IS_HOME>/repository/resources/security/`
-```
-keytool -import -alias wso2is -file wso2carbon.pem -keystore client-truststore.jks -storepass wso2carbon
-```
-8. Now copy this public certificate (wso2carbon.pem) into the `res/raw` folder.
-
 #### Setup Google Login
-9. Go to `https://console.cloud.google.com/` and create a new project.
-10. In the `credentials` section create two `Oauth Client IDs` one for `android app(Select Android)` and one for `WSO2 identity server(Select Web Application)`.
+4. Go to `https://console.cloud.google.com/` and create a new project.
+5. In the `credentials` section create two `Oauth Client IDs` one for `android app(Select Android)` and one for `WSO2 identity server(Select Web Application)`.
 > Follow the steps to get the SHA-1 key to create Oauth Client ID for our Android app
 > https://stackoverflow.com/a/67983215/10601286
 
 > `WSO2_CLIENT_ID_OF_GOOGLE` is the client ID of the client ID crated for the WSO2 identity server.
 
-11. Create a Google connection as a Trusted Token Issuer using the following curl command.
+6. Create a Google connection as a Trusted Token Issuer using the following curl command.
 ```
 curl --location 'https://localhost:9443/api/server/v1/identity-providers' \
 --header 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/118.0' \
@@ -124,4 +110,4 @@ curl --location 'https://localhost:9443/api/server/v1/identity-providers' \
     "templateId": "google-idp"
 }'
 ```
-12. Add the created Google connection to the created application (in step 2) as a level 1 sign-in option.
+7. Add the created Google connection to the created application (in step 2) as a level 1 sign-in option.
