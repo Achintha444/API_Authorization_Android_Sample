@@ -1,13 +1,16 @@
 package com.example.api_auth_sample.api.data_source.pet
 
 import android.content.Context
+import android.util.Log
 import com.example.api_auth_sample.R
 import com.example.api_auth_sample.api.cutom_trust_client.CustomTrust
 import com.example.api_auth_sample.model.api.data_source.pet.GetAllPetsCallback
 import com.example.api_auth_sample.model.data.Pet
 import com.example.api_auth_sample.model.util.uiUtil.SharedPreferencesKeys
 import com.example.api_auth_sample.util.UiUtil
+import com.example.api_auth_sample.util.Util
 import com.example.api_auth_sample.util.config.DataSourceConfiguration
+import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import okhttp3.Call
 import okhttp3.Callback
@@ -24,11 +27,11 @@ class PetAPI {
 
         @Throws(IOException::class)
         fun getPets(
-            context: Context
-            //callback: GetAllPetsCallback
+            context: Context,
+            callback: GetAllPetsCallback
         ) {
 
-            //callback.onWaiting()
+            callback.onWaiting()
 
             // authorize URL
             val url: String = DataSourceConfiguration.getInstance(context).resourceServerUrl.toString() + "/pets"
@@ -44,28 +47,28 @@ class PetAPI {
             client.newCall(requestBuilder.build()).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     println(e)
-                    //callback.onFailure()
-                    //callback.onFinally()
+                    callback.onFailure()
+                    callback.onFinally()
                 }
 
                 @Throws(IOException::class)
                 override fun onResponse(call: Call, response: Response) {
                     try {
+                        val responseBody: String = response.body!!.string()
                         // reading the json
                         val pets: ArrayList<Pet> = jacksonObjectMapper().readValue(
-                            response.body!!.string(),
+                            responseBody,
                             jacksonObjectMapper().typeFactory.constructCollectionType(
                                 ArrayList::class.java,
                                 Pet::class.java
                             )
                         )
-                        val x = 1
-                        //callback.onSuccess(pets)
+                        callback.onSuccess(pets)
                     } catch (e: Exception) {
-                        println(e)
-                        //callback.onFailure()
+                        Log.e("PetAPI", e.toString())
+                        callback.onFailure()
                     } finally {
-                        //callback.onFinally()
+                        callback.onFinally()
                     }
                 }
             })

@@ -1,15 +1,19 @@
 package com.example.api_auth_sample.ui.activities.home
 
+import CardAdapter
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageButton
+import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.api_auth_sample.ui.activities.main.MainActivity
 import com.example.api_auth_sample.R
-import com.example.api_auth_sample.api.DataSource
 import com.example.api_auth_sample.api.data_source.pet.PetAPI
 import com.example.api_auth_sample.databinding.ActivityHomeBinding
 import com.example.api_auth_sample.model.api.data_source.pet.GetAllPetsCallback
@@ -18,12 +22,18 @@ import com.example.api_auth_sample.model.util.uiUtil.SharedPreferencesKeys
 import com.example.api_auth_sample.util.UiUtil
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.material.button.MaterialButton
 
 class Home : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
     private lateinit var signoutButton: ImageButton
     private lateinit var petsRecyclerView: RecyclerView
+    private lateinit var progressBar: ProgressBar
+    private lateinit var emptyPlacholderLayout: LinearLayout
+    private lateinit var errorPlaceholderLayout: LinearLayout
+    private lateinit var retryButton: MaterialButton
+    private lateinit var retryEmptyButton: MaterialButton
 
     private lateinit var pets: ArrayList<Pet>
 
@@ -35,10 +45,15 @@ class Home : AppCompatActivity() {
         // hide action bar and status bar
         UiUtil.hideStatusBar(window, resources, theme, R.color.asgardeo_secondary)
 
-        //setPetsCardAdapter()
         setPets()
 
         setSignOutButtonOnClick()
+        setRetryButtonOnClick()
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        setPets()
     }
 
     private fun initializeComponents() {
@@ -46,29 +61,89 @@ class Home : AppCompatActivity() {
         setContentView(binding.root)
         signoutButton = findViewById(R.id.signOutButton)
         petsRecyclerView = findViewById(R.id.petsRecyclerView)
+        progressBar = findViewById(R.id.progressBar)
+        emptyPlacholderLayout = findViewById(R.id.emptyPlacholderLayout)
+        errorPlaceholderLayout = findViewById(R.id.errorPlaceholderLayout)
+        retryButton = findViewById(R.id.retryButton)
+        retryEmptyButton = findViewById(R.id.retryEmptyButton)
+    }
 
+    private fun setRetryButtonOnClick() {
+        retryButton.setOnClickListener {
+            setPets()
+        }
+
+        retryEmptyButton.setOnClickListener {
+            setPets()
+        }
     }
 
     private fun setPets() {
         PetAPI.getPets(
-            applicationContext
-//            GetAllPetsCallback(
-//                onSuccess = { pets ->
-//                    this.pets = pets
-//                },
-//                onError = { },
-//                onFinally = { }
-//                onWaiting = { }
-//
-//            )
+            applicationContext,
+            GetAllPetsCallback(
+                onSuccess = { pets ->
+                    onGetPetsSuccess(pets)
+                },
+                onFailure = {
+                    onGetPetsError()
+                },
+                onWaiting = {
+                    onGetPetsWaiting()
+                },
+                onFinally = {
+                    onGetPetsFinally()
+                }
+            )
         )
     }
 
-//    private fun setPetsCardAdapter() {
-//        val cardAdapter = CardAdapter([])
-//        petsRecyclerView.layoutManager = LinearLayoutManager(this)
-//        petsRecyclerView.adapter = cardAdapter
-//    }
+    private fun onGetPetsSuccess(pets: ArrayList<Pet>) {
+        this.pets = pets
+        setPetsCardAdapter(pets)
+
+        // Show the pets recycler view and hide the loader
+        runOnUiThread {
+            if (this.pets.isEmpty()) {
+                emptyPlacholderLayout.visibility = View.VISIBLE
+            } else {
+                petsRecyclerView.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun onGetPetsError() {
+        // Show the error message and hide the loader
+        runOnUiThread {
+            UiUtil.showSnackBar(binding.root, getString(R.string.error_get_pets))
+            errorPlaceholderLayout.visibility = View.VISIBLE
+        }
+    }
+
+    private fun onGetPetsFinally() {
+        // Hide the loader
+        runOnUiThread {
+            progressBar.visibility = View.GONE
+        }
+    }
+
+    private fun onGetPetsWaiting() {
+        // Show the loader
+        runOnUiThread {
+            progressBar.visibility = View.VISIBLE
+            petsRecyclerView.visibility = View.GONE
+            emptyPlacholderLayout.visibility = View.GONE
+            errorPlaceholderLayout.visibility = View.GONE
+        }
+    }
+
+    private fun setPetsCardAdapter(pets: List<Pet>) {
+        runOnUiThread {
+            val cardAdapter = CardAdapter(pets)
+            petsRecyclerView.layoutManager = LinearLayoutManager(this)
+            petsRecyclerView.adapter = cardAdapter
+        }
+    }
 
     private fun setSignOutButtonOnClick() {
         signoutButton.setOnClickListener {

@@ -26,10 +26,21 @@
     <string name="activity_login_auth_auth_method_totp_auth.totp_value">TOTP Value</string>
     <string name="activity_login_auth_auth_method_totp_auth.continue">Continue</string>
 
+    <!-- Activity Home   -->
+    <string name="activity_home.title">Welcome to Pet Care</string>
+    <string name="activity_home.description">Helping you to take good care of your pets!</string>
+    <string name="activity_home.add_pets">Add Pets</string>
+    <string name="activity_home.pets_list_title">Your Cutie Pets!</string>
+    <string name="activity_home.pets_list_description">You can view your pets here</string>
+    <string name="activity_home.pets_list_empty">You don\'t have any pets yet</string>
+    <string name="activity_home.pets_list_retry">Retry</string>
+
     <!--  Error Messages  -->
     <string name="error_something_went_wrong">Something went wrong</string>
     <string name="error_sign_in_failed">Sign in failed. Please try again.</string>
     <string name="error_api_auth_failed">API authentication failed. Please try again.</string>
+    <string name="error_get_pets">Failed to retrieve your pets. Please try again.</string>
+    <string name="error_not_authorize">You are not authorized to perform this action.</string>
 
     <string name="app_welcome_to">Welcome to</string>
     <string name="app_signout">Sign Out</string>

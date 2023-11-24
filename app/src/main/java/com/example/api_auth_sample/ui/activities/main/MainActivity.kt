@@ -65,19 +65,19 @@ class MainActivity : AppCompatActivity() {
     private fun onAuthenticationFail() {
         UiUtil.showSnackBar(layout, getString(R.string.error_api_auth_failed))
         runOnUiThread {
-            signInLoader.visibility = View.VISIBLE;
+            signInLoader.visibility = View.GONE;
         }
     }
 
     private fun whenAuthentication() {
         runOnUiThread {
-            signInLoader.visibility = View.INVISIBLE;
+            signInLoader.visibility = View.VISIBLE;
         }
     }
 
     private fun finallyAuthentication() {
         runOnUiThread {
-            signInLoader.visibility = View.INVISIBLE;
+            signInLoader.visibility = View.GONE;
         }
     }
 }
