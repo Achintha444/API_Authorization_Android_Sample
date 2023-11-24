@@ -1,4 +1,4 @@
-package com.example.api_auth_sample.api.app_auth_manager
+package com.example.api_auth_sample.model.api.app_auth_manager
 
 class TokenRequestCallback(
     private val onSuccess: (accessToken: String) -> Unit,

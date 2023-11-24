@@ -4,7 +4,7 @@ import com.example.api_auth_sample.api.app_auth_manager.AppAuthManager
 import android.content.Context
 import android.util.Log
 import com.example.api_auth_sample.R
-import com.example.api_auth_sample.api.app_auth_manager.TokenRequestCallback
+import com.example.api_auth_sample.model.api.app_auth_manager.TokenRequestCallback
 import com.example.api_auth_sample.api.cutom_trust_client.CustomTrust
 import com.example.api_auth_sample.controller.ui.activities.fragments.auth.AuthController
 import com.example.api_auth_sample.model.ui.activities.login.fragments.auth.AuthParams
