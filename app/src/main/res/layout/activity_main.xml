@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_background"
     android:foregroundGravity="center"
-    tools:context=".MainActivity">
+    tools:context=".ui.activities.main.MainActivity">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
@@ -20,7 +20,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout="@layout/fragment_logo" />
+        tools:layout="@layout/fragment_common_logo" />
 
     <ProgressBar
         android:id="@+id/signinLoader"
@@ -41,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="@string/main_activity.sign_in"
+        android:text="@string/activity_main.sign_in"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -54,7 +54,7 @@
         android:layout_height="75dp"
         android:layout_marginTop="-8dp"
         android:padding="16px"
-        android:text="@string/main_activity.description"
+        android:text="@string/activity_main.description"
         android:textAlignment="center"
         android:textColor="@color/font_white"
         android:textSize="24sp"

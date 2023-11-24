@@ -14,6 +14,6 @@ class Logo : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_logo, container, false)
+        return inflater.inflate(R.layout.fragment_common_logo, container, false)
     }
 }

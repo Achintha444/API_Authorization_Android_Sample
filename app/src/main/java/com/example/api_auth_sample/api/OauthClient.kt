@@ -6,9 +6,10 @@ import android.util.Log
 import com.example.api_auth_sample.R
 import com.example.api_auth_sample.api.app_auth_manager.TokenRequestCallback
 import com.example.api_auth_sample.api.cutom_trust_client.CustomTrust
-import com.example.api_auth_sample.controller.AuthController
-import com.example.api_auth_sample.model.AuthParams
-import com.example.api_auth_sample.model.FlowStatus
+import com.example.api_auth_sample.controller.ui.activities.fragments.auth.AuthController
+import com.example.api_auth_sample.model.ui.activities.login.fragments.auth.AuthParams
+import com.example.api_auth_sample.model.api.FlowStatus
+import com.example.api_auth_sample.model.data.authenticator.Authenticator
 import com.example.api_auth_sample.util.UiUtil
 import com.example.api_auth_sample.util.Util
 import com.example.api_auth_sample.util.config.Configuration
@@ -80,7 +81,7 @@ class OauthClient {
         @Throws(IOException::class)
         fun authenticate(
             context: Context,
-            authenticator: com.example.api_auth_sample.model.Authenticator,
+            authenticator: Authenticator,
             authParams: AuthParams,
             whenAuthentication: () -> Unit,
             finallyAuthentication: () -> Unit,
