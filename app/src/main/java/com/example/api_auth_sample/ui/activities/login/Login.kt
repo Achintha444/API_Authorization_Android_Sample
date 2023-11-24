@@ -33,7 +33,7 @@ class Login : AppCompatActivity(), AuthFragment.AuthListener {
         initializeComponents()
 
         // hide action bar and status bar
-        UiUtil.hideStatusBar(window, resources, theme, R.color.font_white)
+        UiUtil.hideStatusBar(window, resources, theme, R.color.asgardeo_secondary)
     }
 
     private fun initializeComponents() {

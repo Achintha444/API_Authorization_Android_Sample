@@ -41,7 +41,6 @@ class UiUtil {
         fun hideStatusBar(window: Window, resources: Resources, theme: Theme, color: Int) {
             // Fullscreen mode
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                window.setDecorFitsSystemWindows(false)
                 window.statusBarColor = resources.getColor(color, theme)
             } else {
                 window.setFlags(
