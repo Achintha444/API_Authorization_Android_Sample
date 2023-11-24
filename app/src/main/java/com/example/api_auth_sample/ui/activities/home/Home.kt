@@ -22,6 +22,7 @@ class Home : AppCompatActivity() {
     private lateinit var signoutButton: ImageButton
     private lateinit var doctorsRecyclerView: RecyclerView
     private lateinit var pharmacysRecyclerView: RecyclerView
+    private lateinit var petsRecyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +44,7 @@ class Home : AppCompatActivity() {
         signoutButton.setOnClickListener{
             GoogleSignIn.getClient(this, GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build())
                 .signOut()
-            val intent = Intent(this@Home, MainActivity::class.java);
+            val intent = Intent(this@Home, MainActivity::class.java)
             startActivity(intent)
         }
     }
@@ -52,9 +53,11 @@ class Home : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        signoutButton = findViewById(R.id.signOutButton);
-        doctorsRecyclerView = findViewById(R.id.doctorsRecyledView);
-        pharmacysRecyclerView = findViewById(R.id.pharmacysRecylerView);
+        signoutButton = findViewById(R.id.signOutButton)
+        doctorsRecyclerView = findViewById(R.id.doctorsRecyledView)
+        pharmacysRecyclerView = findViewById(R.id.pharmacysRecylerView)
+//        petsRecyclerView = findViewById(R.id.petsRecylerView)
+
     }
 
     private fun setDoctorsCardAdapter() {

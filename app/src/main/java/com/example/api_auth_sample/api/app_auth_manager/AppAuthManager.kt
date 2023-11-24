@@ -5,7 +5,8 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import com.example.api_auth_sample.api.cutom_trust_client.CustomTrust
-import com.example.api_auth_sample.util.config.Configuration
+import com.example.api_auth_sample.model.api.app_auth_manager.TokenRequestCallback
+import com.example.api_auth_sample.util.config.OauthClientConfiguration
 import net.openid.appauth.AppAuthConfiguration
 import net.openid.appauth.AuthorizationService
 import net.openid.appauth.AuthorizationServiceConfiguration
@@ -15,10 +16,10 @@ import javax.net.ssl.X509TrustManager
 
 class AppAuthManager(private val context: Context) {
 
-    private val clientId: String = Configuration.getInstance(context).clientId
-    private val redirectUri: Uri = Configuration.getInstance(context).redirectUri
-    private val tokenEndpoint: Uri = Configuration.getInstance(context).tokenUri
-    private val authorizeEndpoint: Uri = Configuration.getInstance(context).authorizeUri
+    private val clientId: String = OauthClientConfiguration.getInstance(context).clientId
+    private val redirectUri: Uri = OauthClientConfiguration.getInstance(context).redirectUri
+    private val tokenEndpoint: Uri = OauthClientConfiguration.getInstance(context).tokenUri
+    private val authorizeEndpoint: Uri = OauthClientConfiguration.getInstance(context).authorizeUri
     private val serviceConfig: AuthorizationServiceConfiguration =
         AuthorizationServiceConfiguration(
             Uri.parse(authorizeEndpoint.toString()),  // Authorization endpoint
@@ -40,7 +41,7 @@ class AppAuthManager(private val context: Context) {
             .setClientId(clientId)
             .setRedirectUri(redirectUri)
             .build()
-        val authService: AuthorizationService = AuthorizationService(
+        val authService = AuthorizationService(
             context,
             AppAuthConfiguration.Builder()
                 .setConnectionBuilder { url ->

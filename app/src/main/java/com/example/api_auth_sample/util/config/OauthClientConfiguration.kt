@@ -11,7 +11,7 @@ import java.lang.ref.WeakReference
 /**
  * Reads and validates the configuration from the res/values/config file.
  */
-class Configuration private constructor(context: Context) {
+class OauthClientConfiguration private constructor(context: Context) {
     private val mResources: Resources
     private var mBaseUri: Uri? = null
     private var mAuthorizeUri: Uri? = null
@@ -114,18 +114,18 @@ class Configuration private constructor(context: Context) {
      */
     private fun readConfiguration() {
 
-        mBaseUri = getRequiredUri(mResources.getString(R.string.base_url))
+        mBaseUri = getRequiredUri(mResources.getString(R.string.oauth_client_base_url))
 
         mAuthorizeUri = getRequiredUri(mBaseUri.toString() + "/oauth2/authorize")
         mAuthorizeNextUri = getRequiredUri(mBaseUri.toString() + "/oauth2/authn")
         mTokenUri = getRequiredUri(mBaseUri.toString() + "/oauth2/token")
-        mClientId = getRequiredConfigString(mResources.getString(R.string.client_id))
-        mRedirectUri = getRequiredUri(mResources.getString(R.string.redirect_uri))
-        mScope = getRequiredConfigString(mResources.getString(R.string.scope))
-        mState = getRequiredConfigString(mResources.getString(R.string.state))
-        mResponseMode = getRequiredConfigString(mResources.getString(R.string.response_mode))
-        mResponseType = getRequiredConfigString(mResources.getString(R.string.response_type))
-        mGoogleWebClientId = getRequiredConfigString(mResources.getString(R.string.google_web_client_id))
+        mClientId = getRequiredConfigString(mResources.getString(R.string.oauth_client_client_id))
+        mRedirectUri = getRequiredUri(mResources.getString(R.string.oauth_client_redirect_uri))
+        mScope = getRequiredConfigString(mResources.getString(R.string.oauth_client_scope))
+        mState = getRequiredConfigString(mResources.getString(R.string.oauth_client_state))
+        mResponseMode = getRequiredConfigString(mResources.getString(R.string.oauth_client_response_mode))
+        mResponseType = getRequiredConfigString(mResources.getString(R.string.oauth_client_response_type))
+        mGoogleWebClientId = getRequiredConfigString(mResources.getString(R.string.oauth_client_google_web_client_id))
     }
 
     /**
@@ -175,7 +175,7 @@ class Configuration private constructor(context: Context) {
     }
 
     companion object {
-        private var sInstance = WeakReference<Configuration?>(null)
+        private var sInstance = WeakReference<OauthClientConfiguration?>(null)
         private const val LOG_TAG = "Configuration"
 
         /**
@@ -184,10 +184,10 @@ class Configuration private constructor(context: Context) {
          * @param context Context object with information about the current state of the application.
          * @return FileBasedConfiguration instance.
          */
-        fun getInstance(context: Context): Configuration {
+        fun getInstance(context: Context): OauthClientConfiguration {
             var config = sInstance.get()
             if (config == null) {
-                config = Configuration(context)
+                config = OauthClientConfiguration(context)
                 sInstance = WeakReference(config)
             }
             return config

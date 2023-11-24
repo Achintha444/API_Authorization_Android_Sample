@@ -10,9 +10,10 @@ import com.example.api_auth_sample.controller.ui.activities.fragments.auth.AuthC
 import com.example.api_auth_sample.model.ui.activities.login.fragments.auth.AuthParams
 import com.example.api_auth_sample.model.api.FlowStatus
 import com.example.api_auth_sample.model.data.authenticator.Authenticator
+import com.example.api_auth_sample.model.util.uiUtil.SharedPreferencesKeys
 import com.example.api_auth_sample.util.UiUtil
 import com.example.api_auth_sample.util.Util
-import com.example.api_auth_sample.util.config.Configuration
+import com.example.api_auth_sample.util.config.OauthClientConfiguration
 import com.fasterxml.jackson.databind.JsonNode
 import okhttp3.Call
 import okhttp3.Callback
@@ -26,6 +27,9 @@ import java.io.IOException
 class OauthClient {
 
     companion object {
+
+        private val client: OkHttpClient = CustomTrust.getInstance().client
+
         @Throws(IOException::class)
         fun authorize(
             context: Context,
@@ -35,44 +39,42 @@ class OauthClient {
             onFailureCallback: () -> Unit
         ) {
 
-            val client: OkHttpClient = CustomTrust.getInstance().client
-
-            whenAuthentication();
+            whenAuthentication()
 
             // authorize URL
-            val url: String = Configuration.getInstance(context).authorizeUri.toString()
+            val url: String = OauthClientConfiguration.getInstance(context).authorizeUri.toString()
 
             // POST form parameters
             val formBody: RequestBody = FormBody.Builder()
-                .add("client_id", Configuration.getInstance(context).clientId)
-                .add("response_type", Configuration.getInstance(context).responseType)
-                .add("redirect_uri", Configuration.getInstance(context).redirectUri.toString())
-                .add("state", Configuration.getInstance(context).state)
-                .add("scope", Configuration.getInstance(context).scope)
-                .add("response_mode", Configuration.getInstance(context).responseMode)
-                .build();
+                .add("client_id", OauthClientConfiguration.getInstance(context).clientId)
+                .add("response_type", OauthClientConfiguration.getInstance(context).responseType)
+                .add("redirect_uri", OauthClientConfiguration.getInstance(context).redirectUri.toString())
+                .add("state", OauthClientConfiguration.getInstance(context).state)
+                .add("scope", OauthClientConfiguration.getInstance(context).scope)
+                .add("response_mode", OauthClientConfiguration.getInstance(context).responseMode)
+                .build()
 
-            val request: Request = Request.Builder().url(url).post(formBody).build();
+            val request: Request = Request.Builder().url(url).post(formBody).build()
 
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
-                    println(e);
-                    onFailureCallback();
-                    finallyAuthentication();
+                    println(e)
+                    onFailureCallback()
+                    finallyAuthentication()
                 }
 
                 @Throws(IOException::class)
                 override fun onResponse(call: Call, response: Response) {
                     try {
                         // reading the json
-                        val model: JsonNode = Util.getJsonObject(response.body!!.string());
+                        val model: JsonNode = Util.getJsonObject(response.body!!.string())
 
-                        onSuccessCallback(model);
+                        onSuccessCallback(model)
                     } catch (e: Exception) {
-                        println(e);
-                        onFailureCallback();
+                        println(e)
+                        onFailureCallback()
                     } finally {
-                        finallyAuthentication();
+                        finallyAuthentication()
                     }
                 }
             })
@@ -89,27 +91,26 @@ class OauthClient {
             onFailureCallback: () -> Unit
         ) {
 
-            val client: OkHttpClient = CustomTrust.getInstance().client
-            val flowId: String? = UiUtil.readFromSharedPreferences(
+            val flowId: String = UiUtil.readFromSharedPreferences(
                 context.getSharedPreferences(
                     R.string.app_name.toString(), Context.MODE_PRIVATE
-                ), "flowId"
+                ), SharedPreferencesKeys.FLOW_ID.key
             ).toString()
 
-            whenAuthentication();
+            whenAuthentication()
 
             // authorize next URL
-            val url: String = Configuration.getInstance(context).authorizeNextUri.toString();
+            val url: String = OauthClientConfiguration.getInstance(context).authorizeNextUri.toString()
 
             val request: Request = Request.Builder().url(url)
                 .post(AuthController.buildRequestBodyForAuth(flowId, authenticator, authParams))
-                .build();
+                .build()
 
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
-                    println(e);
-                    onFailureCallback();
-                    finallyAuthentication();
+                    println(e)
+                    onFailureCallback()
+                    finallyAuthentication()
                 }
 
                 @Throws(IOException::class)
@@ -144,7 +145,7 @@ class OauthClient {
                             onFailureCallback()
                         }
                     } catch (e: IOException) {
-                        println(e);
+                        println(e)
                         onFailureCallback()
                     } finally {
                         finallyAuthentication()
@@ -160,18 +161,18 @@ class OauthClient {
             onFailureCallback: () -> Unit
         ) {
 
-            val appAuthManager: AppAuthManager = AppAuthManager(context)
+            val appAuthManager = AppAuthManager(context)
             val authorizationCode: String = model!!.get("code").asText()
 
             appAuthManager.exchangeAuthorizationCodeForAccessToken(authorizationCode, TokenRequestCallback(
                 onSuccess = { accessToken: String ->
                     UiUtil.writeToSharedPreferences(
                         context.getSharedPreferences(R.string.app_name.toString(),
-                            Context.MODE_PRIVATE), "accessToken", accessToken)
-                    onSuccessCallback(model);
+                            Context.MODE_PRIVATE), SharedPreferencesKeys.ACCESS_TOKEN.key, accessToken)
+                    onSuccessCallback(model)
                 },
                 onFailure = { error: java.lang.Exception ->
-                    Log.e("oken request failed", error.toString())
+                    Log.e("Token request failed", error.toString())
                     onFailureCallback()
                 }
             ))

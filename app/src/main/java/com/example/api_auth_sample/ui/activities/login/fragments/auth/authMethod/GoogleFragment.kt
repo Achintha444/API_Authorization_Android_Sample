@@ -14,7 +14,7 @@ import com.example.api_auth_sample.model.ui.activities.login.fragments.auth.Auth
 import com.example.api_auth_sample.model.data.authenticator.Authenticator
 import com.example.api_auth_sample.controller.ui.activities.fragments.auth.authMethods.AuthenticatorFragment
 import com.example.api_auth_sample.model.ui.activities.login.fragments.auth.authMethod.google.GoogleSignInActivityResultContract
-import com.example.api_auth_sample.util.config.Configuration
+import com.example.api_auth_sample.util.config.OauthClientConfiguration
 import com.fasterxml.jackson.databind.JsonNode
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -23,10 +23,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 
-
 class GoogleFragment : Fragment(), AuthenticatorFragment {
 
-    private var TAG = "GoogleFragment";
+    private var TAG = "GoogleFragment"
 
     private lateinit var googleButton: Button
     private lateinit var layout: View
@@ -43,13 +42,13 @@ class GoogleFragment : Fragment(), AuthenticatorFragment {
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestServerAuthCode(Configuration.getInstance(requireContext()).googleWebClientId)
-            .requestIdToken(Configuration.getInstance(requireContext()).googleWebClientId)
+            .requestServerAuthCode(OauthClientConfiguration.getInstance(requireContext()).googleWebClientId)
+            .requestIdToken(OauthClientConfiguration.getInstance(requireContext()).googleWebClientId)
             .requestEmail()
             .build()
 
         // Build a GoogleSignInClient with the options specified by gso.
-        mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), googleSignInOptions);
+        mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), googleSignInOptions)
 
         signInLauncher = registerForActivityResult(
             GoogleSignInActivityResultContract(mGoogleSignInClient)
@@ -67,7 +66,7 @@ class GoogleFragment : Fragment(), AuthenticatorFragment {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_login_auth_auth_method_google, container, false)
 
@@ -90,7 +89,7 @@ class GoogleFragment : Fragment(), AuthenticatorFragment {
     }
 
     override fun onAuthorizeSuccess(authorizeObj: JsonNode) {
-        this.handleActivityTransition(requireContext(), authorizeObj);
+        this.handleActivityTransition(requireContext(), authorizeObj)
     }
 
     override fun onAuthorizeFail() {
@@ -99,13 +98,13 @@ class GoogleFragment : Fragment(), AuthenticatorFragment {
 
     override fun whenAuthorizing() {
         requireActivity().runOnUiThread {
-            googleButton.isEnabled = false;
+            googleButton.isEnabled = false
         }
     }
 
     override fun finallyAuthorizing() {
         requireActivity().runOnUiThread {
-            googleButton.isEnabled = true;
+            googleButton.isEnabled = true
         }
     }
 
@@ -127,7 +126,7 @@ class GoogleFragment : Fragment(), AuthenticatorFragment {
                 ::finallyAuthorizing,
                 ::onAuthorizeSuccess,
                 ::onAuthorizeFail
-            );
+            )
         } catch (e: ApiException) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
