@@ -1,15 +1,30 @@
 package com.example.api_auth_sample.model.api.app_auth_manager
 
+import com.example.api_auth_sample.model.api.Callback
+
+/**
+ * Callback to be used when requesting an access token.
+ * @param onSuccess Callback to be called when the token request is finished successfully.
+ * @param onFailure Callback to be called when the token request has failed.
+ */
 class TokenRequestCallback(
     private val onSuccess: (accessToken: String) -> Unit,
     private val onFailure: (error: Exception) -> Unit
-) {
+): Callback<String>() {
 
-    fun onTokenReceived(accessToken: String) {
-        onSuccess.invoke(accessToken)
+    /**
+     * Called when the token request is finished successfully.
+     * @param result The access token.
+     */
+    override fun onSuccess(result: String?) {
+        onSuccess.invoke(result!!)
     }
 
-    fun onTokenRequestFailed(error: Exception) {
-        onFailure.invoke(error)
+    /**
+     * Called when the token request has failed.
+     * @param error The error that caused the failure.
+     */
+    override fun onFailure(error: Exception?) {
+        onFailure.invoke(error!!)
     }
 }

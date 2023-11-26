@@ -61,18 +61,18 @@ class AppAuthManager(private val context: Context) {
                     val accessToken: String = response.accessToken!!
                     Log.d(TAG, "Access Token: $accessToken")
                     // Invoke the callback with the access token
-                    callback.onTokenReceived(accessToken)
+                    callback.onSuccess(accessToken)
                 } else {
                     // Token request failed
                     Log.e(TAG, "Token request failed: $ex")
                     // Invoke the callback with the error
-                    callback.onTokenRequestFailed(ex ?: RuntimeException("Token request failed"))
+                    callback.onFailure(ex ?: RuntimeException("Token request failed"))
                 }
             }
         } catch (ex: Exception) {
             Log.e(TAG, "Token request failed: $ex")
             // Invoke the callback with the error
-            callback.onTokenRequestFailed(ex)
+            callback.onFailure(ex)
         } finally {
             authService.dispose()
         }
