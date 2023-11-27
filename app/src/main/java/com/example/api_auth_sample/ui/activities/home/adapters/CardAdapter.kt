@@ -13,7 +13,7 @@ class CardAdapter(private val items: List<Any>) : RecyclerView.Adapter<RecyclerV
     }
 
     class PetsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val petName: TextView = itemView.findViewById(R.id.petName)
+        val petName: TextView = itemView.findViewById(R.id.petNameForm)
         val petBreed: TextView = itemView.findViewById(R.id.petBreed)
         val petDob: TextView = itemView.findViewById(R.id.petDob)
         val petOwner: TextView = itemView.findViewById(R.id.petOwner)

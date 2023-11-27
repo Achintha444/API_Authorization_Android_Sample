@@ -10,6 +10,10 @@ data class Pet (
      */
     val owner: String? = null,
     /**
+     * Name of the pet
+     */
+    val name: String? = null,
+    /**
      * Breed of the pet
      */
     val breed: String? = null,
@@ -17,10 +21,6 @@ data class Pet (
      * Date of birth of the pet
      */
     val dateOfBirth: String? = null,
-    /**
-     * Name of the pet
-     */
-    val name: String? = null,
     /**
      * Vaccinations history of the pet
      */

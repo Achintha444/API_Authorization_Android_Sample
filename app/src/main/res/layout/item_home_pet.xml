@@ -40,7 +40,7 @@
                     android:showDividers="middle">
 
                     <TextView
-                        android:id="@+id/petName"
+                        android:id="@+id/petNameForm"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="8dp"

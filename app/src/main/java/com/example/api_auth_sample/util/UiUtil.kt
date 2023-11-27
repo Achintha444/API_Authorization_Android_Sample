@@ -8,8 +8,12 @@ import androidx.appcompat.app.ActionBar
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import com.example.api_auth_sample.R
 import com.google.android.material.snackbar.Snackbar
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONArray
 
 class UiUtil {
 
@@ -48,6 +52,20 @@ class UiUtil {
                     WindowManager.LayoutParams.FLAG_FULLSCREEN
                 )
             }
+        }
+
+        /**
+         * Serialize a list of objects to a JSON array
+         * @param list The list of objects to serialize
+         */
+        fun serializeList(list: List<Any>): RequestBody {
+            val jsonArray = JSONArray(list)
+
+            // Create a JSON request body
+            val jsonMediaType: MediaType = "application/json; charset=utf-8".toMediaTypeOrNull()
+                ?: throw IllegalArgumentException("serializeList: Invalid media type")
+
+            return jsonArray.toString().toRequestBody(jsonMediaType)
         }
     }
 

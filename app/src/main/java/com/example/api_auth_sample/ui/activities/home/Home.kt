@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +18,7 @@ import com.example.api_auth_sample.databinding.ActivityHomeBinding
 import com.example.api_auth_sample.model.api.data_source.pet.GetAllPetsCallback
 import com.example.api_auth_sample.model.data.Pet
 import com.example.api_auth_sample.model.util.uiUtil.SharedPreferencesKeys
+import com.example.api_auth_sample.ui.activities.add_pet.AddPet
 import com.example.api_auth_sample.util.UiUtil
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -34,6 +34,7 @@ class Home : AppCompatActivity() {
     private lateinit var errorPlaceholderLayout: LinearLayout
     private lateinit var retryButton: MaterialButton
     private lateinit var retryEmptyButton: MaterialButton
+    private lateinit var addPetButton: MaterialButton
 
     private lateinit var pets: ArrayList<Pet>
 
@@ -49,6 +50,7 @@ class Home : AppCompatActivity() {
 
         setSignOutButtonOnClick()
         setRetryButtonOnClick()
+        addPetButtonOnClick()
     }
 
     override fun onRestart() {
@@ -59,13 +61,14 @@ class Home : AppCompatActivity() {
     private fun initializeComponents() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        signoutButton = findViewById(R.id.signOutButton)
+        signoutButton = findViewById(R.id.backButton)
         petsRecyclerView = findViewById(R.id.petsRecyclerView)
-        progressBar = findViewById(R.id.progressBar)
+        progressBar = findViewById(R.id.activityAddPetProgressBar)
         emptyPlacholderLayout = findViewById(R.id.emptyPlacholderLayout)
         errorPlaceholderLayout = findViewById(R.id.errorPlaceholderLayout)
         retryButton = findViewById(R.id.retryButton)
         retryEmptyButton = findViewById(R.id.retryEmptyButton)
+        addPetButton = findViewById(R.id.addPetButtonHome)
     }
 
     private fun setRetryButtonOnClick() {
@@ -159,6 +162,14 @@ class Home : AppCompatActivity() {
             // Redirect to the login page
             val intent = Intent(this@Home, MainActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    private fun addPetButtonOnClick() {
+        addPetButton.setOnClickListener {
+            val intent = Intent(this@Home, AddPet::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 }
