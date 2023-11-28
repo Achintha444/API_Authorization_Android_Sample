@@ -18,7 +18,7 @@
 
         <fragment
             android:id="@+id/logoView"
-            android:name="com.example.api_auth_sample.ui.common.Logo"
+            android:name="com.wso2_sample.api_auth_sample.ui.common.Logo"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_centerInParent="true"
@@ -61,7 +61,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/authLayoutView"
-        android:name="com.example.api_auth_sample.ui.activities.login.fragments.auth.AuthFragment"
+        android:name="com.wso2_sample.api_auth_sample.ui.activities.login.fragments.auth.AuthFragment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"

@@ -22,7 +22,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/basicAuthView"
-        android:name="com.example.api_auth_sample.ui.activities.login.fragments.auth.authMethod.BasicAuth"
+        android:name="com.wso2_sample.api_auth_sample.ui.activities.login.fragments.auth.authMethod.BasicAuth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
@@ -54,7 +54,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fidoAuthView"
-        android:name="com.example.api_auth_sample.ui.activities.login.fragments.auth.authMethod.FidoFragment"
+        android:name="com.wso2_sample.api_auth_sample.ui.activities.login.fragments.auth.authMethod.FidoFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -66,7 +66,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/googleIdpView"
-        android:name="com.example.api_auth_sample.ui.activities.login.fragments.auth.authMethod.GoogleFragment"
+        android:name="com.wso2_sample.api_auth_sample.ui.activities.login.fragments.auth.authMethod.GoogleFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -79,7 +79,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/totpIdpView"
-        android:name="com.example.api_auth_sample.ui.activities.login.fragments.auth.authMethod.TotpFragment"
+        android:name="com.wso2_sample.api_auth_sample.ui.activities.login.fragments.auth.authMethod.TotpFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
