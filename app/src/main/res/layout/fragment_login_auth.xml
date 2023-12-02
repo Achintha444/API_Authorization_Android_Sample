@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/basicAuthView">
@@ -79,7 +79,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/totpIdpView"
-        android:name="com.wso2_sample.api_auth_sample.ui.activities.login.fragments.auth.authMethod.TotpFragment"
+        android:name="com.wso2_sample.api_auth_sample.ui.activities.login.fragments.auth.authMethod.totp.TotpFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -87,6 +87,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/googleIdpView"
-        tools:layout="@layout/fragment_login_auth_auth_method_totp" />
+        tools:layout="@layout/fragment_login_auth_auth_method_totp_totp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

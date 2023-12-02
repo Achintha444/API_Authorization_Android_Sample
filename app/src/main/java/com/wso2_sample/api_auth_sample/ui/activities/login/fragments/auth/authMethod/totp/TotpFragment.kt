@@ -1,4 +1,4 @@
-package com.wso2_sample.api_auth_sample.ui.activities.login.fragments.auth.authMethod
+package com.wso2_sample.api_auth_sample.ui.activities.login.fragments.auth.authMethod.totp
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,19 +7,19 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import com.fasterxml.jackson.databind.JsonNode
 import com.wso2_sample.api_auth_sample.R
 import com.wso2_sample.api_auth_sample.api.oauth_client.OauthClient
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.authMethods.AuthenticatorFragment
 import com.wso2_sample.api_auth_sample.model.data.authenticator.Authenticator
 import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.AuthParams
-import com.fasterxml.jackson.databind.JsonNode
+import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.authMethod.totp.TotpContentListener
 
-class TotpFragment : Fragment(), AuthenticatorFragment {
+class TotpFragment : Fragment(), AuthenticatorFragment, TotpContentListener {
 
-    private lateinit var layout: View
-    private lateinit var totpContinueButton: Button
-    private lateinit var totpValue: EditText
+    private lateinit var totpButton: Button
     override var authenticator: Authenticator? = null
+    private val totpContent = TotpContent()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,7 +27,7 @@ class TotpFragment : Fragment(), AuthenticatorFragment {
     ): View {
         // Inflate the layout for this fragment
         val view: View =
-            inflater.inflate(R.layout.fragment_login_auth_auth_method_totp, container, false)
+            inflater.inflate(R.layout.fragment_login_auth_auth_method_totp_totp, container, false)
         initializeComponents(view)
 
         setTotpContinueButtonListener()
@@ -36,48 +36,55 @@ class TotpFragment : Fragment(), AuthenticatorFragment {
     }
 
     private fun initializeComponents(view: View) {
-        layout = view.findViewById(R.id.totpIdpView)
-        totpContinueButton = view.findViewById(R.id.totpContinueButton)
-        totpValue = view.findViewById(R.id.totpValue)
+        totpButton = view.findViewById(R.id.totpButton)
     }
 
     private fun setTotpContinueButtonListener() {
-        totpContinueButton.setOnClickListener {
-            OauthClient.authenticate(
-                requireContext(),
-                authenticator!!,
-                getAuthParams(),
-                ::whenAuthorizing,
-                ::finallyAuthorizing,
-                ::onAuthorizeSuccess,
-                ::onAuthorizeFail
-            )
+        totpButton.setOnClickListener {
+            totpContent.setListener(this)
+            totpContent.show(parentFragmentManager, TotpContent.TAG)
         }
     }
 
+    override fun onTotpButtonClicked() {
+        OauthClient.authenticate(
+            requireContext(),
+            authenticator!!,
+            getAuthParams(),
+            ::whenAuthorizing,
+            ::finallyAuthorizing,
+            ::onAuthorizeSuccess,
+            ::onAuthorizeFail
+        )
+    }
+
     override fun getAuthParams(): AuthParams {
-        val totp: String = totpValue.text.toString()
+        val totp: String = totpContent.getTotpValue().text.toString()
 
         return AuthParams(totp = totp)
     }
 
     override fun onAuthorizeSuccess(authorizeObj: JsonNode) {
+        // remove totp content bottom sheet
+        totpContent.dismiss()
+
         this.handleActivityTransition(requireContext(), authorizeObj);
+
     }
 
     override fun onAuthorizeFail() {
-        this.showSignInError(layout, requireContext())
+        this.showSignInError(totpContent.getLayout(), requireContext())
     }
 
     override fun whenAuthorizing() {
         requireActivity().runOnUiThread {
-            totpContinueButton.isEnabled = false
+            totpContent.getTotpContinueButton().isEnabled = false
         }
     }
 
     override fun finallyAuthorizing() {
         requireActivity().runOnUiThread {
-            totpContinueButton.isEnabled = true
+            totpContent.getTotpContinueButton().isEnabled = true
         }
     }
 }
