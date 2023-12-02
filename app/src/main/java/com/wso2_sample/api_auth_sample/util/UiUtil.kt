@@ -57,20 +57,6 @@ class UiUtil {
                 )
             }
         }
-
-        /**
-         * Serialize a list of objects to a JSON array
-         * @param list The list of objects to serialize
-         */
-        fun serializeList(list: List<Any>): RequestBody {
-            val jsonArray = JSONArray(list)
-
-            // Create a JSON request body
-            val jsonMediaType: MediaType = "application/json; charset=utf-8".toMediaTypeOrNull()
-                ?: throw IllegalArgumentException("serializeList: Invalid media type")
-
-            return jsonArray.toString().toRequestBody(jsonMediaType)
-        }
     }
 
 }

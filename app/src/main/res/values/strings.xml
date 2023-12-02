@@ -9,6 +9,7 @@
     <!-- Activity Login   -->
     <string name="activity_login.title">Welcome to Pet Care</string>
     <string name="activity_login.description">Let\'s take care of your cutie pets!</string>
+    <string name="activity_login.or_sign_in_with">Or Sign in With</string>
 
     <!-- Basic Auth -->
     <string name="activity_login_auth_auth_method_basic_auth.username">Username</string>
@@ -35,6 +36,12 @@
     <string name="activity_home.pets_list_description">You can view your pets here</string>
     <string name="activity_home.pets_list_empty">You don\'t have any pets yet</string>
     <string name="activity_home.pets_list_retry">Retry</string>
+
+    <!-- Item Pet  -->
+    <string name="item_home_pet.pet_name">Pet Name</string>
+    <string name="item_home_pet.pet_breed">Pet Breed</string>
+    <string name="item_home_pet.pet_dob">Pet Date of Birth</string>
+    <string name="item_home_pet.pet_owner">Pet Owner</string>
 
     <!-- Activity Add Pet  -->
     <string name="activity_add_pet.title">Add Pet</string>

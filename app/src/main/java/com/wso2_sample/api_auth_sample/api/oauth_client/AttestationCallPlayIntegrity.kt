@@ -49,8 +49,7 @@ class AttestationCallPlayIntegrity {
         }
 
         /**
-         * generates a nonce. Depending on [nonceGeneration] this happens locally on the device or
-         * remotely on a server with the url [apiServerUrl]
+         * Generates a nonce locally
          */
         private fun generateNonce(): String {
             return getNonceLocal(50)

@@ -1,3 +1,5 @@
+package com.wso2_sample.api_auth_sample.ui.activities.home.adapters
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,9 +20,6 @@ class CardAdapter(private val items: List<Any>) : RecyclerView.Adapter<RecyclerV
         val petDob: TextView = itemView.findViewById(R.id.petDob)
         val petOwner: TextView = itemView.findViewById(R.id.petOwner)
     }
-
-    // ViewHolder for Separator
-    class SeparatorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {

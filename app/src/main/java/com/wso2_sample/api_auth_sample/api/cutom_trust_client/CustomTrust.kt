@@ -44,7 +44,7 @@ class CustomTrust private constructor() {
             .hostnameVerifier { _, _ -> true } // Bypass hostname verification
             .connectTimeout(45, TimeUnit.SECONDS)
             .readTimeout(45, TimeUnit.SECONDS)
-            .protocols(listOf<Protocol>(Protocol.HTTP_1_1))
+            .protocols(listOf(Protocol.HTTP_1_1))
             .build()
     }
 

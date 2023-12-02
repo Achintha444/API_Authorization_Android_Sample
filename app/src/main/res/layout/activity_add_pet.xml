@@ -69,11 +69,6 @@
                 android:text="@string/activity_add_pet.description"
                 android:textColor="@color/font_accent_black"
                 android:textSize="12sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"></LinearLayout>
         </LinearLayout>
 
         <ProgressBar

@@ -46,7 +46,7 @@ class AuthFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var bundle: Bundle? = arguments;
+        val bundle: Bundle? = arguments;
 
         if (bundle != null) {
             setAuthenticators(bundle)

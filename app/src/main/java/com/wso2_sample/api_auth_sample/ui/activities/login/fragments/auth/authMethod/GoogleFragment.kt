@@ -25,7 +25,7 @@ import com.google.android.gms.tasks.Task
 
 class GoogleFragment : Fragment(), AuthenticatorFragment {
 
-    private var TAG = "GoogleFragment"
+    private val tag = "GoogleFragment"
 
     private lateinit var googleButton: Button
     private lateinit var layout: View
@@ -134,7 +134,7 @@ class GoogleFragment : Fragment(), AuthenticatorFragment {
         } catch (e: ApiException) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.w(TAG, "signInResult:failed code=" + e.statusCode)
+            Log.w(tag, "signInResult:failed code=" + e.statusCode)
             onAuthorizeFail()
         }
     }

@@ -139,16 +139,8 @@ class OauthClientConfiguration private constructor(context: Context) {
      */
     private fun getRequiredConfigString(configString: String): String? {
         var value: String? = configString
-        if (value != null) {
-            if (TextUtils.isEmpty(value)) {
-                value = null
-            }
-        }
-        if (value == null) {
-            Log.e(
-                LOG_TAG,
-                "value is required for getRequiredConfigString but not specified"
-            )
+        if (TextUtils.isEmpty(value)) {
+            value = null
         }
         return value
     }

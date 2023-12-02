@@ -1,6 +1,6 @@
 package com.wso2_sample.api_auth_sample.ui.activities.home
 
-import CardAdapter
+import com.wso2_sample.api_auth_sample.ui.activities.home.adapters.CardAdapter
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle

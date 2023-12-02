@@ -63,7 +63,7 @@ class Login : AppCompatActivity(), AuthFragment.AuthListener {
     override fun onAuthenticatorPassed(authenticator: Authenticator) {
 
         val authFragment: Fragment? = fragmentManager.findFragmentById(R.id.authLayoutView);
-        val authChildFragmentManager: FragmentManager? = authFragment!!.childFragmentManager;
+        val authChildFragmentManager: FragmentManager = authFragment!!.childFragmentManager;
         lateinit var authView: AuthenticatorFragment
 
         when (authenticator.authenticator) {
