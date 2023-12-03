@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.res.Resources
 import android.net.Uri
 import android.text.TextUtils
-import android.util.Log
 import com.wso2_sample.api_auth_sample.R
 import java.lang.ref.WeakReference
 

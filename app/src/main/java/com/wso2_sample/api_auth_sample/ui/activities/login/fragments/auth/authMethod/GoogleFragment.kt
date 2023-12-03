@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import com.wso2_sample.api_auth_sample.R
 import com.wso2_sample.api_auth_sample.api.oauth_client.OauthClient
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.authMethods.AuthenticatorFragment
-import com.wso2_sample.api_auth_sample.model.data.authenticator.Authenticator
 import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.AuthParams
 import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.authMethod.google.GoogleSignInActivityResultContract
 import com.wso2_sample.api_auth_sample.util.config.OauthClientConfiguration
@@ -22,6 +21,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.data.authenticator.Authenticator
 
 class GoogleFragment : Fragment(), AuthenticatorFragment {
 

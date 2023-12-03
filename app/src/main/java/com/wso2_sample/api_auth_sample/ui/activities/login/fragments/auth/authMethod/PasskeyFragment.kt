@@ -9,11 +9,11 @@ import androidx.fragment.app.Fragment
 import com.wso2_sample.api_auth_sample.R
 import com.wso2_sample.api_auth_sample.api.oauth_client.OauthClient
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.authMethods.AuthenticatorFragment
-import com.wso2_sample.api_auth_sample.model.data.authenticator.Authenticator
 import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.AuthParams
 import com.fasterxml.jackson.databind.JsonNode
+import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.data.authenticator.Authenticator
 
-class FidoFragment : Fragment(), AuthenticatorFragment {
+class PasskeyFragment : Fragment(), AuthenticatorFragment {
 
     private lateinit var fidoButton: Button
     private lateinit var layout: View
@@ -25,7 +25,7 @@ class FidoFragment : Fragment(), AuthenticatorFragment {
     ): View {
         // Inflate the layout for this fragment
         val view: View =
-            inflater.inflate(R.layout.fragment_login_auth_auth_method_fido, container, false)
+            inflater.inflate(R.layout.fragment_login_auth_auth_method_passkey, container, false)
 
         initializeComponents(view)
 

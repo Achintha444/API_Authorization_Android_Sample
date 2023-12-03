@@ -1,8 +1,9 @@
 package com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth
 
 import android.view.View
-import com.wso2_sample.api_auth_sample.model.data.authenticator.Authenticator
+import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.data.authenticator.Authenticator
 import com.wso2_sample.api_auth_sample.model.data.authenticator.AuthenticatorType
+import com.wso2_sample.api_auth_sample.model.data.authenticator.basicAuth.BasicAuthAuthenticator
 import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.AuthParams
 import com.wso2_sample.api_auth_sample.util.Constants
 import com.wso2_sample.api_auth_sample.util.Util
@@ -132,7 +133,7 @@ class AuthController {
             val selectedAuthenticator = LinkedHashMap<String, Any>();
             selectedAuthenticator["authenticatorId"] = authenticator.authenticatorId;
             when (authenticator.authenticator) {
-                AuthenticatorType.BASIC.authenticator -> {
+                BasicAuthAuthenticator.AUTHENTICATOR_TYPE -> {
                     selectedAuthenticator["params"] =
                         getParamBodyForBasicAuth(authParams.username!!, authParams.password!!)
                 }

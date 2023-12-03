@@ -8,7 +8,6 @@ import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.A
 import com.wso2_sample.api_auth_sample.model.api.FlowStatus
 import com.wso2_sample.api_auth_sample.model.api.app_auth_manager.TokenRequestCallback
 import com.wso2_sample.api_auth_sample.model.api.oauth_client.AttestationCallback
-import com.wso2_sample.api_auth_sample.model.data.authenticator.Authenticator
 import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.AuthParams
 import com.wso2_sample.api_auth_sample.model.util.uiUtil.SharedPreferencesKeys
 import com.wso2_sample.api_auth_sample.util.UiUtil
@@ -16,6 +15,7 @@ import com.wso2_sample.api_auth_sample.util.Util
 import com.wso2_sample.api_auth_sample.util.config.OauthClientConfiguration
 import com.fasterxml.jackson.databind.JsonNode
 import com.wso2_sample.api_auth_sample.api.app_auth_manager.AppAuthManager
+import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.data.authenticator.Authenticator
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.FormBody

@@ -54,7 +54,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fidoAuthView"
-        android:name="com.wso2_sample.api_auth_sample.ui.activities.login.fragments.auth.authMethod.FidoFragment"
+        android:name="com.wso2_sample.api_auth_sample.ui.activities.login.fragments.auth.authMethod.PasskeyFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -62,7 +62,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/orSignInText"
-        tools:layout="@layout/fragment_login_auth_auth_method_fido" />
+        tools:layout="@layout/fragment_login_auth_auth_method_passkey" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/googleIdpView"

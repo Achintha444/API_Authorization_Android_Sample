@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import com.wso2_sample.api_auth_sample.R
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.AuthController
-import com.wso2_sample.api_auth_sample.model.data.authenticator.Authenticator
 import com.wso2_sample.api_auth_sample.model.data.authenticator.AuthenticatorType
 import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.Step
 import com.wso2_sample.api_auth_sample.model.util.uiUtil.SharedPreferencesKeys
@@ -18,6 +17,7 @@ import com.wso2_sample.api_auth_sample.util.UiUtil
 import com.wso2_sample.api_auth_sample.util.Util
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JsonNode
+import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.data.authenticator.Authenticator
 
 class AuthFragment : Fragment() {
     private lateinit var flowId: String
@@ -83,8 +83,10 @@ class AuthFragment : Fragment() {
         val stepString: String? = bundle.getString("stepString")
         val stepNode: JsonNode = Util.getJsonObject(stepString!!)
         val stepTypeReference = object : TypeReference<Step>() {}
+        val xx = Util.jsonNodeToObject(stepNode, stepTypeReference)
 
-        authenticators = Util.jsonNodeToObject(stepNode, stepTypeReference).authenticators
+        authenticators = xx.authenticators
+        val x = 1
     }
 
     private fun setFlowId(bundle: Bundle) {

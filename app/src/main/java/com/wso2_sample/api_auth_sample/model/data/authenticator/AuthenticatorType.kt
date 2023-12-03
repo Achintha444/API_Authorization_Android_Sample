@@ -22,5 +22,5 @@ enum class AuthenticatorType(val authenticator: String) {
     /**
      * FIDO authenticator type
      */
-    PASSKEY("Passkey")
+    PASSKEY("Security Key/Biometrics")
 }
