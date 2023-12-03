@@ -2,9 +2,10 @@ package com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth
 
 import android.view.View
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.data.authenticator.Authenticator
-import com.wso2_sample.api_auth_sample.model.data.authenticator.AuthenticatorType
 import com.wso2_sample.api_auth_sample.model.data.authenticator.basicAuth.BasicAuthAuthenticator
-import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.AuthParams
+import com.wso2_sample.api_auth_sample.model.data.authenticator.google.GoogleAuthenticator
+import com.wso2_sample.api_auth_sample.model.data.authenticator.passkey.PasskeyAuthenticator
+import com.wso2_sample.api_auth_sample.model.data.authenticator.totp.TotpAuthenticator
 import com.wso2_sample.api_auth_sample.util.Constants
 import com.wso2_sample.api_auth_sample.util.Util
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -22,10 +23,10 @@ class AuthController {
          */
         fun isAuthenticatorAvailable(
             authenticators: ArrayList<Authenticator>,
-            authenticatorType: AuthenticatorType
+            authenticatorType: String
         ): Authenticator? {
             return authenticators.find {
-                it.authenticator == authenticatorType.authenticator
+                it.authenticator == authenticatorType
             }
         }
 
@@ -54,17 +55,17 @@ class AuthController {
          * Show authenticator layouts
          */
         private fun showAuthenticator(
-            authenticator: Authenticator, basicAuthView: View?, fidoAuthView: View?,
+            authenticator: Authenticator, basicAuthView: View?, passkeyAuthView: View?,
             totpAuthView: View?, googleIdpView: View?
         ) {
             when (authenticator.authenticator) {
-                AuthenticatorType.BASIC.authenticator -> basicAuthView!!.visibility = View.VISIBLE;
+                BasicAuthAuthenticator.AUTHENTICATOR_TYPE -> basicAuthView!!.visibility = View.VISIBLE;
 
-                AuthenticatorType.PASSKEY.authenticator -> fidoAuthView!!.visibility = View.VISIBLE;
+                PasskeyAuthenticator.AUTHENTICATOR_TYPE -> passkeyAuthView!!.visibility = View.VISIBLE;
 
-                AuthenticatorType.TOTP.authenticator -> totpAuthView!!.visibility = View.VISIBLE;
+                TotpAuthenticator.AUTHENTICATOR_TYPE -> totpAuthView!!.visibility = View.VISIBLE;
 
-                AuthenticatorType.GOOGLE.authenticator -> googleIdpView!!.visibility = View.VISIBLE
+                GoogleAuthenticator.AUTHENTICATOR_TYPE -> googleIdpView!!.visibility = View.VISIBLE
             }
         }
 
@@ -138,13 +139,13 @@ class AuthController {
                         getParamBodyForBasicAuth(authParams.username!!, authParams.password!!)
                 }
 
-                AuthenticatorType.GOOGLE.authenticator -> selectedAuthenticator["params"] =
+                GoogleAuthenticator.AUTHENTICATOR_TYPE -> selectedAuthenticator["params"] =
                     getParamBodyForGoogle(authParams.accessToken!!, authParams.idToken!!)
 
-                AuthenticatorType.TOTP.authenticator -> selectedAuthenticator["params"] =
+                TotpAuthenticator.AUTHENTICATOR_TYPE -> selectedAuthenticator["params"] =
                     getParamBodyForTotp(authParams.totp!!)
 
-                AuthenticatorType.PASSKEY.authenticator -> selectedAuthenticator["params"] =
+                PasskeyAuthenticator.AUTHENTICATOR_TYPE -> selectedAuthenticator["params"] =
                     getParamBodyForFido(authParams.tokenResponse!!)
             }
 

@@ -10,10 +10,10 @@ import androidx.fragment.app.Fragment
 import com.wso2_sample.api_auth_sample.R
 import com.wso2_sample.api_auth_sample.api.oauth_client.OauthClient
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.authMethods.AuthenticatorFragment
-import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.AuthParams
+import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.AuthParams
 import com.fasterxml.jackson.databind.JsonNode
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.data.authenticator.Authenticator
-import com.wso2_sample.api_auth_sample.model.data.authenticator.basicAuth.BasicAuthAuthenticator
+import com.wso2_sample.api_auth_sample.model.data.authenticator.basicAuth.BasicAuthAuthParams
 
 class BasicAuth : Fragment(), AuthenticatorFragment {
 
@@ -63,7 +63,7 @@ class BasicAuth : Fragment(), AuthenticatorFragment {
             getString(R.string.activity_login_auth_auth_method_basic_auth_password)
         }
 
-        return AuthParams(username = usernameText, password = passwordText)
+        return BasicAuthAuthParams(usernameText, passwordText)
     }
 
     override fun onAuthorizeSuccess(authorizeObj: JsonNode) {

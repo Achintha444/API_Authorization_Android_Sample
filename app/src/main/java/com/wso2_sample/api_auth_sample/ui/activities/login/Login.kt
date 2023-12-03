@@ -10,7 +10,10 @@ import com.wso2_sample.api_auth_sample.R
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.authMethods.AuthenticatorFragment
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.data.authenticator.Authenticator
 import com.wso2_sample.api_auth_sample.databinding.ActivityLoginBinding
-import com.wso2_sample.api_auth_sample.model.data.authenticator.AuthenticatorType
+import com.wso2_sample.api_auth_sample.model.data.authenticator.basicAuth.BasicAuthAuthenticator
+import com.wso2_sample.api_auth_sample.model.data.authenticator.google.GoogleAuthenticator
+import com.wso2_sample.api_auth_sample.model.data.authenticator.passkey.PasskeyAuthenticator
+import com.wso2_sample.api_auth_sample.model.data.authenticator.totp.TotpAuthenticator
 import com.wso2_sample.api_auth_sample.ui.activities.login.fragments.auth.AuthFragment
 import com.wso2_sample.api_auth_sample.ui.activities.login.fragments.auth.authMethod.BasicAuth
 import com.wso2_sample.api_auth_sample.ui.activities.login.fragments.auth.authMethod.GoogleFragment
@@ -71,22 +74,22 @@ class Login : AppCompatActivity(), AuthFragment.AuthListener {
         lateinit var authView: AuthenticatorFragment
 
         when (authenticator.authenticator) {
-            AuthenticatorType.BASIC.authenticator -> {
+            BasicAuthAuthenticator.AUTHENTICATOR_TYPE -> {
                 authView =
                     authChildFragmentManager.findFragmentById(R.id.basicAuthView) as BasicAuth
             }
 
-            AuthenticatorType.PASSKEY.authenticator -> {
+            PasskeyAuthenticator.AUTHENTICATOR_TYPE -> {
                 authView =
                     authChildFragmentManager.findFragmentById(R.id.fidoAuthView) as PasskeyFragment
             }
 
-            AuthenticatorType.TOTP.authenticator -> {
+            TotpAuthenticator.AUTHENTICATOR_TYPE -> {
                 authView =
                     authChildFragmentManager.findFragmentById(R.id.totpIdpView) as TotpFragment
             }
 
-            AuthenticatorType.GOOGLE.authenticator -> {
+            GoogleAuthenticator.AUTHENTICATOR_TYPE -> {
                 authView =
                     authChildFragmentManager.findFragmentById(R.id.googleIdpView) as GoogleFragment
             }

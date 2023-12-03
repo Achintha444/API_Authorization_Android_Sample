@@ -8,7 +8,7 @@ import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.A
 import com.wso2_sample.api_auth_sample.model.api.FlowStatus
 import com.wso2_sample.api_auth_sample.model.api.app_auth_manager.TokenRequestCallback
 import com.wso2_sample.api_auth_sample.model.api.oauth_client.AttestationCallback
-import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.AuthParams
+import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.AuthParams
 import com.wso2_sample.api_auth_sample.model.util.uiUtil.SharedPreferencesKeys
 import com.wso2_sample.api_auth_sample.util.UiUtil
 import com.wso2_sample.api_auth_sample.util.Util

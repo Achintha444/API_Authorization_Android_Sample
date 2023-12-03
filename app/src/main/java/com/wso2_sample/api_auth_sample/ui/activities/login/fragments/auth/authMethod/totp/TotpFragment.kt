@@ -11,8 +11,9 @@ import com.wso2_sample.api_auth_sample.R
 import com.wso2_sample.api_auth_sample.api.oauth_client.OauthClient
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.authMethods.AuthenticatorFragment
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.data.authenticator.Authenticator
-import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.AuthParams
-import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.authMethod.totp.TotpContentListener
+import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.AuthParams
+import com.wso2_sample.api_auth_sample.model.data.authenticator.totp.TotpAuthParams
+import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.authMethods.totp.TotpContentListener
 
 class TotpFragment : Fragment(), AuthenticatorFragment, TotpContentListener {
 
@@ -60,7 +61,7 @@ class TotpFragment : Fragment(), AuthenticatorFragment, TotpContentListener {
     override fun getAuthParams(): AuthParams {
         val totp: String = totpContent.getTotpValue().text.toString()
 
-        return AuthParams(totp = totp)
+        return TotpAuthParams(totp)
     }
 
     override fun onAuthorizeSuccess(authorizeObj: JsonNode) {

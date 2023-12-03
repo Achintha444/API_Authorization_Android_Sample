@@ -8,7 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.wso2_sample.api_auth_sample.R
-import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.authMethod.totp.TotpContentListener
+import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.authMethods.totp.TotpContentListener
 
 /**
  * Content of the TOTP authenticator

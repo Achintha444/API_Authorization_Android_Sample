@@ -30,4 +30,8 @@ data class PasskeyAuthenticator(
     idp,
     metadata,
     requiredParams
-)
+) {
+    companion object {
+        const val AUTHENTICATOR_TYPE = "Security Key/Biometrics"
+    }
+}

@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import com.wso2_sample.api_auth_sample.R
-import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.AuthParams
+import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.AuthParams
 import com.wso2_sample.api_auth_sample.ui.activities.home.Home
 import com.wso2_sample.api_auth_sample.ui.activities.login.Login
 import com.wso2_sample.api_auth_sample.util.UiUtil
