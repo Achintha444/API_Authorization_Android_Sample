@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-    tools:context=".ui.activities.login.fragments.auth.authMethod.totp.TotpContent">
+    tools:context=".ui.activities.login.fragments.auth.auth_method.totp.TotpContent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

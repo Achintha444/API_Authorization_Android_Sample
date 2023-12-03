@@ -17,7 +17,7 @@ import com.wso2_sample.api_auth_sample.util.Util
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JsonNode
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.data.authenticator.Authenticator
-import com.wso2_sample.api_auth_sample.model.data.authenticator.basicAuth.BasicAuthAuthenticator
+import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.auth_method.basic_auth.authenticator.BasicAuthAuthenticator
 
 class AuthFragment : Fragment() {
     private lateinit var flowId: String
@@ -73,7 +73,7 @@ class AuthFragment : Fragment() {
 
         // set authenticator view
         basicAuthView = view.findViewById(R.id.basicAuthView)
-        fidoAuthView = view.findViewById(R.id.fidoAuthView)
+        fidoAuthView = view.findViewById(R.id.passkeyAuthView)
         googleIdpView = view.findViewById(R.id.googleIdpView)
         totpIdpView = view.findViewById(R.id.totpIdpView)
     }

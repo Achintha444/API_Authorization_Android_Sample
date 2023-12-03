@@ -57,7 +57,7 @@ class OauthClient {
                     override fun onResponse(call: Call, response: Response) {
                         try {
                             // reading the json
-                            val model: JsonNode = Util.getJsonObject(response.body!!.string())
+                             val model: JsonNode = Util.getJsonObject(response.body!!.string())
                             onSuccessCallback(model)
                         } catch (e: Exception) {
                             println(e)

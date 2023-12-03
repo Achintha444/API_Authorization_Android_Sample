@@ -1,13 +1,20 @@
 package com.wso2_sample.api_auth_sample.util
 
+import android.util.Base64
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import java.nio.charset.Charset
+import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
 class Util {
     companion object {
-        private val mapper: ObjectMapper = jacksonObjectMapper();
+        private val mapper: ObjectMapper = jacksonObjectMapper()
+
+        fun getJsonString(dataObject: Any): String {
+            return mapper.writeValueAsString(dataObject)
+        }
 
         fun getJsonObject(jsonString: String): JsonNode {
             return mapper.readTree(jsonString);
@@ -19,6 +26,15 @@ class Util {
 
         fun getJsonObject(jsonMap: Map<String, Any>): JsonNode {
             return mapper.valueToTree(jsonMap);
+        }
+
+        fun base64UrlDecode(input: String): String {
+            val base64Encoded = input.replace('-', '+').replace('_', '/')
+            val paddedLength = (4 - base64Encoded.length % 4) % 4
+            val paddedString = base64Encoded + "=".repeat(paddedLength)
+
+            val decodedBytes = Base64.decode(paddedString, Base64.URL_SAFE)
+            return String(decodedBytes, Charset.defaultCharset())
         }
     }
 }

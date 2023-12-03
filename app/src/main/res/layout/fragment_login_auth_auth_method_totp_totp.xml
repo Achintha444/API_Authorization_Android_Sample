@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/totpIdpView"
-    tools:context=".ui.activities.login.fragments.auth.authMethod.totp.TotpFragment">
+    tools:context=".ui.activities.login.fragments.auth.auth_method.totp.TotpFragment">
 
     <Button
         android:id="@+id/totpButton"

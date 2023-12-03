@@ -1,11 +1,15 @@
 package com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth
 
+import android.util.Log
 import android.view.View
+import androidx.credentials.GetCredentialResponse
+import androidx.credentials.PasswordCredential
+import androidx.credentials.PublicKeyCredential
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.data.authenticator.Authenticator
-import com.wso2_sample.api_auth_sample.model.data.authenticator.basicAuth.BasicAuthAuthenticator
-import com.wso2_sample.api_auth_sample.model.data.authenticator.google.GoogleAuthenticator
-import com.wso2_sample.api_auth_sample.model.data.authenticator.passkey.PasskeyAuthenticator
-import com.wso2_sample.api_auth_sample.model.data.authenticator.totp.TotpAuthenticator
+import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.auth_method.basic_auth.authenticator.BasicAuthAuthenticator
+import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.auth_method.google.authenticator.GoogleAuthenticator
+import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.auth_method.passkey.authenticator.PasskeyAuthenticator
+import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.auth_method.totp.authenticator.TotpAuthenticator
 import com.wso2_sample.api_auth_sample.util.Constants
 import com.wso2_sample.api_auth_sample.util.Util
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -59,9 +63,11 @@ class AuthController {
             totpAuthView: View?, googleIdpView: View?
         ) {
             when (authenticator.authenticator) {
-                BasicAuthAuthenticator.AUTHENTICATOR_TYPE -> basicAuthView!!.visibility = View.VISIBLE;
+                BasicAuthAuthenticator.AUTHENTICATOR_TYPE -> basicAuthView!!.visibility =
+                    View.VISIBLE;
 
-                PasskeyAuthenticator.AUTHENTICATOR_TYPE -> passkeyAuthView!!.visibility = View.VISIBLE;
+                PasskeyAuthenticator.AUTHENTICATOR_TYPE -> passkeyAuthView!!.visibility =
+                    View.VISIBLE;
 
                 TotpAuthenticator.AUTHENTICATOR_TYPE -> totpAuthView!!.visibility = View.VISIBLE;
 
@@ -153,6 +159,24 @@ class AuthController {
 
             return Util.getJsonObject(authBody).toString()
                 .toRequestBody("application/json".toMediaTypeOrNull())
+        }
+
+        fun handleSignIn(result: GetCredentialResponse) {
+            // Handle the successfully returned credential.
+
+            when (val credential = result.credential) {
+                is PublicKeyCredential -> {
+                    val responseJson = credential.authenticationResponseJson
+                    val x = 2
+                    // Share responseJson i.e. a GetCredentialResponse on your server to
+                    // validate and  authenticate
+                }
+
+                else -> {
+                    // Catch any unrecognized credential type here.
+                    Log.e("TAG", "Unexpected type of credential")
+                }
+            }
         }
     }
 }

@@ -19,8 +19,8 @@
     <!-- Google Auth -->
     <string name="activity_login_auth_auth_method_google_auth.sign_in">Sign in with Google</string>
 
-    <!-- FIDO Auth -->
-    <string name="activity_login_auth_auth_method_fido_auth.sign_in">Sign in with FIDO</string>
+    <!-- Passkey Auth -->
+    <string name="activity_login_auth_auth_method_passkey_auth.sign_in">Sign in with Passkey</string>
 
     <!-- TOTP Auth -->
     <string name="activity_login_auth_auth_method_totp_auth.sign_in">Sign in with TOTP</string>

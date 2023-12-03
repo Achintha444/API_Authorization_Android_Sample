@@ -7,18 +7,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.wso2_sample.api_auth_sample.R
-import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.authMethods.AuthenticatorFragment
+import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.auth_method.AuthenticatorFragment
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.data.authenticator.Authenticator
 import com.wso2_sample.api_auth_sample.databinding.ActivityLoginBinding
-import com.wso2_sample.api_auth_sample.model.data.authenticator.basicAuth.BasicAuthAuthenticator
-import com.wso2_sample.api_auth_sample.model.data.authenticator.google.GoogleAuthenticator
-import com.wso2_sample.api_auth_sample.model.data.authenticator.passkey.PasskeyAuthenticator
-import com.wso2_sample.api_auth_sample.model.data.authenticator.totp.TotpAuthenticator
+import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.auth_method.basic_auth.authenticator.BasicAuthAuthenticator
+import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.auth_method.google.authenticator.GoogleAuthenticator
+import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.auth_method.passkey.authenticator.PasskeyAuthenticator
+import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.auth_method.totp.authenticator.TotpAuthenticator
 import com.wso2_sample.api_auth_sample.ui.activities.login.fragments.auth.AuthFragment
-import com.wso2_sample.api_auth_sample.ui.activities.login.fragments.auth.authMethod.BasicAuth
-import com.wso2_sample.api_auth_sample.ui.activities.login.fragments.auth.authMethod.GoogleFragment
-import com.wso2_sample.api_auth_sample.ui.activities.login.fragments.auth.authMethod.PasskeyFragment
-import com.wso2_sample.api_auth_sample.ui.activities.login.fragments.auth.authMethod.totp.TotpFragment
+import com.wso2_sample.api_auth_sample.ui.activities.login.fragments.auth.auth_method.BasicAuth
+import com.wso2_sample.api_auth_sample.ui.activities.login.fragments.auth.auth_method.GoogleFragment
+import com.wso2_sample.api_auth_sample.ui.activities.login.fragments.auth.auth_method.PasskeyFragment
+import com.wso2_sample.api_auth_sample.ui.activities.login.fragments.auth.auth_method.totp.TotpFragment
 import com.wso2_sample.api_auth_sample.util.UiUtil
 
 class Login : AppCompatActivity(), AuthFragment.AuthListener {
@@ -77,24 +77,26 @@ class Login : AppCompatActivity(), AuthFragment.AuthListener {
             BasicAuthAuthenticator.AUTHENTICATOR_TYPE -> {
                 authView =
                     authChildFragmentManager.findFragmentById(R.id.basicAuthView) as BasicAuth
+                authView.updateAuthenticator(authenticator)
             }
 
             PasskeyAuthenticator.AUTHENTICATOR_TYPE -> {
                 authView =
-                    authChildFragmentManager.findFragmentById(R.id.fidoAuthView) as PasskeyFragment
+                    authChildFragmentManager.findFragmentById(R.id.passkeyAuthView) as PasskeyFragment
+                authView.updateAuthenticator(authenticator.convertToPasskeyAuthenticator())
             }
 
             TotpAuthenticator.AUTHENTICATOR_TYPE -> {
                 authView =
                     authChildFragmentManager.findFragmentById(R.id.totpIdpView) as TotpFragment
+                authView.updateAuthenticator(authenticator)
             }
 
             GoogleAuthenticator.AUTHENTICATOR_TYPE -> {
                 authView =
                     authChildFragmentManager.findFragmentById(R.id.googleIdpView) as GoogleFragment
+                authView.updateAuthenticator(authenticator)
             }
         }
-
-        authView.updateAuthenticator(authenticator);
     }
 }

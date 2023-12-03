@@ -5,7 +5,7 @@
     android:id="@+id/basicAuthlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activities.login.fragments.auth.authMethod.BasicAuth">
+    tools:context=".ui.activities.login.fragments.auth.auth_method.BasicAuth">
 
     <EditText
         android:id="@+id/username"
@@ -24,7 +24,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:isCredential="true"/>
 
     <EditText
         android:id="@+id/password"
@@ -43,7 +44,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
+        app:layout_constraintTop_toBottomOf="@+id/username"
+        android:isCredential="true"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/signinBasicAuth"
