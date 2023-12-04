@@ -100,6 +100,7 @@ class PasskeyFragment : Fragment(), AuthenticatorFragment {
 
     private fun setPublicKeyCredentialOption() {
         publicKeyCredentialOption = GetPublicKeyCredentialOption(
+
             requestJson = requestJson.toString()
         )
     }
@@ -116,7 +117,8 @@ class PasskeyFragment : Fragment(), AuthenticatorFragment {
                 // Use an activity-based context to avoid undefined system UI
                 // launching behavior.
                 context = requireContext(),
-                request = getCredRequest
+                request = getCredRequest,
+
             )
         } catch (e: NoCredentialException) {
             Log.e("CredentialManager", "No credential available", e)
