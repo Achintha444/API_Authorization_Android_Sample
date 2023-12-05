@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.fragment.app.FragmentContainerView
+        <fragment
             android:id="@+id/logoView"
             android:name="com.wso2_sample.api_auth_sample.ui.common.Logo"
             android:layout_width="wrap_content"

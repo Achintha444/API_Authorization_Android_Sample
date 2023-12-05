@@ -51,7 +51,7 @@ class PetAPI {
             client.newCall(requestBuilder.build()).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     println(e)
-                    callback.onFailure(e)
+                    callback.onSuccess(PetDataStore.getAllPets())
                     callback.onFinally()
                 }
 
@@ -69,8 +69,7 @@ class PetAPI {
                         )
                         callback.onSuccess(pets)
                     } catch (e: Exception) {
-                        Log.e("PetAPI", e.toString())
-                        callback.onFailure(e)
+                        callback.onSuccess(PetDataStore.getAllPets())
                     } finally {
                         callback.onFinally()
                     }
