@@ -10,7 +10,7 @@ abstract class Callback<T> {
      * @param error Optional parameter to provide additional information about the failure.
      */
     open fun onFailure(error: Exception? = null) {
-        // Default implementation (do nothing)
+
     }
 
     /**

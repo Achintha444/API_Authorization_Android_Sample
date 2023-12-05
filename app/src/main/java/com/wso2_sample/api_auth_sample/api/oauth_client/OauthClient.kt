@@ -2,20 +2,24 @@ package com.wso2_sample.api_auth_sample.api.oauth_client
 
 import android.content.Context
 import android.util.Log
+import com.fasterxml.jackson.databind.JsonNode
 import com.wso2_sample.api_auth_sample.R
+import com.wso2_sample.api_auth_sample.api.app_auth_manager.AppAuthManager
 import com.wso2_sample.api_auth_sample.api.cutom_trust_client.CustomTrust
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.AuthController
+import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.AuthParams
+import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.data.authenticator.Authenticator
 import com.wso2_sample.api_auth_sample.model.api.FlowStatus
 import com.wso2_sample.api_auth_sample.model.api.app_auth_manager.TokenRequestCallback
 import com.wso2_sample.api_auth_sample.model.api.oauth_client.AttestationCallback
-import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.AuthParams
+import com.wso2_sample.api_auth_sample.model.api.oauth_client.authenticator.AuthenticatorCallback
+import com.wso2_sample.api_auth_sample.model.api.oauth_client.AuthorizeFlow
+import com.wso2_sample.api_auth_sample.model.api.oauth_client.authenticator.AllAuthenticatorsCallback
+import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.auth_method.basic_auth.authenticator.BasicAuthAuthenticator
 import com.wso2_sample.api_auth_sample.model.util.uiUtil.SharedPreferencesKeys
 import com.wso2_sample.api_auth_sample.util.UiUtil
 import com.wso2_sample.api_auth_sample.util.Util
 import com.wso2_sample.api_auth_sample.util.config.OauthClientConfiguration
-import com.fasterxml.jackson.databind.JsonNode
-import com.wso2_sample.api_auth_sample.api.app_auth_manager.AppAuthManager
-import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.data.authenticator.Authenticator
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.FormBody
@@ -30,12 +34,13 @@ class OauthClient {
     companion object {
 
         private val client: OkHttpClient = CustomTrust.getInstance().client
+
         @Throws(IOException::class)
         fun authorize(
             context: Context,
             whenAuthentication: () -> Unit,
             finallyAuthentication: () -> Unit,
-            onSuccessCallback: (authorizeObj: JsonNode) -> Unit,
+            onSuccessCallback: (authorizeFlow: AuthorizeFlow) -> Unit,
             onFailureCallback: () -> Unit
         ) {
 
@@ -57,8 +62,22 @@ class OauthClient {
                     override fun onResponse(call: Call, response: Response) {
                         try {
                             // reading the json
-                             val model: JsonNode = Util.getJsonObject(response.body!!.string())
-                            onSuccessCallback(model)
+                            val model: JsonNode = Util.getJsonObject(response.body!!.string())
+                            val authorizeFlow: AuthorizeFlow = AuthorizeFlow.getAuthorizeFlow(model)
+
+                            if (authorizeFlow.nextStep.authenticators.size > 1) {
+                                getAllAuthenticators(context, authorizeFlow.flowId, authorizeFlow.nextStep.authenticators,
+                                    AllAuthenticatorsCallback(
+                                        onSuccess = {
+                                            authorizeFlow.nextStep.authenticators = it
+                                            onSuccessCallback(authorizeFlow)
+                                        },
+                                        onFailure = {
+                                            onFailureCallback()
+                                        }
+                                    )
+                                )
+                            }
                         } catch (e: Exception) {
                             println(e)
                             onFailureCallback()
@@ -105,6 +124,102 @@ class OauthClient {
                     authorizeCall(request)
                 }
             ))
+        }
+
+        /**
+         * Get full details of the all authenticators for the given flow.
+         */
+        private fun getAllAuthenticators(
+            context: Context,
+            flowId: String,
+            authenticators: ArrayList<Authenticator>,
+            callback: AllAuthenticatorsCallback
+        ) {
+
+            // Get single authenticator details from the API
+            fun getAuthenticator(
+                context: Context,
+                flowId: String,
+                authenticator: Authenticator,
+                callback: AuthenticatorCallback
+            ) {
+                // authorize next URL
+                val url: String =
+                    OauthClientConfiguration.getInstance(context).authorizeNextUri.toString()
+
+                val request: Request = Request.Builder().url(url)
+                    .post(AuthController.buildRequestBodyForAuthenticator(flowId, authenticator))
+                    .build()
+
+                client.newCall(request).enqueue(object : Callback {
+                    override fun onFailure(call: Call, e: IOException) {
+                        callback.onFailure(e)
+                    }
+
+                    @Throws(IOException::class)
+                    override fun onResponse(call: Call, response: Response) {
+                        try {
+                            if (response.code == 200) {
+                                // reading the json
+                                val model: JsonNode = Util.getJsonObject(response.body!!.string())
+                                val authorizeFlow: AuthorizeFlow = AuthorizeFlow.getAuthorizeFlow(model)
+
+                                if (authorizeFlow.nextStep.authenticators.size == 1) {
+                                    callback.onSuccess(authorizeFlow.nextStep.authenticators[0])
+                                } else {
+                                    callback.onFailure(Exception("Authenticator not found"))
+                                }
+                            } else {
+                                callback.onFailure(Exception("Something went wrong"))
+                            }
+                        } catch (e: IOException) {
+                            callback.onFailure(e)
+                        }
+                    }
+                })
+            }
+
+            if (authenticators.size > 1) {
+                var errorCheck = false
+                val authenticatorCount = authenticators.size
+                val detailedAuthenticators: ArrayList<Authenticator> = ArrayList()
+
+                for (authenticator in authenticators) {
+
+                    // Break the loop if an error occurs
+                    if (errorCheck) {
+                        callback.onFailure(Exception("Something went wrong"))
+                        break
+                    }
+
+                    // Does not need to call the API if the authenticator is BasicAuth as the require
+                    // information is already contained in the authenticator object
+                    if (authenticator.authenticator == BasicAuthAuthenticator.AUTHENTICATOR_TYPE) {
+                        detailedAuthenticators.add(authenticator)
+
+                        if (detailedAuthenticators.size == authenticatorCount) {
+                            callback.onSuccess(detailedAuthenticators)
+                        }
+                    } else {
+                        getAuthenticator(context, flowId, authenticator,
+                            AuthenticatorCallback(
+                                onSuccess = {
+                                    detailedAuthenticators.add(it)
+
+                                    if (detailedAuthenticators.size == authenticatorCount) {
+                                        callback.onSuccess(detailedAuthenticators)
+                                    }
+                                },
+                                onFailure = {
+                                    errorCheck = true
+                                }
+                            )
+                        )
+                    }
+                }
+            } else {
+                callback.onSuccess(authenticators)
+            }
         }
 
         @Throws(IOException::class)

@@ -1,5 +1,6 @@
 package com.wso2_sample.api_auth_sample.ui.activities.login.fragments.auth.auth_method
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -22,6 +23,8 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.AuthController
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.data.authenticator.Authenticator
 import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.auth_method.basic_auth.authenticator.BasicAuthAuthParams
+import com.wso2_sample.api_auth_sample.model.util.uiUtil.SharedPreferencesKeys
+import com.wso2_sample.api_auth_sample.util.UiUtil
 import kotlinx.coroutines.launch
 
 class BasicAuth : Fragment(), AuthenticatorFragment {

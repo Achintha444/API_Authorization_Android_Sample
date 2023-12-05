@@ -8,16 +8,16 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.JsonNode
 import com.wso2_sample.api_auth_sample.R
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.AuthController
-import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.Step
+import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.data.authenticator.Authenticator
+import com.wso2_sample.api_auth_sample.model.api.oauth_client.AuthorizeFlowNextStep
+import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.auth_method.basic_auth.authenticator.BasicAuthAuthenticator
 import com.wso2_sample.api_auth_sample.model.util.uiUtil.SharedPreferencesKeys
 import com.wso2_sample.api_auth_sample.util.UiUtil
 import com.wso2_sample.api_auth_sample.util.Util
-import com.fasterxml.jackson.core.type.TypeReference
-import com.fasterxml.jackson.databind.JsonNode
-import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.data.authenticator.Authenticator
-import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.auth_method.basic_auth.authenticator.BasicAuthAuthenticator
 
 class AuthFragment : Fragment() {
     private lateinit var flowId: String
@@ -31,7 +31,12 @@ class AuthFragment : Fragment() {
     private lateinit var googleIdpView: FragmentContainerView
     private lateinit var totpIdpView: FragmentContainerView
 
-    private lateinit var authListener: AuthListener;
+    private lateinit var authListener: AuthListener
+
+    companion object {
+        const val NEXT_STEP = "nextStep"
+        const val FLOW_ID = "flowId"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -80,18 +85,13 @@ class AuthFragment : Fragment() {
 
     private fun setAuthenticators(bundle: Bundle) {
 
-        val stepString: String? = bundle.getString("stepString")
-        val stepNode: JsonNode = Util.getJsonObject(stepString!!)
-        val stepTypeReference = object : TypeReference<Step>() {}
-
-        authenticators = Util.jsonNodeToObject(stepNode, stepTypeReference).authenticators
+        val authorizeFlowNextStep: AuthorizeFlowNextStep? =
+            AuthorizeFlowNextStep.fromJson(bundle.getString(NEXT_STEP)!!)
+        authenticators = authorizeFlowNextStep!!.authenticators
     }
 
     private fun setFlowId(bundle: Bundle) {
-        val flowIdString: String? = bundle.getString("flowId")
-        val flowIdJson: JsonNode = Util.getJsonObject(flowIdString!!)
-        val flowIdTypeReference = object : TypeReference<String>() {}
-        flowId = Util.jsonNodeToObject(flowIdJson, flowIdTypeReference)
+        flowId = bundle.getString(FLOW_ID)!!
 
         // save flowId to shared preferences to be used when authenticating user
         UiUtil.writeToSharedPreferences(
@@ -104,7 +104,10 @@ class AuthFragment : Fragment() {
 
     private fun hideOrSignInText() {
 
-        if (AuthController.isAuthenticatorAvailable(authenticators, BasicAuthAuthenticator.AUTHENTICATOR_TYPE) != null
+        if (AuthController.isAuthenticatorAvailable(
+                authenticators,
+                BasicAuthAuthenticator.AUTHENTICATOR_TYPE
+            ) != null
             && AuthController.numberOfAuthenticators(authenticators) > 1
         ) {
             orSignInText.visibility = View.VISIBLE

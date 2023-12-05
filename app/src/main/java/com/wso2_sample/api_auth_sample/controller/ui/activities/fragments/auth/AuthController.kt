@@ -126,6 +126,26 @@ class AuthController {
         }
 
         /**
+         * Build request body for authenticator
+         */
+        fun buildRequestBodyForAuthenticator(
+            flowId: String?,
+            authenticator: Authenticator
+        ): RequestBody {
+
+            val authBody = LinkedHashMap<String, Any>();
+            authBody["flowId"] = flowId!!;
+
+            val selectedAuthenticator = LinkedHashMap<String, Any>();
+            selectedAuthenticator["authenticatorId"] = authenticator.authenticatorId
+
+            authBody["selectedAuthenticator"] = selectedAuthenticator;
+
+            return Util.getJsonObject(authBody).toString()
+                .toRequestBody("application/json".toMediaTypeOrNull())
+        }
+
+        /**
          * Build request body for auth
          */
         fun buildRequestBodyForAuth(

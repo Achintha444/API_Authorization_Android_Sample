@@ -11,6 +11,7 @@ import com.wso2_sample.api_auth_sample.api.oauth_client.OauthClient
 import com.wso2_sample.api_auth_sample.ui.activities.login.Login
 import com.wso2_sample.api_auth_sample.util.UiUtil
 import com.fasterxml.jackson.databind.JsonNode
+import com.wso2_sample.api_auth_sample.model.api.oauth_client.AuthorizeFlow
 
 class MainActivity : AppCompatActivity() {
 
@@ -49,16 +50,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun onAuthenticationSuccess(authorizeObj: JsonNode) {
+    private fun onAuthenticationSuccess(authorizeFlow: AuthorizeFlow) {
         val intent = Intent(this@MainActivity, Login::class.java);
         intent.putExtra(
-            "flowId",
-            authorizeObj["flowId"].toString()
-        );
+            Login.FLOW_ID,
+            authorizeFlow.flowId
+        )
         intent.putExtra(
-            "step",
-            authorizeObj["nextStep"].toString()
-        );
+            Login.NEXT_STEP,
+            authorizeFlow.nextStep.toString()
+        )
         startActivity(intent)
     }
 
