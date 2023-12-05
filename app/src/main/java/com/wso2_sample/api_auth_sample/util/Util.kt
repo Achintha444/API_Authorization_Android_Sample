@@ -35,5 +35,14 @@ class Util {
             val decodedBytes = Base64.decode(paddedString, Base64.URL_SAFE)
             return String(decodedBytes, Charset.defaultCharset())
         }
+
+        fun base64UrlEncode(dataObject: Any): String {
+            val dataObjectString: String = getJsonString(dataObject)
+            return Base64.encodeToString(
+                dataObjectString.toByteArray(Charsets.UTF_8),
+                Base64.URL_SAFE or Base64.NO_WRAP or Base64.NO_PADDING
+            )
+        }
+
     }
 }

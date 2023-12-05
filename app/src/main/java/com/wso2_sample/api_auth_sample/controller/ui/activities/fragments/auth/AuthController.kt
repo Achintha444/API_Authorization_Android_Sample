@@ -107,8 +107,6 @@ class AuthController {
          */
         private fun getParamBodyForFido(tokenResponse: String): LinkedHashMap<String, String> {
             val paramBody = LinkedHashMap<String, String>();
-            paramBody["authenticator"] = Constants.FIDO
-            paramBody["idp"] = Constants.LOCAL_IDP
             paramBody["tokenResponse"] = tokenResponse
 
             return paramBody;
@@ -178,24 +176,6 @@ class AuthController {
 
             return Util.getJsonObject(authBody).toString()
                 .toRequestBody("application/json".toMediaTypeOrNull())
-        }
-
-        fun handleSignIn(result: GetCredentialResponse) {
-            // Handle the successfully returned credential.
-
-            when (val credential = result.credential) {
-                is PublicKeyCredential -> {
-                    val responseJson = credential.authenticationResponseJson
-                    val x = 2
-                    // Share responseJson i.e. a GetCredentialResponse on your server to
-                    // validate and  authenticate
-                }
-
-                else -> {
-                    // Catch any unrecognized credential type here.
-                    Log.e("TAG", "Unexpected type of credential")
-                }
-            }
         }
     }
 }
