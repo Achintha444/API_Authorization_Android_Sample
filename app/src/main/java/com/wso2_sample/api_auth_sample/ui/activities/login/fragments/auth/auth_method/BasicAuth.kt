@@ -1,31 +1,19 @@
 package com.wso2_sample.api_auth_sample.ui.activities.login.fragments.auth.auth_method
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import androidx.credentials.CredentialManager
-import androidx.credentials.GetCredentialRequest
-import androidx.credentials.GetCredentialResponse
-import androidx.credentials.GetPasswordOption
-import androidx.credentials.exceptions.NoCredentialException
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.wso2_sample.api_auth_sample.R
 import com.wso2_sample.api_auth_sample.api.oauth_client.OauthClient
-import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.auth_method.AuthenticatorFragment
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.AuthParams
-import com.fasterxml.jackson.databind.JsonNode
-import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.AuthController
+import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.auth_method.AuthenticatorFragment
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.data.authenticator.Authenticator
+import com.wso2_sample.api_auth_sample.model.api.oauth_client.AuthorizeFlow
 import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.auth_method.basic_auth.authenticator.BasicAuthAuthParams
-import com.wso2_sample.api_auth_sample.model.util.uiUtil.SharedPreferencesKeys
-import com.wso2_sample.api_auth_sample.util.UiUtil
-import kotlinx.coroutines.launch
 
 class BasicAuth : Fragment(), AuthenticatorFragment {
 
@@ -77,8 +65,8 @@ class BasicAuth : Fragment(), AuthenticatorFragment {
         return BasicAuthAuthParams(usernameText, passwordText)
     }
 
-    override fun onAuthorizeSuccess(authorizeObj: JsonNode) {
-        this.handleActivityTransition(requireContext(), authorizeObj);
+    override fun onAuthorizeSuccess(authorizeFlow: AuthorizeFlow?) {
+        this.handleActivityTransition(requireContext(), authorizeFlow);
     }
 
     override fun onAuthorizeFail() {

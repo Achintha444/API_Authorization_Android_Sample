@@ -3,7 +3,6 @@ package com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth
 import android.util.Log
 import android.view.View
 import androidx.credentials.GetCredentialResponse
-import androidx.credentials.PasswordCredential
 import androidx.credentials.PublicKeyCredential
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.data.authenticator.Authenticator
 import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.auth_method.basic_auth.authenticator.BasicAuthAuthenticator

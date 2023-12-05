@@ -1,7 +1,5 @@
 package com.wso2_sample.api_auth_sample.model.api.oauth_client
 
-import android.os.Parcel
-import android.os.Parcelable
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JsonNode
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.data.authenticator.Authenticator

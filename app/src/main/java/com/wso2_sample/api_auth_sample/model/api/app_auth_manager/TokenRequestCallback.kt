@@ -25,6 +25,8 @@ class TokenRequestCallback(
      * @param error The error that caused the failure.
      */
     override fun onFailure(error: Exception?) {
+        error?.printStackTrace()
+        println("TokenRequestCallback ${error?.message}")
         onFailure.invoke(error!!)
     }
 }

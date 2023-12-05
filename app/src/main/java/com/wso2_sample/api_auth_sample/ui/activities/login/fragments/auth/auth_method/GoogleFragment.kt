@@ -8,21 +8,21 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
-import com.wso2_sample.api_auth_sample.R
-import com.wso2_sample.api_auth_sample.api.oauth_client.OauthClient
-import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.auth_method.AuthenticatorFragment
-import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.AuthParams
-import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.auth_method.google.GoogleSignInActivityResultContract
-import com.wso2_sample.api_auth_sample.util.config.OauthClientConfiguration
-import com.fasterxml.jackson.databind.JsonNode
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import com.wso2_sample.api_auth_sample.R
+import com.wso2_sample.api_auth_sample.api.oauth_client.OauthClient
+import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.AuthParams
+import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.auth_method.AuthenticatorFragment
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.data.authenticator.Authenticator
+import com.wso2_sample.api_auth_sample.model.api.oauth_client.AuthorizeFlow
+import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.auth_method.google.GoogleSignInActivityResultContract
 import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.auth_method.google.authenticator.GoogleAuthParams
+import com.wso2_sample.api_auth_sample.util.config.OauthClientConfiguration
 
 class GoogleFragment : Fragment(), AuthenticatorFragment {
 
@@ -93,8 +93,8 @@ class GoogleFragment : Fragment(), AuthenticatorFragment {
         )
     }
 
-    override fun onAuthorizeSuccess(authorizeObj: JsonNode) {
-        this.handleActivityTransition(requireContext(), authorizeObj)
+    override fun onAuthorizeSuccess(authorizeFlow: AuthorizeFlow?) {
+        this.handleActivityTransition(requireContext(), authorizeFlow)
     }
 
     override fun onAuthorizeFail() {

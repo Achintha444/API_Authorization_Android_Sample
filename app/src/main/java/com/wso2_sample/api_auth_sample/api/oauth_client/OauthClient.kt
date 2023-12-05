@@ -1,7 +1,6 @@
 package com.wso2_sample.api_auth_sample.api.oauth_client
 
 import android.content.Context
-import android.util.Log
 import com.fasterxml.jackson.databind.JsonNode
 import com.wso2_sample.api_auth_sample.R
 import com.wso2_sample.api_auth_sample.api.app_auth_manager.AppAuthManager
@@ -12,9 +11,10 @@ import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.d
 import com.wso2_sample.api_auth_sample.model.api.FlowStatus
 import com.wso2_sample.api_auth_sample.model.api.app_auth_manager.TokenRequestCallback
 import com.wso2_sample.api_auth_sample.model.api.oauth_client.AttestationCallback
-import com.wso2_sample.api_auth_sample.model.api.oauth_client.authenticator.AuthenticatorCallback
 import com.wso2_sample.api_auth_sample.model.api.oauth_client.AuthorizeFlow
 import com.wso2_sample.api_auth_sample.model.api.oauth_client.authenticator.AllAuthenticatorsCallback
+import com.wso2_sample.api_auth_sample.model.api.oauth_client.authenticator.AuthenticatorCallback
+import com.wso2_sample.api_auth_sample.model.api.oauth_client.authenticator.AuthorizeFlowCallback
 import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.auth_method.basic_auth.authenticator.BasicAuthAuthenticator
 import com.wso2_sample.api_auth_sample.model.util.uiUtil.SharedPreferencesKeys
 import com.wso2_sample.api_auth_sample.util.UiUtil
@@ -63,21 +63,14 @@ class OauthClient {
                         try {
                             // reading the json
                             val model: JsonNode = Util.getJsonObject(response.body!!.string())
-                            val authorizeFlow: AuthorizeFlow = AuthorizeFlow.getAuthorizeFlow(model)
-
-                            if (authorizeFlow.nextStep.authenticators.size > 1) {
-                                getAllAuthenticators(context, authorizeFlow.flowId, authorizeFlow.nextStep.authenticators,
-                                    AllAuthenticatorsCallback(
-                                        onSuccess = {
-                                            authorizeFlow.nextStep.authenticators = it
-                                            onSuccessCallback(authorizeFlow)
-                                        },
-                                        onFailure = {
-                                            onFailureCallback()
-                                        }
-                                    )
-                                )
-                            }
+                            handleAuthorizeFlow(context, model, AuthorizeFlowCallback(
+                                onSuccess = {
+                                    onSuccessCallback(it)
+                                },
+                                onFailure = {
+                                    onFailureCallback()
+                                }
+                            ))
                         } catch (e: Exception) {
                             println(e)
                             onFailureCallback()
@@ -126,60 +119,72 @@ class OauthClient {
             ))
         }
 
-        /**
-         * Get full details of the all authenticators for the given flow.
-         */
-        private fun getAllAuthenticators(
+        private fun handleAuthorizeFlow(
             context: Context,
-            flowId: String,
-            authenticators: ArrayList<Authenticator>,
-            callback: AllAuthenticatorsCallback
+            authorizeFlowNextStepJsonNode: JsonNode,
+            callback: AuthorizeFlowCallback
         ) {
 
-            // Get single authenticator details from the API
-            fun getAuthenticator(
+            /**
+             * Get full details of the all authenticators for the given flow.
+             */
+            fun getAllAuthenticators(
                 context: Context,
                 flowId: String,
-                authenticator: Authenticator,
-                callback: AuthenticatorCallback
+                authenticators: ArrayList<Authenticator>,
+                callback: AllAuthenticatorsCallback
             ) {
-                // authorize next URL
-                val url: String =
-                    OauthClientConfiguration.getInstance(context).authorizeNextUri.toString()
 
-                val request: Request = Request.Builder().url(url)
-                    .post(AuthController.buildRequestBodyForAuthenticator(flowId, authenticator))
-                    .build()
+                // Get single authenticator details from the API
+                fun getAuthenticator(
+                    context: Context,
+                    flowId: String,
+                    authenticator: Authenticator,
+                    callback: AuthenticatorCallback
+                ) {
+                    // authorize next URL
+                    val url: String =
+                        OauthClientConfiguration.getInstance(context).authorizeNextUri.toString()
 
-                client.newCall(request).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {
-                        callback.onFailure(e)
-                    }
+                    val request: Request = Request.Builder().url(url)
+                        .post(
+                            AuthController.buildRequestBodyForAuthenticator(
+                                flowId,
+                                authenticator
+                            )
+                        )
+                        .build()
 
-                    @Throws(IOException::class)
-                    override fun onResponse(call: Call, response: Response) {
-                        try {
-                            if (response.code == 200) {
-                                // reading the json
-                                val model: JsonNode = Util.getJsonObject(response.body!!.string())
-                                val authorizeFlow: AuthorizeFlow = AuthorizeFlow.getAuthorizeFlow(model)
-
-                                if (authorizeFlow.nextStep.authenticators.size == 1) {
-                                    callback.onSuccess(authorizeFlow.nextStep.authenticators[0])
-                                } else {
-                                    callback.onFailure(Exception("Authenticator not found"))
-                                }
-                            } else {
-                                callback.onFailure(Exception("Something went wrong"))
-                            }
-                        } catch (e: IOException) {
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {
                             callback.onFailure(e)
                         }
-                    }
-                })
-            }
 
-            if (authenticators.size > 1) {
+                        @Throws(IOException::class)
+                        override fun onResponse(call: Call, response: Response) {
+                            try {
+                                if (response.code == 200) {
+                                    // reading the json
+                                    val model: JsonNode =
+                                        Util.getJsonObject(response.body!!.string())
+                                    val authorizeFlow: AuthorizeFlow =
+                                        AuthorizeFlow.getAuthorizeFlow(model)
+
+                                    if (authorizeFlow.nextStep.authenticators.size == 1) {
+                                        callback.onSuccess(authorizeFlow.nextStep.authenticators[0])
+                                    } else {
+                                        callback.onFailure(Exception("Authenticator not found"))
+                                    }
+                                } else {
+                                    callback.onFailure(Exception("Something went wrong"))
+                                }
+                            } catch (e: IOException) {
+                                callback.onFailure(e)
+                            }
+                        }
+                    })
+                }
+
                 var errorCheck = false
                 val authenticatorCount = authenticators.size
                 val detailedAuthenticators: ArrayList<Authenticator> = ArrayList()
@@ -217,8 +222,28 @@ class OauthClient {
                         )
                     }
                 }
+
+            }
+
+            val authorizeFlow: AuthorizeFlow =
+                AuthorizeFlow.getAuthorizeFlow(authorizeFlowNextStepJsonNode)
+
+            if (authorizeFlow.nextStep.authenticators.size > 1) {
+                getAllAuthenticators(context,
+                    authorizeFlow.flowId,
+                    authorizeFlow.nextStep.authenticators,
+                    AllAuthenticatorsCallback(
+                        onSuccess = {
+                            authorizeFlow.nextStep.authenticators = it
+                            callback.onSuccess(authorizeFlow)
+                        },
+                        onFailure = {
+                            callback.onFailure()
+                        }
+                    )
+                )
             } else {
-                callback.onSuccess(authenticators)
+                callback.onSuccess(authorizeFlow)
             }
         }
 
@@ -229,7 +254,7 @@ class OauthClient {
             authParams: AuthParams,
             whenAuthentication: () -> Unit,
             finallyAuthentication: () -> Unit,
-            onSuccessCallback: (authorizeObj: JsonNode) -> Unit,
+            onSuccessCallback: (authorizeFlow: AuthorizeFlow?) -> Unit,
             onFailureCallback: () -> Unit
         ) {
 
@@ -279,7 +304,14 @@ class OauthClient {
                                 }
 
                                 FlowStatus.INCOMPLETE.flowStatus -> {
-                                    onSuccessCallback(model)
+                                    handleAuthorizeFlow(context, model, AuthorizeFlowCallback(
+                                        onSuccess = {
+                                            onSuccessCallback(it)
+                                        },
+                                        onFailure = {
+                                            onFailureCallback()
+                                        }
+                                    ))
                                 }
 
                                 FlowStatus.SUCCESS.flowStatus -> {
@@ -302,7 +334,7 @@ class OauthClient {
         fun token(
             context: Context,
             model: JsonNode?,
-            onSuccessCallback: (authorizeObj: JsonNode) -> Unit,
+            onSuccessCallback: (authorizeFlow: AuthorizeFlow?) -> Unit,
             onFailureCallback: () -> Unit
         ) {
 
@@ -318,13 +350,13 @@ class OauthClient {
                                 Context.MODE_PRIVATE
                             ), SharedPreferencesKeys.ACCESS_TOKEN.key, accessToken
                         )
-                        onSuccessCallback(model)
+                        onSuccessCallback(null)
                     },
-                    onFailure = { error: java.lang.Exception ->
-                        Log.e("Token request failed", error.toString())
+                    onFailure = {
                         onFailureCallback()
                     }
-                ))
+                )
+            )
         }
     }
 }

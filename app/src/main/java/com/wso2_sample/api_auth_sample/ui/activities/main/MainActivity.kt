@@ -8,10 +8,9 @@ import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import com.wso2_sample.api_auth_sample.R
 import com.wso2_sample.api_auth_sample.api.oauth_client.OauthClient
+import com.wso2_sample.api_auth_sample.model.api.oauth_client.AuthorizeFlow
 import com.wso2_sample.api_auth_sample.ui.activities.login.Login
 import com.wso2_sample.api_auth_sample.util.UiUtil
-import com.fasterxml.jackson.databind.JsonNode
-import com.wso2_sample.api_auth_sample.model.api.oauth_client.AuthorizeFlow
 
 class MainActivity : AppCompatActivity() {
 

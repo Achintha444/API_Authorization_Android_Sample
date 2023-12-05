@@ -6,14 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
-import com.fasterxml.jackson.databind.JsonNode
 import com.wso2_sample.api_auth_sample.R
 import com.wso2_sample.api_auth_sample.api.oauth_client.OauthClient
-import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.auth_method.AuthenticatorFragment
-import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.data.authenticator.Authenticator
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.AuthParams
-import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.auth_method.totp.authenticator.TotpAuthParams
+import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.auth_method.AuthenticatorFragment
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.auth_method.totp.TotpContentListener
+import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.data.authenticator.Authenticator
+import com.wso2_sample.api_auth_sample.model.api.oauth_client.AuthorizeFlow
+import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.auth_method.totp.authenticator.TotpAuthParams
 
 class TotpFragment : Fragment(), AuthenticatorFragment, TotpContentListener {
 
@@ -64,11 +64,11 @@ class TotpFragment : Fragment(), AuthenticatorFragment, TotpContentListener {
         return TotpAuthParams(totp)
     }
 
-    override fun onAuthorizeSuccess(authorizeObj: JsonNode) {
+    override fun onAuthorizeSuccess(authorizeFlow: AuthorizeFlow?) {
         // remove totp content bottom sheet
         totpContent.dismiss()
 
-        this.handleActivityTransition(requireContext(), authorizeObj);
+        this.handleActivityTransition(requireContext(), authorizeFlow);
 
     }
 

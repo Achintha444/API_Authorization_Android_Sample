@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
-import com.fasterxml.jackson.core.type.TypeReference
-import com.fasterxml.jackson.databind.JsonNode
 import com.wso2_sample.api_auth_sample.R
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.AuthController
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.data.authenticator.Authenticator
@@ -17,7 +15,6 @@ import com.wso2_sample.api_auth_sample.model.api.oauth_client.AuthorizeFlowNextS
 import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.auth_method.basic_auth.authenticator.BasicAuthAuthenticator
 import com.wso2_sample.api_auth_sample.model.util.uiUtil.SharedPreferencesKeys
 import com.wso2_sample.api_auth_sample.util.UiUtil
-import com.wso2_sample.api_auth_sample.util.Util
 
 class AuthFragment : Fragment() {
     private lateinit var flowId: String
@@ -85,7 +82,7 @@ class AuthFragment : Fragment() {
 
     private fun setAuthenticators(bundle: Bundle) {
 
-        val authorizeFlowNextStep: AuthorizeFlowNextStep? =
+        val authorizeFlowNextStep: AuthorizeFlowNextStep =
             AuthorizeFlowNextStep.fromJson(bundle.getString(NEXT_STEP)!!)
         authenticators = authorizeFlowNextStep!!.authenticators
     }

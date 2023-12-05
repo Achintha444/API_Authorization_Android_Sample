@@ -14,13 +14,12 @@ import androidx.credentials.exceptions.GetCredentialCancellationException
 import androidx.credentials.exceptions.NoCredentialException
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.fasterxml.jackson.databind.JsonNode
 import com.wso2_sample.api_auth_sample.R
-import com.wso2_sample.api_auth_sample.api.oauth_client.OauthClient
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.AuthController
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.AuthParams
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.auth_method.AuthenticatorFragment
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.data.authenticator.Authenticator
+import com.wso2_sample.api_auth_sample.model.api.oauth_client.AuthorizeFlow
 import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.auth_method.passkey.authenticator.PasskeyAuthParams
 import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.auth_method.passkey.authenticator.PasskeyAuthenticator
 import com.wso2_sample.api_auth_sample.model.ui.activities.login.fragments.auth.auth_method.passkey.authenticator.passkey_data.PasskeyChallenge
@@ -66,7 +65,7 @@ class PasskeyFragment : Fragment(), AuthenticatorFragment {
                     // Ensure that result is not null before using it
                     result?.let { result ->
                         AuthController.handleSignIn(result)
-                    } ?: run{
+                    } ?: run {
                         view?.let {
                             onAuthorizeFail()
                         }
@@ -119,7 +118,7 @@ class PasskeyFragment : Fragment(), AuthenticatorFragment {
                 context = requireContext(),
                 request = getCredRequest,
 
-            )
+                )
         } catch (e: NoCredentialException) {
             Log.e("CredentialManager", "No credential available", e)
         } catch (e: GetCredentialCancellationException) {
@@ -131,23 +130,23 @@ class PasskeyFragment : Fragment(), AuthenticatorFragment {
         return PasskeyAuthParams("tokenResponse")
     }
 
-    override fun onAuthorizeSuccess(authorizeObj: JsonNode) {
-        this.handleActivityTransition(requireContext(), authorizeObj);
+    override fun onAuthorizeSuccess(authorizeFlow: AuthorizeFlow?) {
+        this.handleActivityTransition(requireContext(), authorizeFlow);
     }
 
     override fun onAuthorizeFail() {
-        this.showSignInError(layout!!, requireContext())
+        this.showSignInError(layout, requireContext())
     }
 
     override fun whenAuthorizing() {
         requireActivity().runOnUiThread {
-            passkeyButton!!.isEnabled = false;
+            passkeyButton.isEnabled = false;
         }
     }
 
     override fun finallyAuthorizing() {
         requireActivity().runOnUiThread {
-            passkeyButton!!.isEnabled = true;
+            passkeyButton.isEnabled = true;
         }
     }
 
