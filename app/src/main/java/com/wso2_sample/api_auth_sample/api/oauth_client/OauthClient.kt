@@ -94,7 +94,6 @@ class OauthClient {
                     "redirect_uri",
                     OauthClientConfiguration.getInstance(context).redirectUri.toString()
                 )
-                .add("state", OauthClientConfiguration.getInstance(context).state)
                 .add("scope", OauthClientConfiguration.getInstance(context).scope)
                 .add("response_mode", OauthClientConfiguration.getInstance(context).responseMode)
                 .build()

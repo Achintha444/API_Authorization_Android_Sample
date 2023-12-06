@@ -19,7 +19,6 @@ class OauthClientConfiguration private constructor(context: Context) {
     private var mClientId: String? = null
     private var mRedirectUri: Uri? = null
     private var mScope: String? = null
-    private var mState: String? = null
     private var mResponseMode: String? = null
     private var mResponseType: String? = null
     private var mGoogleWebClientId: String? = null
@@ -76,14 +75,6 @@ class OauthClientConfiguration private constructor(context: Context) {
          */
         get() = mScope!!
 
-    val state: String
-        /**
-         * Returns the state specified in the res/values/config file.
-         *
-         * @return State.
-         */
-        get() = mState!!
-
     val responseMode: String
         /**
          * Returns the response mode specified in the res/values/config file.
@@ -121,7 +112,6 @@ class OauthClientConfiguration private constructor(context: Context) {
         mClientId = getRequiredConfigString(mResources.getString(R.string.oauth_client_client_id))
         mRedirectUri = getRequiredUri(mResources.getString(R.string.oauth_client_redirect_uri))
         mScope = getRequiredConfigString(mResources.getString(R.string.oauth_client_scope))
-        mState = getRequiredConfigString(mResources.getString(R.string.oauth_client_state))
         mResponseMode =
             getRequiredConfigString(mResources.getString(R.string.oauth_client_response_mode))
         mResponseType =
