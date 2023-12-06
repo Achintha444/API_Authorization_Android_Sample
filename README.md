@@ -44,7 +44,8 @@
 3.1 Go to `https://console.cloud.google.com/` and create a new project.
 3.2 In the `credentials` section create two `Oauth Client IDs` one for `android app(Select Android)` and one for `WSO2 identity server(Select Web Application)`.
 > Follow the steps to get the SHA-1 key to create Oauth Client ID for our Android app
-> https://stackoverflow.com/a/67983215/10601286
+> https://stackoverflow.com/a/67983215/10601286.
+> 
 > After that make sure to sync the gradle of the project. This can be done using the `Sync project with Gradle files` icon in the top right hand corner of the IDE (or in Apple `Shift + Command + O`).
 > <img width="1797" alt="Screenshot 2023-12-06 at 10 02 18" src="https://github.com/Achintha444/api-auth-android/assets/46097917/edc40aeb-395d-42c9-ae78-8a0499278c69">
 
