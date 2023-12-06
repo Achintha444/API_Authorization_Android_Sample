@@ -84,7 +84,7 @@ class AuthFragment : Fragment() {
 
         val authorizeFlowNextStep: AuthorizeFlowNextStep =
             AuthorizeFlowNextStep.fromJson(bundle.getString(NEXT_STEP)!!)
-        authenticators = authorizeFlowNextStep!!.authenticators
+        authenticators = authorizeFlowNextStep.authenticators
     }
 
     private fun setFlowId(bundle: Bundle) {
