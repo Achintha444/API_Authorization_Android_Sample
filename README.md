@@ -24,18 +24,28 @@
     <string name="oauth_client_redirect_uri">https://example-app.com/redirect</string>
     <string name="oauth_client_scope">openid internal_login</string>
     <string name="oauth_client_response_type">code</string>
-    <string name="oauth_client_state">random123</string>
     <string name="oauth_client_response_mode">direct</string>
     <string name="oauth_client_google_web_client_id"> <WSO2_CLIENT_ID_OF_GOOGLE> </string>
     <string name="data_source_resource_server_url"> <PET_RESOURCE_SERVER_URL> </string>
 </resources>
 ```
 
+>| Property                    |                                    Value/s                                     |
+>|--------------------------|:------------------------------------------------------------------------------:|
+>| oauth_client_base_url      |            Enter the base URL of the IS server here             |
+>| oauth_client_client_id |  Client ID of the created mobile application in the identity server  |
+>| oauth_client_redirect_uri           |            This does not affect the API authentication flow, but is required since we are using `Authorization Code` grant flow. Hence use a random URL, better to keep the value as it is. Also make sure to use the same URL in the crated application as well.             |
+>| oauth_client_scope      |            `openid internal_login`             |
+>| oauth_client_response_mode |  `direct` is the header value where we force the API authenitcation flow.  |
+>| oauth_client_google_web_client_id           |            Enter the client id of the Google credential that will be used to create the Google connection in the IS. Since we are using the IS to authenticate the user we need to identify the currently signed-in user on the server. To do so securely, after a user successfully signs in, we need to send the user's ID token to the IS using HTTPS. Then, on the server, we are verifing the integrity of the ID token and use the user information contained in the token to establish the session. To generate the user's ID token for the IS, we will require the client id that is used to create the Google connection in the IS. For more details, https://developers.google.com/identity/sign-in/android/backend-auth         |
+>| data_source_resource_server_url |  This is the url where we have hosted the pet care service. If you do not have that setup enter a random URL, the app is developed to show a dummy data if the resource server is not available. <b>This should be a URL!</b>  |
+
 #### Setup Google Login
 4. Go to `https://console.cloud.google.com/` and create a new project.
 5. In the `credentials` section create two `Oauth Client IDs` one for `android app(Select Android)` and one for `WSO2 identity server(Select Web Application)`.
 > Follow the steps to get the SHA-1 key to create Oauth Client ID for our Android app
 > https://stackoverflow.com/a/67983215/10601286
+> After that make sure to sync the gradle of the project. This can be using the `Sync project with Gradle files` icon in the top right hand corner of the IDE (or in Apple `Shift + Command + O`).
 
 > `WSO2_CLIENT_ID_OF_GOOGLE` is the client ID of the client ID crated for the WSO2 identity server.
 
