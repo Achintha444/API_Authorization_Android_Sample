@@ -14,5 +14,5 @@ enum class FlowStatus(val flowStatus: String) {
     /**
      * Flow status is success.
      */
-    SUCCESS("SUCCESS"),
+    SUCCESS("SUCCESS_COMPLETED"),
 }

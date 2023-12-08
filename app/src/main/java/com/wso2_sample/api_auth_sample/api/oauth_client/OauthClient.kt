@@ -314,7 +314,7 @@ class OauthClient {
                                 }
 
                                 FlowStatus.SUCCESS.flowStatus -> {
-                                    token(context, model, onSuccessCallback, onFailureCallback)
+                                    token(context, model["authData"], onSuccessCallback, onFailureCallback)
                                 }
                             }
                         } else {
