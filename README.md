@@ -42,6 +42,7 @@
 
 #### 3. Setup Google Login
 3.1 Go to `https://console.cloud.google.com/` and create a new project.
+
 3.2 In the `credentials` section create two `Oauth Client IDs` one for `android app(Select Android)` and one for `WSO2 identity server(Select Web Application)`.
 > Follow the steps to get the SHA-1 key to create Oauth Client ID for our Android app
 > https://stackoverflow.com/a/67983215/10601286.
