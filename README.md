@@ -12,6 +12,7 @@
 
 #### 1. Setup steps Identity Server
 1.1 Setup the latest version of WSO2 Identity Sever.
+
 1.2 Create a mobile application.
 
 #### 2. Import the configurations
