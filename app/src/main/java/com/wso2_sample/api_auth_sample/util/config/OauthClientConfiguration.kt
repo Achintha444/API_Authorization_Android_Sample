@@ -22,6 +22,8 @@ class OauthClientConfiguration private constructor(context: Context) {
     private var mResponseMode: String? = null
     private var mResponseType: String? = null
     private var mGoogleWebClientId: String? = null
+    private var mGoogleWebClientSecret: String? = null
+    private var mGoogleWebClientRedirectUri: Uri? = null
 
     init {
         mResources = context.resources
@@ -99,6 +101,30 @@ class OauthClientConfiguration private constructor(context: Context) {
          */
         get() = mGoogleWebClientId!!
 
+    val googleWebClientSecret: String
+        /**
+         * Returns the google web client secret specified in the res/values/config file.
+         *
+         * @return Google Web Client Secret.
+         */
+        get() = mGoogleWebClientSecret!!
+
+    val googleWebClientRedirectUri: Uri
+        /**
+         * Returns the google web client redirect uri specified in the res/values/config file.
+         *
+         * @return Google Web Client Redirect URI.
+         */
+        get() = mGoogleWebClientRedirectUri!!
+
+    val googleTokenUri: Uri
+        /**
+         * Returns the google token endpoint URI specified in the res/values/config file.
+         *
+         * @return Google Token URI.
+         */
+        get() = Uri.parse("https://oauth2.googleapis.com/token")
+
     /**
      * Reads the configuration values.
      */
@@ -118,6 +144,12 @@ class OauthClientConfiguration private constructor(context: Context) {
             getRequiredConfigString(mResources.getString(R.string.oauth_client_response_type))
         mGoogleWebClientId =
             getRequiredConfigString(mResources.getString(R.string.oauth_client_google_web_client_id))
+        mGoogleWebClientSecret = getRequiredConfigString(
+            mResources.getString(
+                R.string.oauth_client_google_web_client_secret
+            )
+        )
+        mGoogleWebClientRedirectUri = getRequiredUri("https://localhost:9443" + "/commonauth")
     }
 
     /**

@@ -102,5 +102,4 @@ class PasskeyFragment : Fragment(), AuthenticatorFragment {
             passkeyButton.isEnabled = true;
         }
     }
-
 }

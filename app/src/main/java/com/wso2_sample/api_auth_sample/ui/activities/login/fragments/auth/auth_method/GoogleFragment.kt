@@ -15,6 +15,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.wso2_sample.api_auth_sample.R
+import com.wso2_sample.api_auth_sample.api.oauth_client.GoogleAuthenticatorAPI
 import com.wso2_sample.api_auth_sample.api.oauth_client.OauthClient
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.AuthParams
 import com.wso2_sample.api_auth_sample.controller.ui.activities.fragments.auth.auth_method.AuthenticatorFragment
@@ -36,6 +37,8 @@ class GoogleFragment : Fragment(), AuthenticatorFragment {
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var signInLauncher: ActivityResultLauncher<Unit>
     private lateinit var googleAccount: GoogleSignInAccount
+    private lateinit var googleAccessToken: String
+    private lateinit var googleIdToken: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,8 +91,8 @@ class GoogleFragment : Fragment(), AuthenticatorFragment {
 
     override fun getAuthParams(): AuthParams {
         return GoogleAuthParams(
-            googleAccount.serverAuthCode,
-            googleAccount.idToken
+            googleAccessToken,
+            googleIdToken
         )
     }
 
@@ -119,17 +122,31 @@ class GoogleFragment : Fragment(), AuthenticatorFragment {
         }
     }
 
+    /**
+     * This method is called when the Google access token is retrieved successfully
+     */
+    private fun onGoogleAccessTokenSuccess(accessToken: String, idToken: String) {
+        googleAccessToken = accessToken
+        googleIdToken = idToken
+        OauthClient.authenticate(
+            requireContext(),
+            authenticator!!,
+            getAuthParams(),
+            ::whenAuthorizing,
+            ::finallyAuthorizing,
+            ::onAuthorizeSuccess,
+            ::onAuthorizeFail
+        )
+    }
+
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
             googleAccount = completedTask.getResult(ApiException::class.java)
 
-            OauthClient.authenticate(
+            GoogleAuthenticatorAPI.getGoogleAccessToken(
                 requireContext(),
-                authenticator!!,
-                getAuthParams(),
-                ::whenAuthorizing,
-                ::finallyAuthorizing,
-                ::onAuthorizeSuccess,
+                googleAccount.serverAuthCode!!,
+                ::onGoogleAccessTokenSuccess,
                 ::onAuthorizeFail
             )
         } catch (e: ApiException) {
