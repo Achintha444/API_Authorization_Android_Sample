@@ -12,7 +12,8 @@
 
 #### 1. Setup steps Identity Server
 1.1 Setup the latest version of WSO2 Identity Sever.
-1.2 Create a mobile application.
+
+1.2 Create a mobile application (Un tick the PKCE `Mandayory` checkbox)
 
 #### 2. Import the configurations
 2.1 Create `config.xml` file in `res/values`
@@ -42,6 +43,7 @@
 
 #### 3. Setup Google Login
 3.1 Go to `https://console.cloud.google.com/` and create a new project.
+
 3.2 In the `credentials` section create two `Oauth Client IDs` one for `android app(Select Android)` and one for `WSO2 identity server(Select Web Application)`.
 > Follow the steps to get the SHA-1 key to create Oauth Client ID for our Android app
 > https://stackoverflow.com/a/67983215/10601286.
