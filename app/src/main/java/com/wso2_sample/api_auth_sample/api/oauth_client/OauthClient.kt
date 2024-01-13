@@ -102,23 +102,20 @@ class OauthClient {
             requestBuilder.addHeader("Accept", "application/json")
             requestBuilder.addHeader("Content-Type", "application/x-www-form-urlencoded")
 
-            val request: Request = buildRequest(requestBuilder, formBody)
-            authorizeCall(request)
+            AttestationCallPlayIntegrity.playIntegrityRequest(context, AttestationCallback(
+                // when the attestation is successful, pass the integrity token to the request
+                onSuccess = { integrityToken: String ->
+                    requestBuilder.addHeader("x-client-attestation", integrityToken)
+                    val request: Request = buildRequest(requestBuilder, formBody)
+                    authorizeCall(request)
+                },
 
-//            AttestationCallPlayIntegrity.playIntegrityRequest(context, AttestationCallback(
-//                // when the attestation is successful, pass the integrity token to the request
-//                onSuccess = { integrityToken: String ->
-//                    requestBuilder.addHeader("x-client-attestation", integrityToken)
-//                    val request: Request = buildRequest(requestBuilder, formBody)
-//                    authorizeCall(request)
-//                },
-//
-//                // when the attestation fails, pass the request without the integrity token
-//                onFailure = {
-//                    val request: Request = buildRequest(requestBuilder, formBody)
-//                    authorizeCall(request)
-//                }
-//            ))
+                // when the attestation fails, pass the request without the integrity token
+                onFailure = {
+                    val request: Request = buildRequest(requestBuilder, formBody)
+                    authorizeCall(request)
+                }
+            ))
         }
 
         private fun handleAuthorizeFlow(
