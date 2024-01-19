@@ -88,7 +88,7 @@ curl --location 'https://localhost:9443/api/server/v1/identity-providers' \
     "homeRealmIdentifier": "",
     "provisioning": {
         "jit": {
-            "userstore": "DEFAULT",
+            "userstore": "PRIMARY",
             "scheme": "PROVISION_SILENTLY",
             "isEnabled": true
         }
