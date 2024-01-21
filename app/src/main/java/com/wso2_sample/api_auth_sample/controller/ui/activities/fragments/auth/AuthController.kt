@@ -172,7 +172,9 @@ class AuthController {
                     getParamBodyForFido(authParams.tokenResponse!!)
             }
 
-            authBody["selectedAuthenticator"] = selectedAuthenticator;
+            authBody["selectedAuthenticator"] = selectedAuthenticator
+
+            Log.i("AuthController", "authBody: $authBody")
 
             return Util.getJsonObject(authBody).toString()
                 .toRequestBody("application/json".toMediaTypeOrNull())

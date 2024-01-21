@@ -1,6 +1,7 @@
 package com.wso2_sample.api_auth_sample.api.oauth_client
 
 import android.content.Context
+import android.util.Log
 import com.fasterxml.jackson.databind.JsonNode
 import com.wso2_sample.api_auth_sample.R
 import com.wso2_sample.api_auth_sample.api.app_auth_manager.AppAuthManager
@@ -299,6 +300,8 @@ class OauthClient {
 
                             when (flowStatus) {
                                 FlowStatus.FAIL_INCOMPLETE.flowStatus -> {
+                                    Log.e("OAuthClient body", Util.getJsonString(model))
+                                    Log.e("OAuthClient code", response.code.toString())
                                     onFailureCallback()
                                 }
 
@@ -321,7 +324,8 @@ class OauthClient {
                             onFailureCallback()
                         }
                     } catch (e: IOException) {
-                        println(e)
+                        Log.e("OAuthClient body", Util.getJsonString(e.toString()))
+                        Log.e("OAuthClient code", response.code.toString())
                         onFailureCallback()
                     } finally {
                         finallyAuthentication()
