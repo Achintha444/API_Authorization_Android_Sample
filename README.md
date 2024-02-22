@@ -40,6 +40,7 @@
 >| oauth_client_scope      |            `openid internal_login`             |
 >| oauth_client_response_mode |  `direct` is the header value where we force the API authenitcation flow.  |
 >| oauth_client_google_web_client_id           |            Enter the client id of the Google credential that will be used to create the Google connection in the IS. Since we are using the IS to authenticate the user we need to identify the currently signed-in user on the server. To do so securely, after a user successfully signs in, we need to send the user's ID token to the IS using HTTPS. Then, on the server, we are verifing the integrity of the ID token and use the user information contained in the token to establish the session. To generate the user's ID token for the IS, we will require the client id that is used to create the Google connection in the IS. For more details, https://developers.google.com/identity/sign-in/android/backend-auth         |
+>| oauth_client_google_web_client_secret           |            Enter the client secret of the Google credential that will be used to create the Google connection in the IS.         |
 >| data_source_resource_server_url |  This is the url where we have hosted the pet care service. If you do not have that setup enter a random URL, the app is developed to show a dummy data if the resource server is not available. <b>This should be a URL!</b>  |
 
 #### 3. Setup Google Login
