@@ -27,6 +27,7 @@
     <string name="oauth_client_response_type">code</string>
     <string name="oauth_client_response_mode">direct</string>
     <string name="oauth_client_google_web_client_id"> <WSO2_CLIENT_ID_OF_GOOGLE> </string>
+    <string name="oauth_client_google_web_client_secret"> <WSO2_CLIENT_SECRET_OF_GOOGLE> </string>
     <string name="data_source_resource_server_url"> <PET_RESOURCE_SERVER_URL> </string>
 </resources>
 ```
