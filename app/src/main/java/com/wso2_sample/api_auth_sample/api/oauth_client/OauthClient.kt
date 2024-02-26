@@ -125,6 +125,56 @@ class OauthClient {
             callback: AuthorizeFlowCallback
         ) {
 
+            // Get single authenticator details from the API
+            fun getAuthenticator(
+                context: Context,
+                flowId: String,
+                authenticator: Authenticator,
+                callback: AuthenticatorCallback
+            ) {
+                // authorize next URL
+                val url: String =
+                    OauthClientConfiguration.getInstance(context).authorizeNextUri.toString()
+
+                val request: Request = Request.Builder().url(url)
+                    .post(
+                        AuthController.buildRequestBodyForAuthenticator(
+                            flowId,
+                            authenticator
+                        )
+                    )
+                    .build()
+
+                client.newCall(request).enqueue(object : Callback {
+                    override fun onFailure(call: Call, e: IOException) {
+                        callback.onFailure(e)
+                    }
+
+                    @Throws(IOException::class)
+                    override fun onResponse(call: Call, response: Response) {
+                        try {
+                            if (response.code == 200) {
+                                // reading the json
+                                val model: JsonNode =
+                                    Util.getJsonObject(response.body!!.string())
+                                val authorizeFlow: AuthorizeFlow =
+                                    AuthorizeFlow.getAuthorizeFlow(model)
+
+                                if (authorizeFlow.nextStep.authenticators.size == 1) {
+                                    callback.onSuccess(authorizeFlow.nextStep.authenticators[0])
+                                } else {
+                                    callback.onFailure(Exception("Authenticator not found"))
+                                }
+                            } else {
+                                callback.onFailure(Exception("Something went wrong"))
+                            }
+                        } catch (e: IOException) {
+                            callback.onFailure(e)
+                        }
+                    }
+                })
+            }
+
             /**
              * Get full details of the all authenticators for the given flow.
              */
@@ -132,97 +182,41 @@ class OauthClient {
                 context: Context,
                 flowId: String,
                 authenticators: ArrayList<Authenticator>,
-                callback: AllAuthenticatorsCallback
+                callback: AllAuthenticatorsCallback,
+                detailedAuthenticators: ArrayList<Authenticator> = ArrayList(),
+                errorCheck: Boolean = false,
+                index: Int = 0
             ) {
+                if (errorCheck) {
+                    callback.onFailure()
+                    return
+                }
 
-                // Get single authenticator details from the API
-                fun getAuthenticator(
-                    context: Context,
-                    flowId: String,
-                    authenticator: Authenticator,
-                    callback: AuthenticatorCallback
-                ) {
-                    // authorize next URL
-                    val url: String =
-                        OauthClientConfiguration.getInstance(context).authorizeNextUri.toString()
+                if (index >= authenticators.size) {
+                    callback.onSuccess(detailedAuthenticators)
+                    return
+                }
 
-                    val request: Request = Request.Builder().url(url)
-                        .post(
-                            AuthController.buildRequestBodyForAuthenticator(
-                                flowId,
-                                authenticator
-                            )
-                        )
-                        .build()
+                val authenticator: Authenticator = authenticators[index]
 
-                    client.newCall(request).enqueue(object : Callback {
-                        override fun onFailure(call: Call, e: IOException) {
-                            callback.onFailure(e)
-                        }
-
-                        @Throws(IOException::class)
-                        override fun onResponse(call: Call, response: Response) {
-                            try {
-                                if (response.code == 200) {
-                                    // reading the json
-                                    val model: JsonNode =
-                                        Util.getJsonObject(response.body!!.string())
-                                    val authorizeFlow: AuthorizeFlow =
-                                        AuthorizeFlow.getAuthorizeFlow(model)
-
-                                    if (authorizeFlow.nextStep.authenticators.size == 1) {
-                                        callback.onSuccess(authorizeFlow.nextStep.authenticators[0])
-                                    } else {
-                                        callback.onFailure(Exception("Authenticator not found"))
-                                    }
-                                } else {
-                                    callback.onFailure(Exception("Something went wrong"))
-                                }
-                            } catch (e: IOException) {
-                                callback.onFailure(e)
+                // Does not need to call the API if the authenticator is BasicAuth as the require
+                // information is already contained in the authenticator object
+                if (authenticator.authenticator == BasicAuthAuthenticator.AUTHENTICATOR_TYPE) {
+                    detailedAuthenticators.add(authenticator)
+                    getAllAuthenticators(context, flowId, authenticators, callback, detailedAuthenticators, false, index + 1)
+                } else {
+                    getAuthenticator(context, flowId, authenticator,
+                        AuthenticatorCallback(
+                            onSuccess = {
+                                detailedAuthenticators.add(it)
+                                getAllAuthenticators(context, flowId, authenticators, callback, detailedAuthenticators, false, index + 1)
+                            },
+                            onFailure = {
+                                getAllAuthenticators(context, flowId, authenticators, callback, detailedAuthenticators, true, index + 1)
                             }
-                        }
-                    })
-                }
-
-                var errorCheck = false
-                val authenticatorCount = authenticators.size
-                val detailedAuthenticators: ArrayList<Authenticator> = ArrayList()
-
-                for (authenticator in authenticators) {
-
-                    // Break the loop if an error occurs
-                    if (errorCheck) {
-                        callback.onFailure(Exception("Something went wrong"))
-                        break
-                    }
-
-                    // Does not need to call the API if the authenticator is BasicAuth as the require
-                    // information is already contained in the authenticator object
-                    if (authenticator.authenticator == BasicAuthAuthenticator.AUTHENTICATOR_TYPE) {
-                        detailedAuthenticators.add(authenticator)
-
-                        if (detailedAuthenticators.size == authenticatorCount) {
-                            callback.onSuccess(detailedAuthenticators)
-                        }
-                    } else {
-                        getAuthenticator(context, flowId, authenticator,
-                            AuthenticatorCallback(
-                                onSuccess = {
-                                    detailedAuthenticators.add(it)
-
-                                    if (detailedAuthenticators.size == authenticatorCount) {
-                                        callback.onSuccess(detailedAuthenticators)
-                                    }
-                                },
-                                onFailure = {
-                                    errorCheck = true
-                                }
-                            )
                         )
-                    }
+                    )
                 }
-
             }
 
             val authorizeFlow: AuthorizeFlow =
