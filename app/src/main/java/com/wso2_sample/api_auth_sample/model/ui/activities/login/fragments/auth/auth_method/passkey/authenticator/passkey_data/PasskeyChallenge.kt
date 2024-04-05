@@ -14,5 +14,4 @@ data class PasskeyChallenge(
     override fun toString(): String {
         return Util.getJsonString(this)
     }
-
 }
